@@ -1,0 +1,159 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">基本配置</span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form id="form" action="{:U('Config/edit')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">网站名称 :</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="web_name" value="{$data['web_name']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+                                <tr class="controls">
+									<td class="item-label">英文名称 :</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="en_web_name" value="{$data['en_web_name']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">网站标题 :</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="web_title" value="{$data['web_title']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+                                <tr class="controls">
+									<td class="item-label">英文标题 :</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="en_web_title" value="{$data['en_web_title']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">网站logo :</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="img" value="{$data.web_logo}">
+									</td>
+									<td class="item-note">250px*34px</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">网站关键字 :</td>
+									<td>
+										<textarea name="web_keywords" class="form-control  input-10x" style="margin-bottom:10px;">{$data['web_keywords']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+                                <tr class="controls">
+									<td class="item-label">英文关键字 :</td>
+									<td>
+										<textarea name="en_web_keywords" class="form-control  input-10x" style="margin-bottom:10px;">{$data['en_web_keywords']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">网站描叙 :</td>
+									<td>
+										<textarea name="web_description" class="form-control  input-10x" style="margin-bottom:10px;">{$data['web_description']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+                                <tr class="controls">
+									<td class="item-label">英文描叙 :</td>
+									<td>
+										<textarea name="en_web_description" class="form-control  input-10x" style="margin-bottom:10px;">{$data['en_web_description']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">网站状态 :</td>
+									<td><select name="web_close" class="form-control  input-10x">
+										<option value="1"
+										<eq name="data['web_close']" value="1">selected</eq>
+										>正常</option>
+										<option value="0"
+										<eq name="data['web_close']" value="0">selected</eq>
+										>禁止访问</option>
+									</select></td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">禁止访问原因 :</td>
+									<td>
+										<textarea name="web_close_cause" class="form-control  input-10x">{$data['web_close_cause']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">备案号 :</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="web_icp" value="{$data['web_icp']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">统计代码:</td>
+									<td>
+										<textarea name="web_cnzz" class="form-control input-10x"  style="margin-bottom:10px;">{$data['web_cnzz']}</textarea>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">美元汇率:</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="usd_rmb" value="{$data['usd_rmb']}">
+									</td>
+									<td class="item-note">1美元相对应的人民币数量</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">BTC汇率:</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="btc_rmb" value="{$data['btc_rmb']}">
+									</td>
+									<td class="item-note">1BTC相对应的人民币数量</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">ETH汇率:</td>
+									<td>
+										<input type="text" class="form-control  input-10x" name="eth_rmb" value="{$data['eth_rmb']}">
+									</td>
+									<td class="item-note">1ETH相对应的人民币数量</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label"></td>
+									<td>
+										<div class="form-item cf">
+											<button class="btn submit-btn ajax-post" target-form="form-horizontal" id="submit" type="submit">确 定</button>
+											<a class="btn btn-return" href="{$Think.server.HTTP_REFERER}">返 回</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+				<script type="text/javascript">
+					//提交表单
+					$('#submit').click(function () {
+						$('#form').submit();
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="Public:footer"/>

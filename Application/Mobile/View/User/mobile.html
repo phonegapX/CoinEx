@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+	<style type="text/css">
+	.band_succ{color:white;font-size:15px;margin-top:10px;}
+	.band_succ a{color:white;}
+	</style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            手机绑定
+        </div>
+        <div class="logbot">
+            <empty name="user['mobile']">
+                <form id="form-mobilebinda">
+					<input type="text" class="logipt" id="mobile" placeholder="手机号码" />
+					<div class="yzmbox">
+						<input type="text" id="mobile_verify" value="" class="logipt yzmipt" placeholder="手机验证码" />
+						<input type="button" id="regBtn" onclick="SendCode()" value="点击获取验证码" class="phonebut" />
+					</div>
+					<input type="button" class="logbut" value="绑定手机" id="btn-mobilebind" onclick="Update()"/>
+				</form>
+            <else/>
+				<div class="band_succ">
+				   <em></em>您的账户已启用手机验证。
+				</div>
+
+				<input type="text" value="{$user.mobile}" class="logipt" placeholder="手机号码" readonly/>
+
+				<input type="text" class="logipt" value="绑定时间：{$user.mobiletime|date='Y-m-d H:i:s',###}" readonly/>
+            </empty>
+        </div>  
+    </div>
+<script type="text/javascript">
+    function SendCode() {
+        var mobile = $("#mobile").val();
+        if (mobile == "" || mobile == null) {
+            layer.tips('请输入手机号码', '#mobile', {tips: 3});
+            return false;
+        }
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Verify/mobilebd')}", {
+            mobile: mobile
+        }, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                $('#regBtn').attr("disabled", "disabled");
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#f6f6f6');
+                    obj.val(wait + '秒再次发送');
+                    wait--;
+                    if (wait < 0) {
+                        $('#regBtn').removeAttr("disabled");
+                        clearInterval(interval);
+                        obj.val('获取验证码');
+                        obj.css('backgroundColor', '#f6f6f6');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                $('#regBtn').removeAttr("disabled");
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function Update() {
+        var mobile = $("#mobile").val();
+        var mobile_verify = $("#mobile_verify").val();
+        if (mobile == "" || mobile == null) {
+            layer.tips('请输入手机号码', '#mobile', {tips: 3});
+            return false;
+        }
+        if (mobile_verify == "" || mobile_verify == null) {
+            layer.tips('请输入短信验证码', '#mobile_verify', {tips: 3});
+            return false;
+        }
+        $.post("{:U('User/upmobile')}", {
+            mobile: mobile,
+            mobile_verify: mobile_verify
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('User/mobile')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+    <include file="Public:footer" />
+</body>
+</html>

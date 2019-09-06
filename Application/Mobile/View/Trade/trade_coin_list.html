@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<include file="Public:header2" />
+    <title>币种列表</title>
+</head>
+<body class="darkbg">
+    <div id="container" class="hasbottom">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_jy}
+            <!-- <span class="menubut"></span> -->
+        </div>
+        <ul class="nxslist">
+        <!--
+        <volist name="coin_list" id="vo">
+            <li>
+                <a href="{:U('Trade/trade_page',array('coin_name'=>$vo['name']))}">
+                <div class="outborder">
+                    <div class="xsltop">
+                        <img src="{$vo['img']}">{$vo['title']}({$vo['name']|strtoupper=###})
+                    </div>
+                    <div class="xslbot">
+                        <table>
+                            <tr>
+                                <th colspan="2" class="price">
+                                    <if condition="$vo['market_change'] gt 0">
+                                        <span class="red">{$vo['market_new_price']}</span>
+                                        <img src="__PUBLIC__/Mobile/images/up.png">
+                                    <elseif condition="$vo['market_change'] lt 0"/>
+                                        <span class="green">{$vo['market_new_price']}</span>
+                                        <img src="__PUBLIC__/Mobile/images/down.png">
+                                    <else />
+                                        <span class="red">{$vo['market_new_price']}</span>
+                                    </if>
+                                </th>
+                                <th colspan="2" class="percent">
+                                    <if condition="$vo['market_change'] gt 0">
+                                        <span class="red">+{$vo['market_change']}%</span>
+                                    <elseif condition="$vo['market_change'] lt 0"/>
+                                        <span class="green">{$vo['market_change']}%</span>
+                                    <else />
+                                        <span class="red">{$vo['market_change']}%</span>
+                                    </if>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>最高价</td>
+                                <td>最低价</td>
+                                <td>成交量</td>
+                                <td>成交额</td>
+                            </tr>
+                            <tr>
+                                <td>{$vo['market_max_price']}</td>
+                                <td>{$vo['market_min_price']}</td>
+                                <td>{$vo['market_volume']}</td>
+                                <td>{$vo['cje']}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </a>
+            </li>
+        </volist>
+        -->
+        <volist name="market_list" id="vo">
+            <li>
+                <a href="{:U('Trade/trade_page',array('coin_name'=>$vo['name']))}">
+                <div class="outborder">
+                    <div class="xsltop">
+                        {$vo['name']|strtoupper=###}
+                    </div>
+                    <div class="xslbot">
+                        <table>
+                            <tr>
+                                <th colspan="2" class="price">
+                                    <if condition="$vo['change'] gt 0">
+                                        <span class="red">{$vo['new_price']}</span>
+                                        <img src="__PUBLIC__/Mobile/images/up.png">
+                                    <elseif condition="$vo['change'] lt 0"/>
+                                        <span class="green">{$vo['new_price']|round=###,$vo['round']}</span>
+                                        <img src="__PUBLIC__/Mobile/images/down.png">
+                                    <else />
+                                        <span class="red">{$vo['new_price']|round=###,$vo['round']}</span>
+                                    </if>
+                                </th>
+                                <th colspan="2" class="percent">
+                                    <if condition="$vo['change'] gt 0">
+                                        <span class="red">+{$vo['change']|round=###,2}%</span>
+                                    <elseif condition="$vo['change'] lt 0"/>
+                                        <span class="green">{$vo['change']|round=###,2}%</span>
+                                    <else />
+                                        <span class="red">{$vo['change']|round=###,2}%</span>
+                                    </if>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:normal;">{$Think.lang.sTrade_index_zgj}</td>
+                                <td style="font-weight:normal;">{$Think.lang.sTrade_index_zdj}</td>
+                                <td style="font-weight:normal;">{$Think.lang.sTrade_index_cjl}</td>
+                                <td style="font-weight:normal;">{$Think.lang.sTrade_index_cje}</td>
+                            </tr>
+                            <tr>
+                                <td>{$vo['max_price']}</td>
+                                <td>{$vo['min_price']}</td>
+                                <td>{$vo['volume']}</td>
+                                <td>{$vo['cjamount_btc']}B</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </a>
+            </li>
+        </volist>
+        </ul>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

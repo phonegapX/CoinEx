@@ -1,0 +1,386 @@
+<include file="Public:header_new"/>
+<style>
+.select_myzr{    display: inline-block;
+    width: 120px;
+    padding-left: 10px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px solid #ccc;
+    position: relative;
+    margin-left: 10px;
+    }
+</style>
+	<div class="usncont">
+		<!--左侧导航开始-->
+		<include file="Public:left" />
+		<!--左侧导航结束-->
+		<div class="usnc_right">
+			<div class="topinfo">
+				<ul>
+				<volist name="coin_list" id="vo">
+					<eq name="xnb" value="$key">
+						<li class="selected">
+							<a href="/Finance/myzc/coin/{$vo['name']}.html">{$vo['name']|strtoupper}{$Think.lang.sFinance_myzc_tx}</a>
+						</li>
+					<else/>
+						<li>
+							<a href="/Finance/myzc/coin/{$vo['name']}.html">{$vo['name']|strtoupper}{$Think.lang.sFinance_myzc_tx}</a>
+						</li>
+					</eq>
+				</volist>
+				</ul>
+            </div>
+			<div class="botinfo">
+				<table>
+					<tbody>
+						<tr>
+							<td style="text-indent:20px;width:15%;"><img src="{$coin_list[$xnb]['img']}"/> {$Think.lang.sFinance_myzc_ky}{$xnb|strtoupper}</td>
+							<td>{$user_coin[$xnb]}B &nbsp;&nbsp;&nbsp; {$user_coin[$xnb_usd]}$ &nbsp;&nbsp;&nbsp; {$user_coin[$xnb_rmb]}￥</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="rech_box">
+				<div class="rechmid">
+					<div class="rechipt_box">
+						<label>{$Think.lang.sFinance_myzc_txdz}</label>
+						<div class="iptbox">
+							<select name="type" id="myzc_addr" class="paysel">
+								<option value="">--{$Think.lang.sFinance_myzc_xzjsdz}--</option>
+								<volist name="userQianbaoList" id="vo">
+									<option value="{$vo.addr}">{$vo.name}|{$vo.addr}</option>
+								</volist>
+							</select>
+                        </div>
+                        <div class="tips" style="float: right;margin-left:0;">
+                            <div class="imga" style="margin-left:10px;width:400px;">
+                                <img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/tjbtb.png" />
+                                <a href="javascript:void(0)" onclick="addAddress()">{$Think.lang.sFinance_myzc_tjygdz}</a>
+                            </div>
+						</div>
+						<!-- <div class="tips">
+							<div class="imga" style="margin-left:100px;width:400px;">
+								<img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/tjbtb.png" />
+								<a href="javascript:void(0)" onclick="addAddress()">添加一个地址</a>
+							</div>
+						</div> -->
+					</div>
+					<div class="rechipt_box">
+						<label>{$Think.lang.sFinance_myzc_txsl}</label>
+						<div class="iptbox">
+							<input type="text" value="" class="rechipt" id="nums" onblur="calfee();" placeholder="{$Think.lang.sFinance_myzc_zx}{$myzc_min}{$Think.lang.sFinance_myzc_douhao}{$Think.lang.sFinance_myzc_zd}{$myzc_max}" />
+						</div>
+					</div>
+					<div class="rechipt_box">
+						<label>{$Think.lang.sFinance_myzc_txsxf}</label>
+						<div class="iptbox">
+							<input type="text" id="txfee" value="" class="rechipt" readonly="readonly" placeholder="{$Think.lang.sFinance_myzc_sxf}{$myzc_fee}%"/>
+						</div>
+					</div>
+					<div class="rechipt_box">
+						<label>{$Think.lang.sFinance_myzc_yxyzm}</label>
+						<div class="iptbox">
+							<input type="text" id="email_verify" value="" class="rechipt halfipt" maxlength="6" style="width:150px;"/>
+                            <div class="tips" style="float:right;">
+                            <input type="button" id="regBtn" onclick="EmCode()" value="{$Think.lang.sFinance_myzc_djhqyxyzm}" class="yzmbut" />
+                            </div>
+							<if condition="$user['email'] eq '' || $user['email'] eq null">
+								<p class="attention">{$Think.lang.sFinance_myzc_nmybdyx}</p>
+							<else />
+								<p class="attention">* {$Think.lang.sFinance_myzc_jsyzmdyx}{$user['email']}</p>
+							</if>
+						</div>
+						<!-- <div class="tips" style="margin-left:110px;margin-top:10px;">
+							<input type="button" id="regBtn" onclick="EmCode()" value="点击获取邮箱验证码" class="yzmbut" />
+						</div> -->
+					</div>
+					<div class="rechipt_box">
+						<label>{$Think.lang.sFinance_myzc_jymm}</label>
+						<div class="iptbox" style="float: left;">
+							<input type="password" value="" class="rechipt" id="paypassword">
+						</div>
+						<div class="tips" style="float:right;width:160px;margin-left:10px;">
+							<if condition="empty($user['paypassword'])">
+								{$Think.lang.sFinance_myzc_qx}<a href="/User/paypassword.html">{$Think.lang.sFinance_myzc_szjymm}</a>
+							<else />
+								<a href="{:U('Login/findpaypwd')}">{$Think.lang.sFinance_myzc_wjmm}{$Think.lang.sFinance_myzc_wenhao}</a>
+							</if>
+						</div>
+					</div>
+					<div class="rechipt_box">
+						<div class="iptbox mrl110">
+							<input type="button" value="{$Think.lang.sFinance_myzc_tjtxsq}" class="rechbut" onclick="Update()">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="recharge_list">
+				<div class="rech_list_top">
+					<h4><img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/sj1.png" style="vertical-align: middle;" />{$Think.lang.sFinance_myzc_txls}</h4>
+				</div>
+				<table>
+					<tr>
+						<th width="150px">{$Think.lang.sFinance_myzc_txsj}</th>
+						<th width="100px">{$Think.lang.sFinance_myzc_txbz}</th>
+						<th width="300px">{$Think.lang.sFinance_myzc_jsdz}</th>
+						<th width="160px">{$Think.lang.sFinance_myzc_txsl}</th>
+						<th width="100px">{$Think.lang.sFinance_myzc_sxf}</th>
+						<th>{$Think.lang.sFinance_myzr_zt}</th>
+					</tr>
+					<volist name="list" id="vo">
+					<tr>
+						<td>{$vo.addtime|addtime}</td>
+						<td>{$vo.coinname}</td>
+						<td>{$vo.username}</td>
+						<td>{$vo['num']}</td>
+						<td>{$vo['fee']|remove_ling=###}</td>
+						<td>
+							<eq name="vo.status" value="1">
+								<font color="#059ff5">{$Think.lang.sFinance_myzc_txcg}</font>
+								<else/>
+								<font color="#059ff5">{$Think.lang.sFinance_myzc_zzcl}</font>
+							</eq>
+						</td>
+					</tr>
+				</volist>
+				</table>
+				<div class="pages">{$page}</div>
+			</div>
+		</div>
+	</div>
+<div class="okcoinPop" id="withdrawCnyAddress" style="display: none;">
+    <div class="tan_title">
+		<h4>{$Think.lang.sFinance_myzc_tj}{$xnb|strtoupper}{$Think.lang.sFinance_myzc_dz}</h4>
+		<div class="closebut" onclick="closeCharge();"><img src="__PUBLIC__/Home/news/images/closebut.png"></div>
+    </div>
+    <div class="dialog_content">
+		<div class="rechipt_box">
+			<label>{$Think.lang.sFinance_myzc_qbbz}</label>
+			<div class="iptbox">
+				<input name="qianbao_name" id="qianbao_name" type="text" class="rechipt"/>
+			</div>
+		</div>
+		<div class="rechipt_box">
+			<label>{$Think.lang.sFinance_myzc_qbdz}</label>
+			<div class="iptbox">
+				<input name="qianbao_addr" id="qianbao_addr" type="text" class="rechipt"/>
+			</div>
+		</div>
+		<div class="rechipt_box">
+			<label>{$Think.lang.sFinance_myzc_jymm}</label>
+			<div class="iptbox">
+				<input name="qianbao_paypassword" id="qianbao_paypassword" type="password" class="rechipt"/>
+			</div>
+			<if condition="empty($user['paypassword'])">
+				<div class="tips">{$Think.lang.sFinance_myzc_qx}<a href="/User/paypassword.html">{$Think.lang.sFinance_myzc_szjymm}</a></div>
+			<else />
+				<div class="tips"><a href="/Login/findpaypwd.html">{$Think.lang.sFinance_myzc_wjmm}{$Think.lang.sFinance_myzc_wenhao}</a></div>
+			</if>
+		</div>
+		<div class="rechipt_box">
+			<input type="button" value="{$Think.lang.sFinance_myzc_ljtj}" class="rechbut" onclick="Updateaddress()" />
+		</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var myzc="{$myzc_token}";
+
+    $("#myzc_type").change(function () {
+        var coin = $("#myzc_type option:selected").val();
+        window.location = '/Finance/myzc/coin/' + coin + '.html';
+    });
+
+    $("#myzc_addr").change(function () {
+        var coin = $("#myzc_type option:selected").val();
+        var type = $("#myzc_addr option:selected").val();
+        if (type == 'tianjia') {
+            window.location = '/User/qianbao?coin=' + coin;
+        }
+    });
+
+    function tiaozhuan(){
+        var coin = $("#myzc_type option:selected").val();
+        window.location = '/Finance/myzc_user/coin/' + coin + '.html';
+    }
+
+    function EmCode() {
+	  layer.load(0, {shade: [0.5,'#8F8F8F']});
+	    $('#regBtn').attr("disabled", "disabled");
+	    $.post("{:U('Verify/myzcemail')}", {}, function (data) {
+	    layer.closeAll();
+	      if (data.status == 1) {
+	        layer.msg(data.info, {
+	          icon: 1
+	        });
+	        var obj = $('#regBtn');
+	        var wait = 120;
+	        var interval = setInterval(function () {
+	          obj.css('backgroundColor', '#135f91');
+	          obj.val(wait + '{$Think.lang.sFinance_myzc_mzcfs}');
+	          wait--;
+	          if (wait < 0) {
+	            obj.removeAttr("disabled");
+	            clearInterval(interval);
+	            obj.val('{$Think.lang.sFinance_myzc_hqyzm}');
+	            obj.css('backgroundColor', '#135f91');
+	          }
+	          ;
+	        }, 1000);
+	      } else {
+	        $('#regBtn').removeAttr("disabled");
+	        layer.msg(data.info, {
+	          icon: 2
+	        });
+	      }
+	    }, "json");
+	}
+
+    function Update() {
+        var coin = "{$xnb}";
+        var addr = $('#myzc_addr option:selected').val();
+        var num = $("#nums").val();
+        var paypassword = $("#paypassword").val();
+    	var email_verify = $("#email_verify").val();
+        if (addr == "" || addr == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qxzqb}', '#myzc_addr', {tips: 3});
+            return false;
+        }
+
+        if (email_verify == "" || email_verify == null) {
+			layer.tips('{$Think.lang.sFinance_myzc_qsryxyzm}', '#email_verify', {
+				tips: 3
+			});
+			return false;
+		}
+
+        if (num == "" || num == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrtxsl}', '#nums', {tips: 3});
+            return false;
+        }
+
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrjymm}', '#paypassword', {tips: 3});
+            return false;
+        }
+		layer.load(2);
+        $.post("{:U('Finance/upmyzc')}", {
+            coin: coin,
+            addr: addr,
+            num: num,
+            paypassword: paypassword,
+			token: myzc,
+			email_verify: email_verify
+        }, function (data) {
+			myzc = data.url;
+			layer.closeAll('loading');
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Finance/myzc')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    }
+
+    var coin = "{$xnb}";
+
+    function addAddress(){
+       layer.open({
+          type: 1,
+          title: false,
+          closeBtn: 0,
+          area: 'autos',
+          skin: 'layui-layer-nobg', //没有背景色
+          shadeClose: true,
+          content: $('#withdrawCnyAddress')
+        });
+    }
+    function closeCharge(){
+        layer.closeAll();
+    }
+    function Updateaddress() {
+        var name = $('#qianbao_name').val();
+        var addr = $('#qianbao_addr').val();
+        var paypassword = $('#qianbao_paypassword').val();
+        if (name == "" || name == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrqbbz}', '#qianbao_name', {tips: 3});
+            return false;
+        }
+        if (addr == "" || addr == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrqbdz}', '#qianbao_addr', {tips: 3});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrjymm}', '#qianbao_paypassword', {tips: 3});
+            return false;
+        }
+
+        $.post("{:U('User/upqianbao')}", {
+            coin: coin,
+            name: name,
+            addr: addr,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Finance/myzc')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+    function UpdateB(id) {
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{$Think.lang.sFinance_myzc_qsrjymmbqr}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{:U('User/delqianbao')}", {
+                        id: id,
+                        paypassword: val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "{:U('User/qianbao')}?coin=" + coin;
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+
+
+                }
+                ;
+            });
+
+        });
+    }
+
+	function calfee(){
+		var num = $("#nums").val();
+		var feerate = {$myzc_fee};
+		if(typeof num!='undefined' && num>0){
+			var fee = num*feerate/100;
+			fee = fee.toFixed(4);
+			if(fee>0){
+				$("#txfee").val(fee);
+			}else{
+				$("#txfee").val(0);
+			}
+		}
+	}
+</script>
+<include file="Public:footer_new"/>

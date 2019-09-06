@@ -1,0 +1,159 @@
+<include file="Public:header_new"/>
+<style type="text/css">
+.feedtitle{font-size:14px;color:#666;height:40px;line-height:40px;}
+.a-upload {
+    padding: 4px 10px;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+</style>
+<div class="usernewout">
+<p class="titlenotice"><a style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+<div class="usncont">
+    <!--左侧菜单-->
+    <include file="User:left"/>
+    <!--右侧内容-->
+    <div class="usnc_right">
+		<h1 style="position:relative;">提交工单 <a class="subfeedbackbut" href="/User/feedbacklist">我的工单</a></h1>
+        <div class="rech_top">
+            <div class="rech_box">
+				<form action="{:U('User/subfeedback')}" name="gongdan" method="post" enctype="multipart/form-data">
+					<div class="rech_bd safe_rech_bd">
+						<ul>
+							<li>
+								<div class="rechmid">
+						<div class="rechipt_box">
+							<div class="feedtitle">标题：</div>
+							<div class="iptbox" style="float:none;">
+								<input type="text" class="rechipt" id="title" name="title" value="" placeholder="50字以内" maxlength="50" />
+							</div>
+							<div style="font-size:12px;color:red;line-height:20px;">内容请控制在50字以内，只能输入中英文数字和空格，标点符号请用中文标点符号</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="feedtitle">提问类型：</div>
+							<div class="iptbox">
+								<select name="subject" id="subject" class="paysel">
+									<option value="">请选择</option>
+									<option value="用户注册">用户注册</option>
+									<option value="人民币充值">人民币充值</option>
+									<option value="人民币提现">人民币提现</option>
+									<option value="虚拟币充值">虚拟币充值</option>
+									<option value="虚拟币提现">虚拟币提现</option>
+									<option value="虚拟币交易">虚拟币交易</option>
+									<option value="绑定安全措施">绑定安全措施</option>
+									<option value="修改账号资料">修改账号资料</option>
+									<option value="被盗找回">被盗找回</option>
+									<option value="API问题">API问题</option>
+									<option value="其它">其它</option>
+								</select>
+							</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="feedtitle">描述：</div>
+							<div class="iptbox" style="float:none;border:1px solid #d6dbdd;">
+								<textarea rows="8" style="resize:none;overflow:hidden;outline:none;border:0;width:356px;height:80px;font-size:13px;color:#666;" id="content" name="content"></textarea>
+							</div>
+							<div style="font-size:12px;color:red;line-height:20px;">内容请控制在200字以内，只能输入中英文数字和空格，标点符号请用中文标点符号</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="feedtitle">如遇到虚拟币充值提现问题，需提交出现问题的TxID：</div>
+							<div class="iptbox">
+								<input type="text" class="rechipt" id="txid" name="txid" value="" />
+							</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="feedtitle">图片附件一（图片分辨率需小于1920像素宽度，体积小于2M）：</div>
+							<div class="iptbox" style="height:40px;">
+								<a href="javascript:;" class="file">
+									<input type="file" id="attachone" name="attachone" style="height:30px;padding:5px 10px 5px 0;"/>
+								</a>
+							</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="feedtitle">图片附件二（图片分辨率需小于1920像素宽度，体积小于2M）：</div>
+							<div class="iptbox" style="height:40px;">
+								<a href="javascript:;" class="file">
+									<input type="file" id="attachtwo" name="attachtwo" style="height:30px;padding:5px 10px 5px 0;"/>
+								</a>
+							</div>
+						</div>
+						<div class="rechipt_box">
+							<div class="iptbox">
+								<input type="button" class="rechbut" value="提交工单" title="提交工单"  id="btn-up" onclick="Update()" />
+							</div>
+						</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+function Update() {
+	var title = $("#title").val();
+	var content = $("#content").val();
+	var subject = $("#subject").val();
+	if (title == "" || title == null) {
+		layer.tips('请输入标题', '#title', {tips: 3});
+		return false;
+	}
+	if (content == "" || content == null) {
+		layer.tips('请输入描述', '#content', {tips: 3});
+		return false;
+	}
+	if (subject == "" || subject == null) {
+		layer.tips('请输入提问类型', '#subject', {tips: 3});
+		return false;
+	}
+	layer.load(0, {shade: [0.5,'#8F8F8F']});
+	document.gongdan.submit();
+}
+//菜单高亮
+$('#user_alipay').addClass('on');
+$(".a-upload").on("change","input[type='file']",function(){
+	var filePath=$(this).val();
+	if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
+		$(".fileerrorTip").html("").hide();
+		var arr=filePath.split('\\');
+		var fileName=arr[arr.length-1];
+		$(".showFileName").html(fileName);
+	}else{
+		$(".showFileName").html("");
+		$(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
+		return false
+	}
+});
+$('#user_feedback').addClass('on');
+</script>
+<include file="Public:footer_new"/>

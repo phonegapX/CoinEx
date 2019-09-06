@@ -1,0 +1,144 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">用户反馈</span>
+		</div>
+		<div class="cf">
+			<div class="fl">
+				<button class="btn ajax-post confirm btn-danger " url="{:U('User/feedbackstatus',array('type'=>'del'))}" target-form="ids">删 除</button>
+				<button class="btn btn-warning" onClick="location.href='{:U('User/feedback')}'">初始化搜索</button>
+			</div>
+			<div class="search-form fr cf">
+				<div class="sleft">
+					<form name="formSearch" id="formSearch" method="get" name="form1">
+						<select style="width: 120px; float: left; margin-right: 10px;" name="isread" class="form-control">
+							<option value=""
+							<empty name="Think.get.isread">selected</empty>
+							>全部状态</option>
+							<option value="2"
+							<eq name="Think.get.isread" value="2">selected</eq>
+							>已读状态</option>
+							<option value="1"
+							<eq name="Think.get.isread" value="1">selected</eq>
+							>未读状态</option>
+						</select>
+						<select style="width: 120px; float: left; margin-right: 10px;" name="subject" class="form-control">
+							<option value="" <empty name="Think.get.subject">selected</empty>>问题类型</option>
+							<option value="用户注册" <eq name="Think.get.subject" value="用户注册">selected</eq>>用户注册</option>
+							<option value="人民币充值" <eq name="Think.get.subject" value="人民币充值">selected</eq>>人民币充值</option>
+							<option value="人民币提现" <eq name="Think.get.subject" value="人民币提现">selected</eq>>人民币提现</option>
+							<option value="虚拟币充值" <eq name="Think.get.subject" value="虚拟币充值">selected</eq>>虚拟币充值</option>
+							<option value="虚拟币提现" <eq name="Think.get.subject" value="虚拟币提现">selected</eq>>虚拟币提现</option>
+							<option value="虚拟币交易" <eq name="Think.get.subject" value="虚拟币交易">selected</eq>>虚拟币交易</option>
+							<option value="绑定安全措施" <eq name="Think.get.subject" value="绑定安全措施">selected</eq>>绑定安全措施</option>
+							<option value="修改账号资料" <eq name="Think.get.subject" value="修改账号资料">selected</eq>>修改账号资料</option>
+							<option value="被盗找回" <eq name="Think.get.subject" value="被盗找回">selected</eq>>被盗找回</option>
+							<option value="API问题" <eq name="Think.get.subject" value="API问题">selected</eq>>API问题</option>
+							<option value="其它" <eq name="Think.get.subject" value="其它">selected</eq>>其它</option>
+						</select>
+						<select style=" width: 120px; float: left; margin-right: 10px;" name="field" class="form-control">
+							<option value="username"
+							<empty name="Think.get.field">selected</empty>
+							>用户名</option>
+							<option value="truename"
+							<eq name="Think.get.field" value="truename">selected</eq>
+							>真实姓名</option>
+						</select>
+
+<script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+						<input type="text" class="form-control" style=" width: 160px; float: left; margin-right: 10px;" name="starttime" value="" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						<input type="text" class="form-control" style=" width: 160px; float: left; margin-right: 10px;" name="endtime" value="" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+					</form>
+					<script>
+						//搜索功能
+						$(function () {
+							$('#search').click(function () {
+								$('#formSearch').submit();
+							});
+						});
+						//回车搜索
+						$(".search-input").keyup(function (e) {
+							if (e.keyCode === 13) {
+								$("#search").click();
+								return false;
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<div class="data-table table-striped">
+		<form id="form" action="{:U('User/userExcel')}" method="post" class="form-horizontal">
+			<table class="">
+				<thead>
+				<tr>
+					<th class="row-selected row-selected">
+						<input class="check-all" type="checkbox"/>
+					</th>
+					<th class="">ID</th>
+					<th class="">用户名</th>
+					<th class="">真实姓名</th>
+					<th class="">类型</th>
+					<th class="">标题</th>
+					<th class="">添加时间</th>
+					<th>更新时间</th>
+					<th class="">状态</th>
+					<th class="">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<tr>
+							<td>
+								<input class="ids" type="checkbox" name="id[]" value="{$vo.id}"/>
+							</td>
+							<td>{$vo.id}</td>
+							<td>{$vo.username}</td>
+							<td>{$vo.truename}</td>
+							<td>{$vo.subject}</td>
+							<td>{$vo.title}</td>
+							<td>{$vo.addtime|addtime}</td>
+							<td>{$vo.freshtime|addtime}</td>
+							<td>
+								{$vo.isread} &nbsp;&nbsp;&nbsp; {$vo.status}
+							</td>
+							<td>
+								<a href="/Admin/User/feedbackinfo.html?id={$vo['id']}" class="btn btn-primary btn-xs" >查看详情</a>
+							</td>
+						</tr>
+					</volist>
+					<else/>
+					<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+				</notempty>
+				</tbody>
+			</table>
+		</form>
+			<div class="page">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('User/feedback')}");
+	</script>
+</block>
+        

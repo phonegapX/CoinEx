@@ -1,0 +1,49 @@
+<include file="Public:header_new"/>
+    <div class="usernewout">
+        <div class="usncont">
+            <include file="User:left"/>
+            <div class="usnc_right">
+                <h1 style="text-indent:20px;">{$Think.lang.User_loginrz}</h1>
+                <div class="recharge_list mt10">
+                    <table>
+						<tr>
+							<th width="180px">{$Think.lang.Finance_cztime}</th>
+							<th width="100px">{$Think.lang.User_cztype}</th>
+							<th width="350px">{$Think.lang.User_czbz} </th>
+							<th width="150px">{$Think.lang.User_czip} </th>
+							<th width="120px">{$Think.lang.User_czdz}</th>
+							<th>{$Think.lang.Bazaar_state} </th>
+						</tr>
+						<volist name="list" id="vo">
+							<tr>
+								<td>{$vo.addtime|addtime}</td>
+								<td>{$vo.type}</td>
+								<td>{$vo.remark}</td>
+								<td>{$vo.addip}</td>
+								<td>{$vo.addr}</td>
+								<td>
+									<eq name="vo.status" value="0">
+										<font color="violet">{$Think.lang.User_error1} </font>
+									</eq>
+									<eq name="vo.status" value="1"> {$Think.lang.User_success} </eq>
+									<eq name="vo.status" value="2">
+										<font color="red">{$Think.lang.User_error2} </font>
+									</eq>
+								</td>
+							</tr>
+						</volist>
+                    </table>
+                    <div class="pages">{$page}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+	$('#user_log').addClass('on');
+    $("#type-selectTest,#market-selectTest").change(function(){
+        var type=$("#type-selectTest option:selected").val();
+        var market=$("#market-selectTest option:selected").val();
+        window.location='/Finance/mycj/type/'+type+'/market/'+market+'.html';
+    });
+</script>
+<include file="Public:footer_new"/>

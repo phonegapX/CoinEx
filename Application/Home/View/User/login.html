@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/style.css">
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.flot.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.cookies.2.2.0.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.SuperSlide.2.1.1.js"></script>
+</head>
+<body style="background: #fff;">
+    <div id="container">
+        <div class="otheader">
+            <div class="headerbot">
+                <div class="hdb_left">
+                    <a href="/">
+                        <img src="__UPLOAD__/public/{$C['web_logo']}">
+                    </a>
+                </div>
+                <div class="hdb_right">
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a id="trade_box" href="{:U('Trade/index')}">交易中心</a></li>
+
+                        <volist name="daohang" id="vo">
+                            <li>
+                                <a id="{$vo['name']}_box" href="/{$vo['url']}">{$vo['title']}</a>
+                            </li>
+                        </volist>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="logbox">
+            <form id="form-login-i">
+                <div class="inlog">
+                    <h2>会员登录</h2>
+                    <div class="otiptbox">
+                        <div class="otpleft">
+                            用户名：
+                        </div>
+                        <div class="otpright">
+                            <input type="text" id='index_username' placeholder="请输入手机号/会员名" class="lgipt">
+
+                            <div id="email-err-i" class="prompt" style="display: none"></div>
+
+                        </div>
+                    </div>
+                    <div class="otiptbox">
+                        <div class="otpleft">
+                            密码：
+                        </div>
+                        <div class="otpright">
+                            <input type="password" id="index_password" placeholder="请输入登录密码" class="lgipt">
+
+                            <div id="pw-err-i" class="prompt" style="display: none"></div>
+                        </div>
+                    </div>
+
+                    <div class="otiptbox"  id="google_show" num="2" style="display:none">
+                        <div class="otpleft">
+                            谷歌身份码：
+                        </div>
+                        <div class="otpright">
+                            <input type="text" id='index_ga' value="" placeholder="请输入谷歌身份验证码" class="lgipt">
+                        </div>
+                    </div>
+
+                    <eq name="C['login_verify']" value="1">
+                    <!-- <eq name="C['login_verify']" value="1"> -->
+                        <div class="otiptbox">
+                            <div class="otpleft">
+                                验证码：
+                            </div>
+                            <div class="otpright">
+                                <input type="text" id="index_verify" style="width:175px" name="code" placeholder="请输入验证码" class="yzmipt">
+                                <img id="codeImg reloadverifyindex" src="{:U('Admin/Verify/code')}" onclick="this.src=this.src+'?t='+Math.random()" style="width:140px;height: 39px;">
+                                <!-- <input type="button" class="refresh" value="点击图片更换"> -->
+                            </div>
+                        </div>
+                    </eq>
+
+
+
+                    <div class="otiptbox">
+                        <div class="otpleft">
+                        </div>
+                        <div class="otpright">
+                            <input type="button" class="logsub" onclick="upLoginIndex();" value="登录">
+                            <p>
+                                <span class="ftpass"><a href="{:U('Login/findpwd')}">忘记密码？</a></span>
+                                <span class="toreg">
+                                    还没有账号？<a href="{:U('Login/register')}">免费注册</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="logbottom">
+            <div class="inbottop">
+                <volist name="footerArticleType" id="vo">
+                    <div class="botmenu">
+                        <h3>{$vo['title']}</h3>
+                        <ul>
+                            <volist name="footerArticle[$vo['name']]" id="vvo">
+                                <li><a href="{:U('Article/type',array('id'=>$vvo['id']))}">{$vvo['title']}</a></li>
+                            </volist>
+                            <li><a href="{:U('Article/type',array('id'=>$vo['id']))}">更多</a></li>
+                        </ul>
+                    </div>
+
+                </volist>
+            </div>
+            <div class="frlinks">
+                <ul>
+                    <li class="nmr">友情链接：</li>
+                    <volist name="link" id="vo">
+                        <li><a target="_blank" href="{$vo['url']}">{$vo['title']}</a></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    function bian(){
+        var verify = $("#codeImg");
+        verify.src=verify.src+'?t='+Math.random();
+    }
+
+    function upLoginIndex() {
+
+        var username = $("#index_username").val();
+        var password = $("#index_password").val();
+        var verify = $("#index_verify").val();
+        var num = $('#google_show').attr('num');
+        if(num == '2'){
+            var ga = 2;
+        }else{
+            var ga = $("#index_ga").val();
+        }
+
+        if (username == "" || username == null) {
+            layer.tips('请输入用户名', '#index_username', {tips: 3});
+            return false;
+        }
+        if (password == "" || password == null) {
+            layer.tips('请输入登录密码', '#index_password', {tips: 3});
+            return false;
+        }
+        if (ga == "" || ga == null) {
+            layer.tips('请输入谷歌身份验证码', '#index_ga', {tips: 3});
+            return false;
+        }
+
+        $.post("{:U('Login/submit')}", {
+            username: username,
+            password: password,
+            ga: ga,
+            verify:verify,
+        }, function (data) {
+            if (data.status == 1) {
+
+                $.cookies.set('cookie_username', username);
+                layer.msg(data.info, {icon: 1});
+                window.location = '/Finance';
+            } else {
+                //刷新验证码
+                $(".reloadverifyindex").click();
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+    // 处理输入用户名显不显示，谷歌验证码
+    $("#index_username").blur(function(){
+
+        var username = $(this).val();
+        $.post("{:U('Index/shows')}", {username: username}, function (data) {
+            if(data == '1'){
+                $('#google_show').css('display','block');
+                $('#google_show').attr('num','3');
+            }else{
+                $('#google_show').css('display','none');
+                $('#google_show').attr('num','2');
+            }
+        }, "json");
+    });
+
+    // 处理输入用户名显不显示，谷歌验证码
+    $("#index_username").keyup(function(){
+
+        var username = $(this).val();
+        $.post("{:U('Index/shows')}", {username: username}, function (data) {
+            if(data == '1'){
+                $('#google_show').css('display','block');
+                $('#google_show').attr('num','3');
+            }else{
+                $('#google_show').css('display','none');
+                $('#google_show').attr('num','2');
+            }
+        }, "json");
+    });
+</script>
+</html>

@@ -1,0 +1,147 @@
+<include file="Public:header_new"/>
+<style>
+	#investLog_content tr th{height:40px;background: #15151F;font-size:14px;color:#99a6bf;font-weight:normal;text-align: center;}
+    #investLog_content tr td{font-size: 12px;color:#99A6BF;text-align: left;padding: 10px 0;transition: all 0.3s;vertical-align: middle;border-bottom: 1px solid #15151F;}
+    #investLog_content tr .sell{color:#059ff5;}
+    #investLog_content tr .buy{color:#059ff5;}
+</style>
+<div class="usernewout">
+	<!-- <p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p> -->
+	<div class="usncont">
+		<!--左侧菜单-->
+		<include file="User:left" />
+		<!--右侧内容-->
+		<style>
+  .active {background: #000;font-size: 14px;color: #059ff5;line-height: 39px;}
+  .tiaozhuan {display: block;width: 100px;height: 39px;font-size: 14px;color: #7b8a9d;line-height: 39px;text-align: center;float: left;}
+  </style>
+  <div class="aqsz">
+  		<a href="{:U('Finance/mytj')}" class="tiaozhuan ">{$Think.lang.Finance_tjyh} </a>
+				<a href="{:U('Finance/mywd')}" class="tiaozhuan active">{$Think.lang.Finance_wdtj} </a>
+				<a href="{:U('Finance/myjp')}" class="tiaozhuan">{$Think.lang.g_tj_awad} </a>
+  </div>
+		<div class="usnc_right">
+			<h1 style="text-indent: 20px;border-bottom: 0;">{$Think.lang.Finance_wdtj}</h1>
+			<form id="form-cnyin" class="assets_content w900 right bg_w">
+				<div class="cnyin_record" style="width: 990px;">
+					<div class="f_body">
+						<div class="f_body_main" style="display: block;">
+							<div class="f_tab_body">
+								<div>
+									<table class="f_table" id="investLog_content" style="width: 990px;">
+										<thead>
+											<tr>
+												<th>{$Think.lang.Fenhong_unamen}</th>
+												<th width="350" id="">{$Think.lang.Fenhong_uname}</th>
+												<th width="350" id="">{$Think.lang.Fenhong_regtime}</th>
+												<th width="220" id="">{$Think.lang.Bazaar_state} </th>
+											</tr>
+										</thead>
+										<tbody>
+											<volist name="list" id="v">
+												<tr>
+													<td style="width:230px; text-indent: 50px;">
+														<a href="javascript:void(0)" onclick="Address({$v['id']})" style="color: #99A6BF;">
+															<img class="invit_img_{$v['id']}" src="__PUBLIC__/Home/images/jia.png" style="width: 18px; vertical-align: middle; margin-top: -5px;" />一级推荐({$v.invitss})
+														</a>
+													</td>
+													<td style="width:250px;text-indent: 60px;">{$v.username}{$v.usermobile}</td>
+													<td style="width:250px;text-align:center;">{$v.addtime|addtime}</td>
+													<td style="width:200px;text-align:center;">
+														<if condition="$v['status'] eq 0">
+															<font class="buy">{$Think.lang.g_tj_fb}</font>
+														<else />
+															<font class="sell">{$Think.lang.User_success} </font>
+														</if>
+													</td>
+												</tr>
+												<notempty name="v['invits']">
+													<volist name="v['invits']" id="vv">
+														<tr class="invit_{$v['id']}" style="display: none;">
+															<td style="width:230px;text-indent: 50px;">
+																<a href="javascript:void(0)" onclick="Address({$vv['id']})" style="color: #99A6BF;">
+																	<img class="invita_img_{$v['id']} invit_img_{$vv['id']}" src="__PUBLIC__/Home/images/jia.png" style="width: 18px; vertical-align: middle; margin-top: -5px;" />{$Think.lang.g_tj_two} ({$vv.invitss})
+																</a>
+															</td>
+															<td style="width:250px;text-indent: 60px;;">{$vv.username}</td>
+															<td style="width:250px;text-align: center;">{$vv.addtime|addtime}</td>
+															<td style="width:200px;text-align:center;">
+																<if condition="$vv['status'] eq 0">
+																	<font class="buy">{$Think.lang.g_tj_fb}</font>
+																<else />
+																	<font class="sell">{$Think.lang.User_success} </font>
+																</if>
+															</td>
+														</tr>
+														<notempty name="vv['invits']">
+															<volist name="vv['invits']" id="vvv">
+															<tr class="invita_{$v['id']} invit_{$vv['id']} " style="display: none;">
+					<td style="width:230px;text-indent: 50px;">
+			<a href="javascript:void(0)" onclick="Address({$vvv['id']})" style="color: #99A6BF;">
+																		<img class="invita_img_{$v['id']} invit_img_{$vvv['id']}" src="__PUBLIC__/Home/images/jian.png" style="width: 18px; vertical-align: middle; margin-top: -5px;" />{$Think.lang.g_tj_three}
+																	</a>
+																</td>
+																<td style="width:250px;text-indent: 60px;">{$vvv.username}</td>
+																<td style="width:250px;text-align:center;">{$vvv.addtime|addtime}</td>
+							<td style="width:200px;text-align:center;">
+		<if condition="$vvv['status'] eq 0">
+		<font class="buy">{$Think.lang.g_tj_fb} </font>
+					<else />
+						<font class="sell">{$Think.lang.User_success}</font>
+							</if>
+									</td>
+															</tr>
+															</volist>
+														</notempty>
+													</volist>
+												</notempty>
+											</volist>
+										</tbody>
+									</table>
+									<div class="pages">{$page}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function Address(id){
+	var img1="__PUBLIC__/Home/images/jia.png";
+	var img2="__PUBLIC__/Home/images/jian.png";
+	var img=$(".invit_img_"+id).attr("src");
+
+	if(img==img1){
+		$(".invit_img_"+id).attr("src",img2);
+		$(".invit_"+id).show();
+	}else{
+		$(".invit_img_"+id).attr("src",img1);
+		$(".invita_img_"+id).attr("src",img1);
+		$(".invit_"+id).hide();
+		$(".invita_"+id).hide();
+	}
+}
+
+function Addressb(id){
+	var img1="__PUBLIC__/Home/images/jia.png";
+	var img2="__PUBLIC__/Home/images/jian.png";
+	var img=$(".invit_img_"+id).attr("src");
+
+	if(img==img1){
+		$(".invit_img_"+id).attr("src",img2);
+		$(".invit_"+id).show();
+	}else{
+		$(".invit_img_"+id).attr("src",img1);
+		$(".invit_"+id).hide();
+		$(".invita_"+id).hide();
+	}
+}
+
+//菜单高亮
+$('#finance_box').addClass('on');
+$('#finance_mytj').addClass('on');
+</script>
+<include file="Public:footer_new"/>

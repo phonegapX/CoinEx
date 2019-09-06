@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="graybg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            注册/注册协议
+        </div>
+        <div class="nwdtsbox">
+            <div class="nwtop">
+                <h3 style="line-height: 22px;">注册协议</h3>
+            </div>
+            <div class="nwbot">
+                 {:htmlspecialchars_decode(C('web_reg'))}
+            </div>
+
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

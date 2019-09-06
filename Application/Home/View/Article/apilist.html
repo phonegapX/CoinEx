@@ -1,0 +1,107 @@
+<include file="Public:header_new"/>
+        <style type="text/css">
+            .dnwlist li{border-bottom: 1px solid #f6f6f6;line-height: 50px;padding-left: 17px;background: url(__PUBLIC__/Home/news/images/graysquare2.png) left center no-repeat;font-size: 15px;}
+            .dnwlist li a{color: #666;}
+            .dnwlist li .time{float: right;font-size: 14px;color: #ccc;}
+            .dnwlist li:hover a{color: #ff9900;}
+            .dnwlist li:hover{background: url(__PUBLIC__/Home/news/images/yellowgray2.png) left center no-repeat;}
+        </style>
+        <div class="newmain">
+            <div class="nwmleft">
+                <h2>Api接口列表</h2>
+                <ul class="dnwlist">
+                    <li>交易行情Api列表：
+                    </li>
+                  <volist name="apilist" id="vo">
+                    <li>{$vo.URL}
+                    </li>
+                  </volist>
+                    <li>返回系统所支持的所有交易对的最高、最低、最新交易行情和交易量
+                    </li>
+                </ul>
+                <div class="clear"></div>
+
+            </div>
+            <div class="nwmright">
+                <h3><img src="__PUBLIC__/Home/news/images/helpicon.png">帮助中心</h3>
+                <ul class="nwmenu">
+                <li class="topmenu semenu rightico_01 on" id="article_01">
+                    <a href="{:U('Article/apilist')}">
+                        <img src="__PUBLIC__/Home/news/images/helpimg1.png" class="img1">
+                        <img src="__PUBLIC__/Home/news/images/helpimg12.png" class="img2">
+                        Api列表
+                    </a>
+                </li>
+                  <!-- <volist name="ArticleTypeList" id="vo">
+                    <li class="on">
+                    <li id="article_{$vo.id}" class="">
+                        <a href="{:U('Article/index',array('id'=>$vo['id']))}">
+                            <img src="__PUBLIC__/Home/news/images/{$vo.img1}" class="img1">
+                            <img src="__PUBLIC__/Home/news/images/{$vo.img11}" class="img2">
+                            {$vo.title}
+                        </a>
+                    </li>
+                  </volist> -->
+                  <ul class="nwmenu">
+                <volist name="ArticleTypeList" id="vo">
+                <if condition="($vo['childnum'] eq '0')">
+                    <li class="topmenu semenu rightico_{$vo.id}" id="article_{$vo.id}">
+                        <a href="{:U('Article/index',array('id'=>$vo['id']))}">
+                            <!-- <img src="__PUBLIC__/Home/news/images/{$vo.img1}" class="img1">
+                            <img src="__PUBLIC__/Home/news/images/{$vo.img11}" class="img2"> -->
+                            {$vo.title}
+                        </a>
+                    </li>
+                    <div class="botmenu" style="display: none;">
+                        <ul>
+                        <volist name="vo['child']" id="f">
+                            <li><a href="#">{$f.title}</a></li>
+                        </volist>
+                        </ul>
+                    </div>
+                <else/>
+                    <li class="topmenu semenu semenu1" id="article_{$vo.id}">
+                            <img src="__PUBLIC__/Home/news/images/closemenu.png" class="img1">
+                            <img src="__PUBLIC__/Home/news/images/openmenu.png" class="img2">
+                            <img src="__PUBLIC__/Home/news/images/closemenu2.png" class="img3">
+                            {$vo.title}
+                    </li>
+                    <div class="botmenu" style="display: none;">
+                        <ul>
+                        <volist name="vo['child']" id="f">
+                            <li id="article_{$f.id}"><a href="{:U('Article/index',array('id'=>$f['id']))}">{$f.title}</a></li>
+                        </volist>
+                        </ul>
+                    </div>
+                </if>
+                </volist>
+                </ul>
+            </div>
+            <script>
+                   $(".semenu").click(function() {
+                        if($(this).next(".botmenu").css("display")=="none"){
+                             $(this).siblings('.botmenu').slideUp();
+                             $(this).next(".botmenu").slideDown();
+                             $(this).siblings('.topmenu').removeClass("on");
+                             $(this).addClass('on');
+                        }else{
+                            $(this).next(".botmenu").slideUp();
+                            $(this).removeClass('on');
+                        }
+                    });
+                   window.onload=function(){
+                        $("#article_25 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg4.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg42.png" class="img2">');
+                        $("#article_26 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg2.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg22.png" class="img2">');
+                        $("#article_27 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg3.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg32.png" class="img2">');
+                        $("#article_30 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg1.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg12.png" class="img2">');
+                        $("#article_31 a").prepend('<img src="__PUBLIC__/Home/news/images/{$vo.img1}" class="img1"><img src="__PUBLIC__/Home/news/images/{$vo.img11}" class="img2">');
+                       }
+            </script>
+        </div>
+        <script>
+          var idss = {$idss};
+          //菜单高亮
+          $('#article_01').addClass('on');
+        </script>
+
+<include file="Public:footer_new"/>

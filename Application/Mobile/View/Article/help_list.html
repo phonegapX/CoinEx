@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Article_help}
+        </div>
+        <div class="helpmain">
+            <volist name="list" id="vo">
+                <div
+                    <if condition="$vo['is_shang'] eq 1 ">
+                    class="helplist nwlist"
+                    <else />
+                    class="helplist"
+                    </if>
+                >
+                    <if condition="$vo['is_shang'] eq 1 ">
+                    <a href="#">
+                    <else />
+                    <a href="{:U('Article/notice',array('name'=>$vo['name']))}">
+                    </if>
+                        <!-- <span class="imgbox">
+                        <if condition="$vo['id'] eq 31 ">
+                            <img src="__PUBLIC__/Mobile/images/jyrm.png">
+                        <elseif condition="$vo['id'] eq 32 " />
+                            <img src="/Public/Home/news/images/helpimg2.png">
+                        <elseif condition="$vo['id'] eq 35 " />
+                            <img src="__PUBLIC__/Mobile/images/gywm.png">
+                        <else />
+                            <img src="__PUBLIC__/Mobile/images/hyzx.png">
+                        </if>
+                        </span> -->
+                        <span class="imgbox">
+                        <if condition="$vo['id'] eq 25 ">
+                            <img src="__PUBLIC__/Mobile/images/jyrm.png">
+                        <elseif condition="$vo['id'] eq 27 " />
+                            <img src="__PUBLIC__/Mobile/images/gywm.png">
+                        <elseif condition="$vo['id'] eq 31 " />
+                            <img src="__PUBLIC__/Mobile/images/hyzx.png">
+                        <elseif condition="$vo['id'] eq 32 " />
+                            <img src="__PUBLIC__/Mobile/images/xwzx.png">
+                        <else />
+                            <img src="__PUBLIC__/Mobile/images/wzkx.png">
+                        </if>
+                        </span>
+                         <if condition="LANG_SET eq 'en-us'">{$vo.title_en}<else/>{$vo.title}</if>
+                    </a>
+                </div>
+
+                <if condition="$vo['is_shang'] eq 1 ">
+                    <div class="nwlistbot">
+                        <ul>
+                            <volist name="list_z" id="av">
+                                <if condition="$av['shang'] eq $vo['name']">
+                                    <li><a href="{:U('Article/notice',array('name'=>$av['name']))}">{$av.title}</a></li>
+                                </if>
+                            </volist>
+                        </ul>
+                    </div>
+                </if>
+
+
+            </volist>
+
+            <div class="helplist mt30">
+                <a href="{:U('Article/notice',array('name'=>'notice'))}">
+                    <span class="imgbox"><img src="/Public/Mobile/images/helpicon4.png"></span>
+                     {$Think.lang.Finance_gfgg}
+                </a>
+            </div>
+        </div>
+
+        <script>
+            window.onload=function(){$(".nwlist").click(function() {
+               if($(this).next(".nwlistbot").css("display")=="none"){
+                    $(this).addClass('open');
+                    $(this).next(".nwlistbot").slideDown();
+               }else{
+                    $(this).removeClass('open');
+                    $(this).next(".nwlistbot").slideUp();
+               }
+            });
+        }
+        </script>
+
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

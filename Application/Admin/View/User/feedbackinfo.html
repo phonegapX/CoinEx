@@ -1,0 +1,140 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+<style type="text/css">
+.item-cont{width:150px;}
+.feedbackreply{width:500px;min-height:200px;margin-top:20px;}
+.feedbackreply .reply{line-height:20px;font-size:13px;}
+.frkefu,.fruser{width:400px;}
+.frkefu{float:right;}
+.fruser{float:left;}
+.replyframe{margin-top:20px;}
+</style>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title"><a href="{:U('User/feedback')}">用户反馈</a> >></span>
+			 <span class="h1-title"><empty name="data">反馈详情
+				 <else/>
+			                                           反馈详情
+			 </empty></span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form name="theform" action="" method="post" class="form-horizontal">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">问题编号 :</td>
+									<td class="item-cont">
+										{$data.recordno}
+									</td>
+									<td class="item-label">状态 :</td>
+									<td class="item-cont">
+										{$data.status}
+									</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">用户名 :</td>
+									<td class="item-cont">
+										{$data.username}
+									</td>
+									<td class="item-label">提问类型 :</td>
+									<td class="item-cont">
+										{$data.subject}
+									</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">提问时间 :</td>
+									<td class="item-cont">
+										{$data['addtime']|addtime}
+									</td>
+									<td class="item-label">更新时间 :</td>
+									<td class="item-cont">
+										{$data['freshtime']|addtime}
+									</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">反馈标题 :</td>
+									<td class="item-cont">
+										{$data.title}
+									</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">反馈内容 :</td>
+									<td class="item-cont">
+										{$data.content}
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">txid :</td>
+									<td class="item-cont">
+										{$data.txid}
+									</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">图片附件一 :</td>
+									<td class="item-cont">
+										<img src="{$data['attachone']}" />
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">图片附件二 :</td>
+									<td class="item-cont">
+										<img src="{$data['attachtwo']}" />
+									</td>
+									<td class="item-note"></td>
+								</tr>
+							</table>
+							<div class="feedbackreply">
+								<volist name="list" id="vo">
+									<if condition="$vo['username'] == 'admin'">
+										<div class="reply">
+											<span class="title">管理员回复：</span>
+											<span class="content">{$vo['content']}</span>
+										</div>
+									<else />
+										<div class="reply">
+											<span class="title">用户追加：</span>
+											<span class="content">{$vo['content']}</span>
+										</div>
+									</if>
+								</volist>
+								<div class="replyframe">
+									<input type="hidden" name="fid" value="{$data.id}" />
+									<textarea name="content" id="content" style="width:358px;height:80px;font-size:13px;color:#666;border-color:#d6dbdd;"></textarea>
+									<br/>
+									<input type="button" value="回复" class="btn btn-return" onclick="doreply();" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	function doreply() {
+		var content = $("#content").val();
+		if(content==''||content==null){
+			alert('请填写回复内容');
+			return false;
+		}
+		document.theform.submit();
+	}
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('User/feedback')}");
+	</script>
+</block>

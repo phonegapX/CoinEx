@@ -1,0 +1,226 @@
+<include file="Public:header_new"/>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+<div class="usernewout">
+<p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+<div class="usncont">
+  <!--左侧菜单-->
+  <include file="User:left" />
+  <!--右侧内容-->
+  <style type="text/css">
+        .layui-layer-btn a.layui-layer-btn0{background: #e75600;}
+        .layui-layer-btn a.layui-layer-btn1{background: #ccc;}
+        .layui-layer-setwin .layui-layer-close1{width: 25px;height: 25px;background:url(__PUBLIC__/Home/news/images/closebut.png) center no-repeat!important;background-size: 18px!important; }
+        .layui-layer-setwin{right: 5px;top: 5px;}
+        #withdrawCnyAddress .tan_title{width: 600px;}
+        #withdrawCnyAddress{width: 600px;height: 506px;}
+        #withdrawCnyAddress .PopLayer li .cztxinput{width: 270px!important;color: #666!important;}
+        #withdrawCnyAddress .PopLayer li select{width: 272px!important;color: #666!important;}
+        #withdrawCnyAddress .PopLayer li #btn{width: 270px!important;}
+    </style>
+  <div class="usnc_right">
+  <h1>银行卡管理</h1>
+  <div class="recharge_list mt10">
+    <table>
+      <tr>
+        <th>备注名称</th>
+        <th>开户银行</th>
+        <th>开户省份</th>
+        <th>开户城市</th>
+        <th>开户支行</th>
+        <th>开户姓名</th>
+        <th>银行卡号</th>
+        <th>添加时间</th>
+        <th>操作</th>
+      </tr>
+      <volist name="UserBank" id="vo">
+        <tr>
+         <td>{$vo.name}</td>
+         <td>{$vo.bank}</td>
+         <td>{$vo.bankprov}</td>
+         <td>{$vo.bankcity}</td>
+         <td>{$vo.bankaddr}</td>
+         <td>{$user['truename']}</td>
+         <td>{$vo.bankcard}</td>
+         <td>{$vo.addtime|addtime}</td>
+         <td><a class="cancel" href="javascript:void(0)" onclick="UpdateB({$vo['id']})">删除</a></td>
+        </tr>
+      </volist>
+    </table>
+    <div class="pages">{$page}</div>
+    <div class="addbanks">
+     <a href="javascript:void(0)" onclick="addBank()">添加一个银行卡</a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="okcoinPop" id="withdrawCnyAddress" style="display: none;">
+  <div class="tan_title">
+      <h4>添加一个银行卡</h4>
+      <span class="closebut" onclick="closeCharge();"><img src="__PUBLIC__/Home/news/images/closebut.png"></span>
+  </div>
+ <div class="dialog_content" id="dialog_content_CnyAddress">
+  <div class="dialog_body center">
+   <div style="line-height: 35px; text-align: left; padding-left:100px;">
+    <ul class="PopLayer">
+     <li>
+       <span class="c2" id="lotteryAmountSpan1">备注名称 </span>
+       <input name="name" id="bank_name" type="text" class="cztxinput">
+      </li>
+     <li>
+       <span class="c2" id="lotteryAmountSpan2">开户银行 </span>
+       <select name="bank" id="bank_bank">
+         <option value="0">--选择银行--</option>
+         <volist name="UserBankType" id="vo">
+         <option value="{$vo['title']}">{$vo['title']}</option>
+         </volist>
+       </select>
+     </li>
+     <li>
+      <span class="c2" id="lotteryAmountSpan3" style="vertical-align: top;">开户省市 </span>
+      <span class="controls" id="city_1" style="width:270px;vertical-align:top;">
+        <select class="prov" id="bank_bankprov" name="prov" style="float:left;margin-right:3px;"></select>
+        <select class="city" id="bank_bankcity" name="city" style="display: none;float:left;margin-top: 5px;">
+
+        </select>
+     </span></li>
+     <li>
+      <span class="c2" id="lotteryAmountSpan4">开户支行 </span>
+      <input name="name" id="bank_bankaddr" type="text" placeholder="" class="cztxinput">
+    </li>
+     <li><span class="c2" id="lotteryAmountSpan5">开户姓名 </span> <b class="khname">{$user['truename']}</b></li>
+     <li>
+      <span class="c2" id="lotteryAmountSpan6">银行卡号 </span>
+      <input name="name" id="bank_bankcard" type="text" placeholder="" class="cztxinput">
+    </li>
+     <li>
+        <span class="c2" id="lotteryAmountSpan7">交易密码 </span>
+        <input name="name" id="bank_paypassword" type="password" class="cztxinput"> 
+		<if condition="empty($user['paypassword'])">
+			请先<a href="/User/paypassword.html">设置交易密码</a>
+		<else />
+			<a href="/Login/findpaypwd.html" class="reg_floatr">忘记密码?</a>
+		</if>
+	 </li>
+     <li><a href="javascript:void(0)" onclick="Update()" class="btn" id="btn" style="">立 即 添 加</a></li>
+    </ul>
+   </div>
+  </div>
+ </div>
+</div>
+<div id="dialogBoxShadow" style="position: absolute; top: 0px; left: 0px; z-index: 100; background-color: rgb(0, 0, 0); opacity: 0.4; width: 100%; background-position: initial initial; background-repeat: initial initial; display: none;"></div>
+<br>
+<br>
+<script>
+ $("#city_1").citySelect({nodata:"none",required:false});
+
+ $('#dialogBoxShadow').height($(document).height());
+ function closeAddress(){
+  $("#withdrawCnyAddress").hide();
+  $("#dialogBoxShadow").hide();
+ }
+ function showA(){
+  $("#withdrawCnyAddress").show();
+  $("#dialogBoxShadow").show();
+ }
+
+function addBank(){
+   layer.open({
+      type: 1,
+      title: false,
+      closeBtn: 0,
+      area: 'autos',
+      skin: 'layui-layer-nobg', //没有背景色
+      shadeClose: true,
+      content: $('#withdrawCnyAddress')
+    });
+}
+function closeCharge(){
+    layer.closeAll();
+}
+ function Update(){
+  var name=$('#bank_name').val();
+  var bank=$('#bank_bank option:selected').val();
+  var bankprov=$('#bank_bankprov option:selected').val();
+  var bankcity=$('#bank_bankcity option:selected').val();
+  var bankaddr=$('#bank_bankaddr').val();
+  var bankcard=$('#bank_bankcard').val();
+  var paypassword=$('#bank_paypassword').val();
+  if(name==""||name==null){
+   layer.tips('请输入备注名称','#bank_name',{tips:3});
+   return false;
+  }
+  if(bank==0){
+   layer.tips('请输入开户银行','#bank_bank',{tips:3});
+   return false;
+  }
+  if(bankprov==0){
+   layer.tips('请输入开户省份','#bank_bankprov',{tips:3});
+   return false;
+  }
+  if(bankcity==0){
+   layer.tips('请输入开户城市','#bank_bankcity',{tips:3});
+   return false;
+  }
+  if(bankaddr==""||bankaddr==null){
+   layer.tips('请输入开户支行','#bank_bankaddr',{tips:3});
+   return false;
+  }
+  if(bankcard==""||bankcard==null){
+   layer.tips('请输入银行账号','#bank_bankcard',{tips:3});
+   return false;
+  }
+  if(paypassword==""||paypassword==null){
+   layer.tips('请输入交易密码','#bank_paypassword',{tips:3});
+   return false;
+  }
+
+
+  $.post("{:U('User/upbank')}",{type:1,name:name,bank:bank,bankprov:bankprov,bankcity:bankcity,bankaddr:bankaddr,bankcard:bankcard,paypassword:paypassword},function(data){
+   if(data.status==1){
+    layer.msg(data.info,{icon:1});
+    window.location="{:U('User/bank')}";
+   }else{
+    layer.msg(data.info,{icon:2});
+    if(data.url){
+     window.location=data.url;
+    }
+   }
+  },"json");
+ }
+
+ function UpdateB(id){
+  layer.config({
+   extend: 'extend/layer.ext.js'
+  });
+  layer.ready(function () {
+   //默认prompt
+   layer.prompt({
+    title: '输入交易密码，并确认',
+    formType: 1},function(val){
+    if (val) {
+     //需要执行的方法
+     $.post("{:U('User/delbank')}",{type:2,id:id,paypassword:val},function(data){
+      if(data.status==1){
+       layer.msg(data.info,{icon:1});
+       window.location="{:U('User/bank')}";
+      }else{
+       layer.msg(data.info,{icon:2});
+       if(data.url){
+        window.location=data.url;
+       }
+      }
+     },"json");
+    };
+   });
+
+  });
+ }
+</script>
+<script>
+  //菜单高亮
+  $('#user_box').addClass('on');
+  $('#user_bank').addClass('on');
+    //$('#user_bank i').attr('class','coin_menu_op_13');
+</script>
+<include file="Public:footer_new"/>

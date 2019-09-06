@@ -1,0 +1,250 @@
+<include file="Public:header_new"/>
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.qrcode.min.js"></script>
+<style>
+    .assets-mask {
+        opacity: 0;
+        visibility: hidden;
+        transition: all .5s cubic-bezier(0.2, 0.3, 0, 1);;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, .8);
+        top: 0;
+        z-index: 200;
+    }
+    .assets-dialog {
+        -webkit-transform: scale(.1);
+        -moz-transform: scale(.1);
+        transform: scale(.1);
+        transition: all .6s cubic-bezier(0.2, 0.3, 0, 1);
+        padding: 20px;
+        width: 83%;
+        margin: 200px auto 0 auto;
+        background-color: #fff;
+        border-radius: 2px;
+        border: 1px solid #eee;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .18)
+    }
+    .assets-mask.open {
+        visibility: visible;
+        opacity: 1;
+    }
+    .assets-mask.open .assets-dialog {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+    }
+    .gooc-button {
+        width: 301px;
+        height: 43px;
+        line-height: 43px;
+    }
+    #daoshu {
+        color: #fff;
+    }
+    .gooc-button[disabled] {
+        background-color: #ccc;
+    }
+    .select_myzr{    display: inline-block;
+    width: 120px;
+    padding-left: 10px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px solid #ccc;
+    position: relative;
+    margin-left: 10px;
+    }
+</style>
+    <div class="usncont">
+        <!--左侧导航开始-->
+		<include file="Public:left" />
+		<!--左侧导航结束-->
+        <div class="usnc_right">
+            <div class="topinfo">
+				<ul>
+				<volist name="coin_list" id="vo">
+					<eq name="xnb" value="$key">
+						<li class="selected">
+							<a href="/Finance/myzr/coin/{$vo['name']}.html">{$vo['name']|strtoupper}{$Think.lang.sFinance_myzr_cz}</a>
+						</li>
+					<else/>
+						<li>
+							<a href="/Finance/myzr/coin/{$vo['name']}.html">{$vo['name']|strtoupper}{$Think.lang.sFinance_myzr_cz}</a>
+						</li>
+					</eq>
+				</volist>
+				</ul>
+            </div>
+            <div class="botinfo">
+				<table>
+					<tbody>
+						<tr>
+							<td style="text-indent:20px;width:15%;"><img src="{$coin_list[$xnb]['img']}"/> {$Think.lang.sFinance_myzr_ky}{$xnb|strtoupper}</td>
+							<td>{$user_coin[$xnb]}B &nbsp;&nbsp;&nbsp; <!-- {$user_coin[$xnb_usd]}$ &nbsp;&nbsp;&nbsp; {$user_coin[$xnb_rmb]}￥ --></td>
+						</tr>
+					</tbody>
+				</table>
+            </div>
+            <div class="rech_box">
+                <div class="rech_bd">
+					<div class="shiftto">
+						<div class="walletadres">{$Think.lang.sFinance_myzr_czdz}</div>
+						<div class="wallet">{$qianbao}</div>
+					</div>
+					<div class="recharge_atten">
+						<h5>{$Think.lang.sFinance_myzr_czsm}</h5>
+						<p>
+						{$Think.lang.sFinance_myzr_czszdd}
+						<if condition="LANG_SET eq 'en-us'">
+							{$coin_list[$xnb]['js_yw']}
+						<else/>
+							{$coin_list[$xnb]['title']}
+						</if>
+						{$Think.lang.sFinance_myzr_zzxyzg}
+						<if condition="LANG_SET eq 'en-us'">
+							{$coin_list[$xnb]['js_yw']}
+						<else/>
+							{$coin_list[$xnb]['title']}
+						</if>
+						{$Think.lang.sFinance_myzr_wlqrdd}
+						{$coin_list[$xnb]['zr_dz']}
+						{$Think.lang.sFinance_myzr_gqrhnd}
+						<if condition="LANG_SET eq 'en-us'">
+							{$coin_list[$xnb]['js_yw']}
+						<else/>
+							{$coin_list[$xnb]['title']}
+						</if>
+						{$Think.lang.sFinance_myzr_hzdczdndzhz}</p>
+						<p>{$Think.lang.sFinance_myzr_cdzsnwyd}</p>
+					</div>
+                </div>
+				<div class="rech_hd" style="margin-top:20px;">
+					<div id="qrcode-wallet">
+						<saon id="codeaa"></saon>
+					</div>
+				</div>
+            </div>
+            <div class="recharge_list">
+                <div class="rech_list_top">
+                    <h4>{$Think.lang.sFinance_myzr_czls}</h4>
+					<img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/sj1.png" />
+                </div>
+                <table>
+                    <tr>
+                        <th width="170px">{$Think.lang.sFinance_myzr_czsj}</th>
+                        <th width="130px">{$Think.lang.sFinance_myzr_czbz}</th>
+                        <th width="260px">{$Think.lang.sFinance_myzr_czdz}</th>
+                        <th width="120px">{$Think.lang.sFinance_myzr_czsl}</th>
+                        <th width="100px">{$Think.lang.sFinance_myzr_dzsl}</th>
+                        <th>{$Think.lang.sFinance_myzr_zt}</th>
+                    </tr>
+                    <tbody>
+                        <volist name="list" id="vo">
+                            <tr>
+                                <td>{$vo.addtime|addtime}</td>
+                                <td>{$vo.coinname}</td>
+                                <td>{$vo.username}</td>
+                                <td>{$vo['num']}</td>
+                                <td>{$vo['mum']}</td>
+                                <td>
+                                    <eq name="vo.status" value="1" style="color:#059ff5;">
+                                        {$Think.lang.sFinance_myzr_czcg}
+                                    <else/>
+                                        <font style="color:#059ff5;">{$Think.lang.sFinance_myzr_ddclhxy}{$vo.status|abs}{$Think.lang.sFinance_myzr_gqr}</font>
+                                    </eq>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="pages">{$page}</div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+    $('#codeaa').qrcode({
+        render: "table", //table方式
+        width: 60, //宽度
+        height: 60, //高度
+        text: "{$qianbao}" //任意内容
+    }); //任意字符串
+
+    $("#qianbao_type").change(function () {
+        var coin = $("#qianbao_type option:selected").val();
+        window.location = '/Finance/myzr/coin/' + coin + '.html';
+    });
+
+    $('#btn-submit').click(function () {
+        var mbTest_num = /^([1-9]{1}\d*)(\.(\d){1,2})?$/;
+        var mbTest_remark = /^(\w|[\u4E00-\u9FA5])*$/;
+        var type = $('#mycz_type option:selected').val();
+        var num = $("#mycz_amount").val();
+        if (type == "" || type == null) {
+            layer.tips('{$Think.lang.sFinance_myzr_qxzczfs}', '#mycz_type', {tips: 3});
+            return false;
+        }
+        if (num == "" || num == null) {
+            layer.tips('{$Think.lang.sFinance_myzr_qsrczje}', '#mycz_amount', {tips: 3});
+            return false;
+        }
+        if (!mbTest_num.test(num)) {
+            layer.tips('{$Think.lang.sFinance_myzr_czjegscw}', '#mycz_amount', {tips: 3});
+            return false;
+        }
+        $.post("{:U('Mycz/index')}", {
+            type: type,
+            num: num
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.setTimeout("window.location='{:U('Mycz/log')}'", 3000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    });
+
+	var myzr="{$myzr_token}";
+
+	function closetanchu(){
+		layer.closeAll('loading');
+	}
+
+	function Update() {
+        var coin = "{$xnb}";
+        var txid = $("#txid").val();
+        var paypassword = $("#paypassword").val();
+
+        if (txid == "" || txid == null) {
+            layer.tips('{$Think.lang.sFinance_myzr_qsrhzfc}', '#txid', {tips: 3});
+            return false;
+        }
+
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('{$Think.lang.sFinance_myzr_qsrjymm}', '#paypassword', {tips: 3});
+            return false;
+        }
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Finance/upmyzr')}", {
+            coin: coin,
+            txid: txid,
+            paypassword: paypassword,
+			token: myzr,
+        }, function (data) {
+			myzr = data.url;
+			setTimeout("closetanchu()",2000);
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Finance/myzr')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    }
+	$(document).ready(function(){
+		$("#codeaa > div").css({'zoom':'200%','-moz-transform':'scale(2)','-moz-transform-origin':'top left'});
+	});
+</script>
+</script>
+<include file="Public:footer_new"/>

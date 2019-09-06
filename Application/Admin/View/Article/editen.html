@@ -1,0 +1,121 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+
+
+<link rel="stylesheet" href="__PUBLIC__/bjq/themes/default/default.css" />
+
+<link rel="stylesheet" href="__PUBLIC__/bjq/plugins/code/prettify.css" />
+<script charset="utf-8"  type="text/javascript" src="__PUBLIC__/bjq/kindeditor-all.js"></script>
+<script charset="utf-8" type="text/javascript" src="__PUBLIC__/bjq/kindeditor-all.js"></script>
+<script charset="utf-8" type="text/javascript" src="__PUBLIC__/bjq/lang/zh-CN.js"></script>
+<script charset="utf-8" type="text/javascript" src="__PUBLIC__/bjq/plugins/code/prettify.js"></script>
+
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title"><a href="{:U('Article/index')}">文章管理</a> >></span>
+            <span class="h1-title"><empty name="data">添加文章
+	            <else/>
+                                                      编辑文章
+            </empty></span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form id="form"  name="example" action="{:U('Article/editen')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">文章分类 :</td>
+									<td>
+										<select name="type" class="form-control input-10x">
+											<volist name="list" id="v">
+												<option value="{$key}"
+												<eq name="data['type']" value="$key">selected</eq>
+												>{$v}</option>
+											</volist>
+										</select></td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">文章标题 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="title" value="{$data.title}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">英文标题 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="title_en" value="{$data.title_en}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">缩略图 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="img" value="{$data.img}">
+									</td>
+									<td class="item-note"></td>
+								
+								
+								<tr class="controls">
+									<td class="item-label">英文内容 :</td>
+									<td height=530 align='top'>
+										<div style="height:530px;overflow-y:scroll;">
+											<textarea name="ueditorcontent" id="ueditorcontent" style="width:800px;height:400px;border:none;">{$data.content_en}</textarea>
+
+										</div>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								
+								<tr class="controls">
+									<td class="item-label"></td>
+									<td>
+										<div class="form-item cf">
+											<button class="ajax-post btn submit-btn" id="submit" type="submit" target-form="form-horizontal">确 定
+											</button>
+											<a class="btn btn-return" href="{$Think.server.HTTP_REFERER}">返 回</a>
+											<notempty name="data.id"><input type="hidden" name="id" value="{$data.id}"/>
+											</notempty>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+				<script type="text/javascript">
+					//提交表单
+					$('#submit').click(function () {
+						$('#form').submit();
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var ue = UE.getEditor('ueditorcontent',{
+		toolbars: [
+			['bold', 'indent', 'italic', 'underline', 'strikethrough', 'subscript', 'fontborder', 'superscript', 'formatmatch', 'source', 'blockquote', 'pasteplain', 'selectall', 'horizontal', 'removeformat', 'time', 'date', 'unlink', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'cleardoc', 'fontfamily', 'fontsize', 'paragraph', 'edittable', 'edittd', 'link', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'forecolor', 'backcolor', 'imagecenter', 'insertimage', 'drafts', 'lineheight', 'inserttable', 'insertparagraphbeforetable', '', '', '', '', '', '']
+		],
+		initialFrameWidth:800,
+		initialFrameHeight:400
+	});
+</script>
+
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('Article/index')}");
+	</script>
+</block>

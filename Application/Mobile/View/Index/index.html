@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+	<script src="__PUBLIC__/Mobile/js/jquery.SuperSlide.2.1.1.js"></script>
+</head>
+<body class="graybg">
+    <div id="container" class="hasbottom">
+        <div class="banner" id="banner">
+            <div class="bd">
+             <ul>
+             <!-- <li style="height: 200px;width: 100%;
+position: fixed;background: url('__PUBLIC__/Mobile/images/banner.jpg');
+z-index: -10;background-repeat: no-repeat;
+background-position: 0px 0px;
+background-size: 100% 100%;"></li> -->
+                    <volist name="indexAdver" id="vo">
+                        <if condition="$vo['url'] neq ''">
+                            <li ><a href="{$vo.url}"><img src="{$vo.img}"></a></li>
+                        <else />
+                            <li><a href="javascript:;"><img src="{$vo.img}"></a></li>
+                        </if>
+                    </volist>
+                </ul>
+            </div>
+            <div class="hd">
+                <ul>
+                    <volist name="indexAdver" id="vo">
+                        <li></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({
+                slideCell:"#banner",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul",
+                effect:"left",
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src", //切换加载，真实图片路径为"_src"
+                interTime:3000,
+                delayTime:600
+            });
+        </script>
+        <div class="newbox">
+            <img src="__PUBLIC__/Mobile/images/newicon.png">
+             <a href="{:U('Article/notice_detail',array('id'=>$indexArticle['id']))}">
+                <if condition="LANG_SET eq 'en-us'">
+                    {$notice_info['title_en']|msubstr=0,40,'utf-8'}
+                <else/>
+                    {$notice_info['title']|msubstr=0,22,'utf-8'}
+                </if>
+            </a>
+        </div>
+        <div class="nmenubox">
+            <ul>
+                <!--<li>
+                    <a href="{:U('Finance/myczlog')}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon1.png">
+                        <p>充值</p>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="{:U('Trade/trade_coin_list')}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon2.png">
+                        <p>{$Think.lang.Finance_jy}<!-- 交易 --></p>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="{:U('Finance/mytxlog')}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon3.png">
+                        <p>提现</p>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="{:U('Index/coin_list')}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon4.png">
+                        <p>{$Think.lang.g_chongtibi}<!-- 充提币 --></p>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=1145557081&site=qq&menu=yes" target="_blank">
+                        <img src="__PUBLIC__/Mobile/images/menuicon6.png">
+                        <p>{$Think.lang.Login_zxkf}<!-- 在线客服 --></p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('Article/help_list')}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon7.png">
+                        <p>{$Think.lang.g_help_center}</p>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="{:U('Article/about_detail',array('id'=>17))}">
+                        <img src="__PUBLIC__/Mobile/images/menuicon8.png">
+                        <p>上币申请</p>
+                    </a>
+                </li>-->
+            </ul>
+        </div>
+        <div class="nhpiclist">
+            <h3>{$Think.lang.g_newzhinan}<!-- 新手指南 --></h3>
+            <ul>
+                <li>
+                    <img src="__PUBLIC__/Mobile/images/hpic1.jpg">
+                    <a href="{:U('Article/jieshao',array('name'=>'firstclass'))}">
+                        <div class="cover">
+                            <h1>{$Think.lang.g_trade_baodian}<!-- 交易宝典 --></h1>
+                            <p>{$Think.lang.g_new_tradenan}<!-- 新手交易指南 --></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <img src="__PUBLIC__/Mobile/images/hpic2.jpg">
+                    <a href="{:U('Article/jieshao',array('name'=>'Kline'))}">
+                        <div class="cover">
+                            <h1>{$Think.lang.g_playk}<!-- 玩转K线 --></h1>
+                            <p>{$Think.lang.g_oneseek}<!-- 一分钟看懂K线图 --></p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

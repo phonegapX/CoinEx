@@ -1,0 +1,278 @@
+<include file="Public:header_new"/>
+<style>
+    .wjmm{text-align: right;margin-bottom: 5px;}
+    .wjmm a{color:#50596D;font-size:12px;line-height: 12px;}
+    .wjmm a:hover{color:#6c707a;}
+    .logbut1{width:260px;height: 40px;border:1px solid #50596D;outline: none;color:#fff;border-radius: 4px;margin-top: 10px;font-size: 16px;}
+     #frame {
+    position:absolute;
+    width:530px;
+    height:280px;
+    overflow:hidden;
+}
+#photos img {
+    float:left;
+    width:530px;
+}
+#photos {
+    position:absolute;
+    z-index:9;
+    width:calc(530px * 4);
+}
+/*.play {
+    animation:ma 20s ease-out infinite alternate;
+}*/
+/*@keyframes ma {
+    0%,25% {
+    margin-left:0px;
+}
+30%,50% {
+    margin-left:-530px;
+}
+55%,75% {
+    margin-left:-1060px;
+}
+80%,100% {
+    margin-left:-1590px;
+}
+}*/
+.banner_bottom{width: 100%;height: 150px;background: #0D1019;}
+.banner_container{width:1200px;height:150px;margin:0 auto;}
+.banner_fl{width:600px;float: left;height:150px;}
+.banner_fr{width:600px;float:right;height:150px;}
+.p1{font-size:24px;line-height: 26px;text-align: center;color:#4F5A7A;margin-top: 30px;}
+.p2{font-size: 46px;line-height: 40px;color:rgb(153, 171, 191);margin-top:14px;text-shadow: 0 2px 4px rgba(0,0,0,0.50);text-align: center;}
+.section_k{background: #0d3754;width:100%;padding-top:20px;padding-bottom: 150px;}
+.dnwbox{width: 1200px;height: 40px;background: #0a2a40;margin:0 auto 10px;text-align:center;font-size: 13px;line-height: 40px;}
+.indleft ul{display: inline-block;line-height: 40px;}
+.indleft ul li a{color:#059FF5;}
+.indright{font-size:13px;color:#99A6BF;margin-left: 15px;}
+.section_container11{width: 1200px;height: 520px;margin:10px auto 0;background: #21202d;}
+.section_img{width:1200px;margin:95px auto 0px;text-align: center;}
+.section2{width:100%;background: #fff;}
+.section_img2{width:1200px;margin:0 auto;text-align: center;}
+.logbut1{background:transparent;}
+.logbut1:hover{background: #7B8A9D;color:#000;font-size: 16px;}
+.hyjy{border:1px solid #7B8A9D;border-radius: 4px;width:250px;height: 40px;color:#99A6BF;text-align: center;line-height: 40px;font-size: 16px;margin-bottom: 20px;cursor: pointer;}
+.hyjy a{color:#99A6BF;display:block;}
+.hyjy:hover{background: #7B8A9D;font-size: 16px;}
+.hyjy:hover a{color:#000;}
+.hyjy1{display: inline-block;border:1px solid #7B8A9D;border-radius: 4px;width:110px;height: 40px;text-align: center;line-height: 40px;font-size: 16px;margin-top:25px;cursor: pointer;}
+.hyjy1 a{color:#99A6BF;}
+.hyjy1:hover{background:rgba(23,203,203,0.60);border:1px solid rgba(23,203,203,0.60);}
+.hyjy1:hover a{color:#fff;}
+sup{color:#DB3C41;font-size: 12px;line-height: 12px;}
+</style>
+        <div class="banner">
+        <div style="width:1200px;height:485px;margin: 0 auto;">
+            <div class="banin">
+                <gt name="Think.session.userId" value="0">
+                <div id="login-bar" class="login_box">
+                    <div class="hyjy">
+                        <a href="/Trade/index/market/ltc_btc">LTC {$Think.lang.g_heyue} <sup>Hot</sup></a>
+                    </div>
+                    <div class="hyjy">
+                        <a href="/Trade/index/market/bcc_btc">BCC {$Think.lang.g_heyue} <sup>New</sup></a>
+                    </div>
+                    <p style="text-align:center;"><img src="__PUBLIC__/Home/images/images/oror.png" alt=""></p>
+                    <div class="hyjy1" style="float:left;">
+                    <a href="/finance/myzr.html">{$Think.lang.g_chongzhi} </a>
+                    </div>
+                    <div class="hyjy1" style="float:right;">
+                    <a href="finance/myzc.html">{$Think.lang.g_tixian} </a>
+                    </div>
+                </div>
+                <else/>
+                <div class="logbox">
+					<div style="position:relative;">
+						<img src="__PUBLIC__/Home/images/images/dlmail.png" alt="" style="position:absolute;top:14px;left:10px;width:18px;">
+						<input type="text" id='index_username' placeholder="{$Think.lang.g_youxiang}" class="logipt" onblur="usernames();" onfocus="if(this.placeholder == '{$Think.lang.g_youxiang}')this.placeholder='';"/>
+                    </div>
+                    <div style="position:relative;">
+						<img src="__PUBLIC__/Home/images/images/dlys.png" alt="" style="position:absolute;top:11px;left:10px;width:18px;">
+						<input type="password" id="index_password" placeholder="{$Think.lang.User_password} " class="logipt" onblur="if(this.placeholder == '')this.placeholder='{$Think.lang.User_password}';" onfocus="if(this.placeholder == '{$Think.lang.User_password}')this.placeholder='';" onkeyup="chkpwd();" maxlength="16" style="margin-bottom:10px;"/>
+                    </div>
+                    <p class="wjmm"><a href="{:U('Login/findpwd')}" class="ftpws">{$Think.lang.Finance_wjmm} </a></p>
+                    <div class="iptbox">
+						<img src="__PUBLIC__/Home/images/images/dlys1.png" alt="" style="position:absolute;top:11px;left:10px;width:18px;">
+                        <input type="text" id="index_verify" placeholder="{$Think.lang.Finance_yzm}" class="logipt" onblur="if(this.placeholder == '')this.placeholder='{$Think.lang.Finance_yzm}';" onfocus="if(this.placeholder == '{$Think.lang.Finance_yzm}')this.placeholder='';" maxlength="6"/>
+                        <img id="codeImg reloadverifyindex" src="{:U('Verify/code')}" width="120" height="38" onclick="this.src=this.src+'?t='+Math.random()"  class="yzm" title="{$Think.lang.Finance_yzmhyz} ">
+                    </div>
+
+                    <div class="iptbox" id="ga" style="display:none">
+                        <img src="__PUBLIC__/Home/images/images/dlys1.png" alt="" style="position:absolute;top:11px;left:10px;width:18px;">
+                        <input id="index_ga" type="text" placeholder="{$Think.lang.Login_wbdbs}" class="logipt"  onblur="if(this.value == '')this.placeholder='{$Think.lang.Login_wbdbs}';" onclick="if(this.placeholder == '{$Think.lang.Login_wbdbs}')this.placeholder='';"/>
+
+                    </div>
+
+                    <input type="button" class="logbut" value="{$Think.lang.g_login} " onclick="upLoginIndex();"/>
+                    <p style="text-align:center;"><img src="__PUBLIC__/Home/images/images/oror.png" alt=""></p>
+                    <input type="button" class="logbut1" value="{$Think.lang.g_register} " onclick="zhucetiaozhuan()"/>
+                </div>
+                </gt>
+            </div>
+            <!--<div style="width:530px;height:280px;float: right;margin-top: 70px;margin-right:100px;">
+				<div id="frame">
+					<div id="photos" class="play">
+					<if condition="LANG_SET == 'en-us'">
+						<img src="__PUBLIC__/Home/images/bcc_banner_en.png">
+						<img src="__PUBLIC__/Home/images/bcc_banner_en.png">
+						<img src="__PUBLIC__/Home/images/bcc_banner_en.png">
+						<img src="__PUBLIC__/Home/images/bcc_banner_en.png">
+					<else/>
+						<img src="__PUBLIC__/Home/images/images/bcc_banner.png">
+						<img src="__PUBLIC__/Home/images/images/bcc_banner.png">
+						<img src="__PUBLIC__/Home/images/images/bcc_banner.png">
+						<img src="__PUBLIC__/Home/images/images/bcc_banner.png">
+					</if>
+					</div>
+				</div>
+            </div>-->
+            <div style="width:530px;height:280px;float: right;margin-top: 70px;margin-right:100px;">
+                <div id="frame">
+                    <div id="photos" class="play">
+                    <volist name="indexAdver" id="vo">
+                        <img src="{$vo['img']}">
+                    </volist>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="banner_bottom">
+            <div class="banner_container">
+            <volist name="market_list" id="vo">
+                <div class="banner_fl">
+                    <p class="p1">{$vo['name']|chongzu} {$Think.lang.g_price_new}<span></span></p>
+                    <p class="p2">{$vo['new_price']|NumTofour}</p>
+                </div>
+            </volist>
+            <!-- <div class="banner_fl">
+                <p class="p1">LTC/BTC {$Think.lang.g_price_new}<span></span></p>
+                <p class="p2">{$market_list}/{$btc_price}</p>
+            </div>
+            <div class="banner_fr">
+                <p class="p1">BCC/BTC {$Think.lang.g_price_new} <span></span></p>
+                <p class="p2">{$eth_price}</p>
+            </div> -->
+            </div>
+        </div>
+        <div class="section_k">
+            <div class="dnwbox">
+                <div class="indnw">
+                    <div class="indleft">
+                        <ul>
+                            <li>
+                                <a href="/Article/detail/id/{$notice_info['id']}">
+								<if condition="LANG_SET eq 'en-us'">
+									{$notice_info['title_en']|msubstr=0,40,'utf-8'}
+								<else/>
+									{$notice_info['title']|msubstr=0,22,'utf-8'}
+								</if>
+								</a>
+                            </li>
+                        </ul>
+                        <a class="indright" href="/Article/detail">{$Think.lang.Finance_ckgd} </a>
+                    </div>
+                </div>
+            </div>
+            <div class="section_container11">
+				<iframe style="border-style: none;" border="0" width="100%" height="530" src="/Index/charts?market={$market}"></iframe>
+            </div>
+        </div>
+        <div class="section2">
+        <div class="section_img2">
+		<if condition="LANG_SET == 'en-us'">
+			<img src="__PUBLIC__/Home/images/wbdhd2.jpg" alt="" style="width:100%;">
+		<else/>
+			<img src="__PUBLIC__/Home/images/images/wbdhd1.jpg" alt="" style="width:100%;">
+		</if>
+        </div>
+        </div>
+        <script type="text/javascript">
+            var cookieValue = $.cookies.get('cookie_username');
+            if (cookieValue != '' && cookieValue != null) {
+                $("#index_username").val(cookieValue);
+            }
+                // 检测用户名
+            function usernames(){
+                var username = $('#index_username').val();
+                if(username==""||username==null){
+                    layer.tips('{$Think.lang.Finance_srusn} ','#index_username',{tips:3});
+                return false;
+                }
+                $.post("{:U('Login/jiancega')}", {
+                    username:username,
+                    }, function (data) {
+                    if (data.status == 1) {
+                        $('#ga').show();
+                    }
+
+             }, "json");
+             }
+            function upLoginIndex() {
+                var username = $("#index_username").val();
+                var password = $("#index_password").val();
+                var verify = $("#index_verify").val();
+                var index_ga=$("#index_ga").val();
+                if (username == "" || username == null) {
+                    layer.tips('{$Think.lang.Finance_srusn} ', '#index_username', {tips: 3});
+                    return false;
+                }
+                if (password == "" || password == null) {
+                    layer.tips('{$Think.lang.Finance_srdlmm} ', '#index_password', {tips: 3});
+                    return false;
+                }
+
+                if (verify == "" || verify == null || verify == "请输入验证码") {
+                    layer.tips('{$Think.lang.Finance_sryzm} ', '#index_verify', {tips: 3});
+                    return false;
+                }
+
+                $.post("{:U('Login/submit')}", {
+                    username: username,
+                    password: password,
+                    verify : verify,
+                    ga : index_ga
+                }, function (data) {
+                    if (data.status == 1) {
+                        $.cookies.set('cookie_username', username);
+                        layer.msg(data.info, {icon: 1});
+                        window.location = '/User/index';
+                    } else {
+                        //刷新验证码
+                        //$(".reloadverifyindex").click();
+                        var yzm = $(".yzm").attr("src");
+                        if (yzm.indexOf('?') > 0) {
+                            $(".yzm").attr("src",
+                                    yzm + '&random=' + Math.random());
+                        } else {
+                            $(".yzm").attr(
+                                    "src",
+                                    yzm.replace(/\?.*$/, '') + '?'
+                                    + Math.random());
+                        }
+                        layer.msg(data.info, {icon: 2});
+                        if (data.url) {
+                            window.location = data.url;
+                        }
+                    }
+                }, "json");
+            }
+            $('#index_box').addClass('on');
+
+			function chkpwd(){
+				var password = $("#index_password").val();
+				var patten =/^[a-zA-Z0-9]+$/;
+				var match = new RegExp(patten);
+				if (!match.test(password)) {
+					layer.tips('{$Think.lang.Finance_mmjc} ','#index_password',{tips:3});
+					var result = password.substring(0,password.length-1);
+					$("#index_password").val(result);
+				}
+			}
+            function zhucetiaozhuan(){
+                window.location.href="/Login/register";
+            }
+        </script>
+<include file="Public:footer_new"/>

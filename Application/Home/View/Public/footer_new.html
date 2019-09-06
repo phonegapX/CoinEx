@@ -1,0 +1,114 @@
+        <!-- 底部 -->
+        <style type="text/css">
+            .bottom{margin-bottom: -2px;}
+            .bottom .bottop .botcent .ftmenu {float: left; width: 100px;height: auto;overflow: hidden;margin-left:33px;}
+            .bottom_ul_new{width:1200px;margin:0 auto;overflow: hidden;}
+            .bottom_ul_new ul{width:1200px;overflow: hidden;text-align: center;}
+            .bottom_ul_new ul li{display: inline-block;width:120px;height:15px;}
+            .bottom_ul_new ul li a{display:inline-block;color:#B1B8CB;font-size: 14px;text-align: center;width:120px;line-height: 15px;border-right: 1px solid #B1B8CB;}
+            .bottom_ul_new ul li a:hover{text-decoration: underline;}
+            .bottom_img{width:1200px;line-height:100px;margin:0 auto;text-align: center;}
+            .bottom_img ul{width:1200px;height:100px;}
+            .bottom_img ul li{display: inline-block;width:60px;height: 100px;}
+            .bottom_img ul li a{vertical-align: middle;border-right: 0;width:60px;}
+            .bottom_img ul li a .span{display: inline-block;width:40px;height: 40px;}
+            .bottom_img ul li a .span11{background: url(__PUBLIC__/Home/images/images/facebook_1@1x.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span11:hover{background: url(__PUBLIC__/Home/images/images/facebook_2@1x.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span22{background: url(__PUBLIC__/Home/images/images/twitter_1@1x.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span22:hover{background: url(__PUBLIC__/Home/images/images/twitter_2@1x.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span33{background: url(__PUBLIC__/Home/images/images/blog_1.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span33:hover{background: url(__PUBLIC__/Home/images/images/blog_2.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span44{background: url(__PUBLIC__/Home/images/images/Email_1@1x.png) no-repeat;background-size: 100%;}
+            .bottom_img ul li a .span44:hover{background: url(__PUBLIC__/Home/images/images/Email_2@1x.png) no-repeat;background-size: 100%;}
+            .bottom_new1{width:100%;height: 40px;border-top:1px solid #353B47;}
+            .bottom_container1{width: 1200px;height: 40px;margin: 0 auto;}
+            .bottom_container1 ul{width:1200px;height: 40px;text-align: center;}
+            .bottom_container1 ul li{display: inline-block;padding:0 15px;color:#7B8A9D;line-height: 40px;vertical-align: middle;}
+            .bottom_container1 ul li img{vertical-align: middle;}
+			.blanguage{width:110px;height:95px;position:relative;left:435px;top:-125px;background:url(__PUBLIC__/Home/images/impression.svg)}
+			.blanguage ul{width:110px;height:95px;z-index:5555;}
+			.blanguage ul li{width:110px;height:40px;line-height:40px;padding:0;text-align:left;text-indent:15px;}
+        </style>
+        <div class="bottom">
+            <div class="bottop">
+                <div class="bottom_ul_new">
+                    <ul>
+                        <li><a href="/Article/detail/id/91.html">{$Think.lang.g_user_xy} </a></li>
+                        <li><a href="/Article/detail/">{$Think.lang.g_help_center} </a></li>
+                        <li><a href="/Article/detail/id/110.html">{$Think.lang.g_guanyu_us} </a></li>
+						<li><a style="border:none;" href="/Article/detail/id/77.html">{$Think.lang.g_fee_shuoming} </a></li>
+                    </ul>
+                    <div class="bottom_img">
+                        <ul>
+                            <li><a href="##">
+                            <span class="span span11"></span></a></li>
+                            <li><a href="##"><span class="span span22"></a></li>
+                            <li><a href="##"><span class="span span33"></a></li>
+                            <li><a href="##"><span class="span span44"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom_new1">
+                <div class="bottom_container1">
+                    <ul>
+						<if condition="LANG_SET == 'en-us'">
+							<li class="bchooselan">
+								<span>
+									<img src="__PUBLIC__/Home/images/images/enen.png" alt="" style="width:20px;margin-right:10px;">
+								</span>
+								<span>English</span>
+							</li>
+						<else />
+							<li class="bchooselan">
+								<span>
+									<img src="__PUBLIC__/Home/images/images/cncn.png" alt="" style="width:20px;margin-right:10px;">
+								</span>
+								<span>中国</span>
+							</li>
+						</if>
+                        <li>© Copyright  ebtc.ren</li>
+                    </ul>
+					<div id="blanges" class="blanguage" style="display:none;">
+						<ul>
+							<li><a href="?l=zh-cn">
+								<img src="__PUBLIC__/Home/images/images/cncn.png" alt="" style="vertical-align: middle;width:20px;">
+								<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">中国</span></a>
+							</li>
+							<li><a href="?l=en-us"><img src="__PUBLIC__/Home/images/images/enen.png" alt="" style="vertical-align: middle;width:20px;">
+								<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">English</span></a>
+							</li>
+						</ul>
+					</div>
+                </div>
+            </div>
+        </div>
+        <div class="rightkefu">
+            <ul>
+                <li>
+                    <a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$C['contact_qq'][0]}&amp;site=qq&amp;menu=yes" target="_blank">
+                        <div class="topimg">
+                        <span class="kfphone">{$Think.lang.g_kefu_cell} </span>
+                            <img src="__PUBLIC__/Home/images/images/ddddh.png" class="img1" width="36">
+                            <img src="__PUBLIC__/Home/images/images/dh_2.png" class="img2" width="36">
+                        </div>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+            $(".backtop").click(function () {
+                var speed=300;
+                $('body,html').animate({ scrollTop: 0 }, speed);
+                return false;
+             });
+            var Height = $(".userm_left").outerHeight();
+            $(".userm_right").css("minHeight",Height);
+			$(".bchooselan").click(function(){
+				$("#blanges").toggle();
+			});
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+
+
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            微信转账汇款 
+        </div>
+
+
+        <div class="chgntb">
+            <div class="chgntb_top">
+                <img src="__PUBLIC__/Mobile/images/notice.png">
+                <p>请使用微信转账至以下账号或扫描二维码进行转账</p>
+            </div>
+            <div class="chgntb_bot">
+                <table>
+                    <tr>
+                        <td class="tdleft">官方账号</td>
+                        <td class="tdright">{$myczType.username}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户名称</td>
+                        <td class="tdright">{$myczType.truename}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户地址</td>
+                        <td class="tdright">{$myczType.kaihu}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">充值金额</td>
+                        <td class="tdright"><span class="red">{$mycz.num}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">订单编号</td>
+                        <td class="tdright"><span class="red">{$mycz.tradeno}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">状态</td>
+                        <td class="tdright">
+                        	（<eq name="mycz.status" value="0">
+            					未付款
+            					<a onclick="myczHuikuan({$mycz['id']})" href="javascript:void(0)" style="    color: #2674FF!important;">已汇款</a>
+        					</eq>
+                            <eq name="mycz.status" value="1">
+                                充值成功
+                            </eq>
+                            <eq name="mycz.status" value="2">
+                                人工到账
+                            </eq>
+                            <eq name="mycz.status" value="3">
+                                处理中
+                            </eq>）
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <notempty name="mycz['ewmname']">
+				<div class="pay_code">
+					<img src="__UPLOAD__/public/../ewm/wxpay/{$mycz.ewmname}" width="130">
+
+					<p style="font-size: 14px;">官网收款微信账号</p>
+					<p style="font-size: 14px; line-height:20px;">扫描二维码进行转账</p>
+				</div>
+			</notempty>
+
+            <div class="chgntb_top" style="line-height: 15px;text-align: left;">
+                <p>	
+                	请在汇款［备注/附言］中<br/>
+                	严格按要求填写充值订单编号：<b style="color:white">{$mycz.tradeno}</b><br/>
+		            转账金额请严格按照实付金额，精确到小数点后两位<br/>
+		            我们会在收到汇款后30分钟内为您入账，在此期间无需联系客服，如有问题我们会主动联系您。
+                </p>
+            </div>
+
+        </div>
+
+        <include file="Public:footer" />
+    </div>
+    <script>
+        function myczHuikuan(id) {
+			$.post("{:U('Finance/myczHuikuan')}", {id: id}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					window.location.reload();
+				} else {
+					layer.msg(data.info, {icon: 2});
+				}
+			}, "json");
+		}
+
+		// setInterval(clock,15000);
+		// function clock(){
+		// 	var id={$mycz['id']};
+		// 	$.post("{:U('Finance/myczRes')}", {id: id}, function (data) {
+		// 		if (data.status == "1") {
+		// 			layer.msg("充值成功", {icon: 1});
+		// 			window.parent.location.reload();
+		// 		}
+		// 	}, "json");
+		// }
+    </script>
+</body>
+</html>

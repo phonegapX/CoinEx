@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_cwzx}<!-- 财务中心 -->
+        </div>
+        <div class="chgbox">
+            <ul>
+                <!--<li>
+                    <div class="rmb_top">
+                        <img src="{$becc['img']}" alt="" />&nbsp;&nbsp;建设链(BECC)
+                    </div>
+                    <table class="rmb_bot">
+                        <tr>
+                            <th>可用</th>
+                            <th>冻结</th>
+                            <th>总资产折合BECC</th>
+                        </tr>
+                        <tr>
+                            <td><b>{$becc['ky']|NumToStr}</b></td>
+                            <td><b>{$becc['dj']|NumToStr}</b></td>
+                            <td><b>{$becc['zj']|NumToStr}</b></td>
+                        </tr>
+                    </table>
+                </li>-->
+
+            <volist name="coinList" id="vo">
+                <li>
+                    <div class="jf_top">
+                        <img src="{$vo['img']}" alt=""/>&nbsp;&nbsp;<if condition="LANG_SET eq 'en-us'">{$vo['js_yw']}<else/>{$vo['title']}</if>
+                        
+                        <if condition="$vo.name eq 'ltc'">
+                            <a href="{:U('Trade/trade_page/coin_name/ltc_btc')}" style="color: #ff0000;float: right;vertical-align: middle;line-height: 22px;">{$Think.lang.Finance_qjy}<!-- 去交易 --></a>
+                        <elseif condition="$vo.name eq 'bcc'" />
+                            <a href="{:U('Trade/trade_page/coin_name/bcc_btc')}" style="color: #ff0000;float: right;vertical-align: middle;line-height: 22px;">{$Think.lang.Finance_qjy}<!-- 去交易 --></a>
+                        </if>
+                    </div>
+                    <table class="jf_table">
+                        <tr>
+                            <td style="padding-top: 10px;">{$Think.lang.g_usenum}<!-- 可用数量 --></td>
+                            <td style="padding-top: 10px;">{$Think.lang.Finance_djwt}<!-- 冻结委托 --></td>
+                            <td style="padding-top: 10px;">{$Think.lang.Finance_zongji}<!-- 总计 --></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 10px;"><b>{$vo['xnb']|NumTofour}</b></td>
+                            <td style="padding-bottom: 10px;"><b>{$vo['xnbd']|NumTofour}</b></td>
+                            <td style="padding-bottom: 10px;"><b>{$vo['xnbz']|NumTofour}</b></td>
+                        </tr>
+                        <!--<tr>
+                            <td colspan="3" class="total">
+                                折合BECC：{$vo['zhehe']}
+                            </td>
+                        </tr>-->
+                    </table>
+                </li>
+            </volist>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <script>
+            $("#status-selectTest").change(function () {
+                var status = $("#status-selectTest option:selected").val();
+                window.location = '/Finance/mycz/status/' + status + '/.html';
+            });
+
+            function myczHuikuan(id) {
+                $.post("{:U('Finance/myczHuikuan')}", {id: id}, function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.info, {icon: 1});
+                        window.location.reload();
+                    } else {
+                        layer.msg(data.info, {icon: 2});
+                    }
+                }, "json");
+            }
+
+            function myczChakan(id) {
+                window.location ="{:U('Pay/mycz')}?id=" + id;
+            }
+        </script>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

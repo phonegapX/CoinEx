@@ -1,0 +1,113 @@
+<include file="Public:header_new"/>
+<style type="text/css">
+.feedbackd{margin-bottom:20px;}
+.feedbackd tr td{border:1px solid #eee;}
+.addreply{width:500px;height:300px;margin-top:40px;border:none;}
+.addreply .artitle{width:65px;height:30px;line-height:30px;font-size:12px;color:#666;float:left;}
+.addreply .arcontent{width:408px;height:80px;float:left;border: 1px solid #d6dbdd;}
+.addreply .arbut .rechbut{background: #e75600 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    height: 30px;
+    margin:10px 0 0 215px;
+    outline: medium none;
+    width: 100px;}
+.feedbackreply{width:929px;min-height:20px;margin-top:20px;}
+.feedbackreply .frkefu .title{text-align: right;}
+.feedbackreply .frkefu .title,.feedbackreply .fruser .title{width:55px;float:left;line-height:20px;font-size:12px;}
+.feedbackreply .fruser .title{text-align:left;}
+.feedbackreply .frkefu .content{border:1px solid #ddd;padding:10px;border-radius:5px;width:380px;float:left;line-height:20px;font-size:12px;}
+.feedbackreply .fruser .content{padding:10px;border-radius:5px;width:380px;float:left;line-height:20px;font-size:12px;background:#eee;color:#666;}
+.feedbackreply .frkefu .tangle{float:left;z-index:99;position:relative;right:3px;margin-top:3px;}
+.feedbackreply .fruser .tangle{float:left;z-index:99;margin-top:3px;}
+</style>
+<div class="usernewout">
+	<!-- <p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p> -->
+	<div class="usncont">
+		<include file="User:left"/>
+		<div class="usnc_right">
+			<h1 style="position:relative;">工单详情 <a class="subfeedbackbut" href="/User/feedbacklist.html">返回</a></h1>
+			<div class="recharge_list nmt">
+				<table class="feedbackd">
+					<tr>
+						<td width="100px">问题编号：</td>
+						<td width="100px">{$feedback_record['recordno']}</td>
+						<td width="100px">问题状态：</td>
+						<td width="100px">{$feedback_record['status']}</td>
+						<td width="100px">问题类型：</td>
+						<td width="100px">{$feedback_record['subject']}</td>
+					</tr>
+					<tr>
+						<td width="100px">提交时间：</td>
+						<td width="100px">{$feedback_record['addtime']|date="Y-m-d H:i:s",###}</td>
+						<td width="100px">更新时间：</td>
+						<td width="100px">{$feedback_record['freshtime']|date="Y-m-d H:i:s",###}</td>
+						<td width="100px">图片附件</td>
+						<td width="100px">
+							<if condition="!empty($feedback_record['attachone'])">
+								<a href="{$feedback_record['attachone']}" target="_blank" style="color:#e55600;">图片附件一</a>
+							</if>
+							<if condition="!empty($feedback_record['attachtwo'])">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$feedback_record['attachtwo']}" target="_blank" style="color:#e55600;">图片附件二</a>
+							</if>
+						</td>
+					</tr>
+					<tr>
+						<td width="100px">标题：</td>
+						<td width="500px" colspan='5'>{$feedback_record['title']}</td>
+					</tr>
+					<tr>
+						<td width="100px" height="100px">问题描述：</td>
+						<td width="500px" height="100px" colspan='5'>{$feedback_record['content']}</td>
+					</tr>
+				</table>
+				<div class="feedbackreply">
+					<volist name="feedback_reply" id="vo">
+						<if condition="$vo['username'] == 'admin'">
+							<div class="frkefu" style="float:right;">
+								<div class="content">{$vo['content']}</div>
+								<div class="tangle"><img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/duihuaer.png" width="15px" height="15px" /></div>
+								<div class="title">客服回复</div>
+							</div>
+							<div style="height:10px;clear:both;"></div>
+						<else />
+							<div class="fruser">
+								<div class="title">我的提问</div>
+								<div class="tangle"><img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/duihua.png" width="15px" height="15px" /></div>
+								<div class="content">{$vo['content']}</div>
+							</div>
+							<div style="height:10px;clear:both;"></div>
+						</if>
+					</volist>
+				</div>
+				<div class="addreply">
+					<form action="{:U('User/addreply')}" name="addreply" method="post">
+						<div class="artitle">追加提问：</div>
+						<div class="arcontent">
+							<textarea name="content" id="content" style="width:408px;height:80px;font-size:13px;color:#666;border:0 none;"></textarea>
+						</div>
+						<div style="clear:both;"></div>
+						<input type="hidden" name="fid" value="{$feedback_record['id']}" />
+						<div class="arbut">
+							<input type="button" class="rechbut" value="追加提问" onclick="doreply();" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function doreply(){
+	var content = $("#content").val();
+	if(content==''||content==null){
+		layer.msg("请填写回复内容", {icon: 1});
+		return false;
+	}
+	document.addreply.submit();
+}
+$('#user_feedback').addClass('on');
+</script>
+<include file="Public:footer_new"/>

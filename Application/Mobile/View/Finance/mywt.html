@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.User_wtgl}<!-- 委托管理 -->({$coin_info|convmarket})
+        </div>
+
+            <div class="selbox">
+                <select name="type-selectTest" id="type-selectTest">
+                 <option value="0"<eq name="type" value="0">selected</eq>>{$Think.lang.g_maimai}<!-- 买卖 -->
+                 </option>
+                 <option value="1"<eq name="type" value="1">selected</eq>>{$Think.lang.buy_in}<!-- 买入 -->
+                 </option>
+                 <option value="2"<eq name="type" value="2">selected</eq>>{$Think.lang.sell_out}<!-- 卖出 -->
+                 </option>
+               </select>
+                <select name="status-selectTest" id="status-selectTest" style="float: right;">
+                 <option value="0"<eq name="status" value="0">selected</eq>>{$Think.lang.Bazaar_state}<!-- 状态 -->
+                 </option>
+                 <option value="1"<eq name="status" value="1">selected</eq>>{$Think.lang.Bazaar_jyz}<!-- 交易中 -->
+                 </option>
+                 <option value="2"<eq name="status" value="2">selected</eq>>{$Think.lang.Bazaar_ywc}<!-- 已完成 -->
+                 </option>
+                 <option value="3"<eq name="status" value="3">selected</eq>>{$Think.lang.Bazaar_ycx}<!-- 已撤销 -->
+                 </option>
+               </select>
+            </div>
+
+
+        <div class="chgbox">
+            <ul>
+
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            {$Think.lang.g_uwtjl}<!-- 暂无委托数据 -->
+                        </span>
+                    </div>
+                </li>
+
+            <else />
+                <volist name="list" id="vo">
+                    <li>
+                        <div class="weituo_top">
+                            <!-- {$vo['demark']} -->
+                            {$vo.addtime|date='m-d H:i:s',###}
+                            <span class="state wait" style="float: right;">
+                                <eq name="vo.status" value="0">{$Think.lang.Bazaar_jyz}<!-- 交易中 --> | <a style="color: #059ff5;" class="cancel" id="{$vo.id}" href="javascript:void(0);">{$Think.lang.sTrade_index_cx}<!-- 撤销 --></a></eq> <eq name="vo.status" value="1">{$Think.lang.Bazaar_ywc}<!-- 已完成 --></eq> <eq name="vo.status" value="2">{$Think.lang.sFinance_mywt_ycx}<!-- 已撤销 --></eq></span>
+                        </div>
+                        <table class="weituo_bot">
+                            <tr>
+                                <td style="padding-top: 10px;">{$Think.lang.Finance_wtjg}<!-- 委托价格 --></td>
+                                <td style="padding-top: 10px;">{$Think.lang.sTrade_index_wtsl}<!-- 委托数量 --></td>
+                                <td style="padding-top: 10px;">{$Think.lang.sFinance_mywt_ycjl}<!-- 已成交量 --></td>
+                                <td style="padding-top: 10px;">{$Think.lang.g_mariuchu}<!-- 买入卖出 --></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 10px;"><b>{$vo['price']}</b></td>
+                                <td style="padding-bottom: 10px;"><b>{$vo['num']}</b></td>
+                                <td style="padding-bottom: 10px;"><b>{$vo['deal']}</b></td>
+                                <td style="padding-bottom: 10px;">
+                                    <b>
+                                        <eq name="vo.type" value="1"> <font class="buy">{$Think.lang.buy_in}<!-- 买入 --></font> <else /> <font class="sell">{$Think.lang.sell_out}<!-- 卖出 --></font></eq>
+                                    </else>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+    </div>
+<include file="Public:footer" />
+<script>
+	var mcancel = "{$mcancel_token}";
+    $("#type-selectTest,#status-selectTest").change(function(){
+        var type=$("#type-selectTest option:selected").val();
+        var status=$("#status-selectTest option:selected").val();
+        var market='{$coin_info}';
+        window.location='/Finance/mywt/type/'+type+'/status/'+status+'/market/'+market+'.html';
+    });
+	function closetanchu(){
+		layer.closeAll('loading');
+	}
+    $('.cancel').click(function(){
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Trade/chexiao')}",{id : $(this).attr('id'),mtoken:mcancel },function(data){
+			mcancel = data.url;
+			setTimeout("closetanchu()",4000);
+            if(data.status==1){
+                layer.msg(data.info,{icon : 1 });
+                window.location.href=window.location.href;
+            }else{
+                layer.msg(data.info,{icon : 2 });
+            }
+        });
+    });
+</script>
+</body>
+</html>

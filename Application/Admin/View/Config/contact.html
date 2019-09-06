@@ -1,0 +1,75 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">客服配置</span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form id="form" action="{:U('Config/contactEdit')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">联系手机:</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="contact_mobile" value="{$C['contact_mobile']}">
+									</td>
+									<td class="item-note">联系手机</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">联系新浪微博:</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="contact_weibo" value="{$C['contact_weibo']}">
+									</td>
+									<td class="item-note">联系新浪微博</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">客服电话:</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="contact_tqq" value="{$C['contact_tqq']}">
+									</td>
+									<td class="item-note">客服电话</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">联系QQ:</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="contact_qq" value="{$C['contact_qq']}">
+									</td>
+									<td class="item-note">联系QQ 多个用户“|”分割</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">联系QQ群:</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="contact_qqun" value="{$C['contact_qqun']}">
+									</td>
+									<td class="item-note">联系QQ群 多个用户“|”分割</td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label"></td>
+									<td>
+										<div class="form-item cf">
+											<button class="btn submit-btn ajax-post" target-form="form-horizontal" id="submit" type="submit">确 定</button>
+											<a class="btn btn-return" href="{$Think.server.HTTP_REFERER}">返 回</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+				<script type="text/javascript">
+					//提交表单
+					$('#submit').click(function () {
+						$('#form').submit();
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="Public:footer"/>

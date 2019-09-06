@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            证件认证
+        </div>
+        <div class="useifor">
+            姓名：{$user.truename}<br/>
+            证件类型：身份证<br/>
+            身份证号：{$user.idcard}<br/>
+            认证时间：{$user['addtime']|addtime}
+        </div>
+        <div class="ifor_flow">
+            <h2>您已通过实名认证</h2>
+            <p>请提交您的身份证正面照片，身份证反面照片以及您本人手持身份证照片以获得更高级别的资金权限。我们会严格保密您的身份信息，不会向第三方泄漏。工作时间我们会在两小时内审核。（周一至周五：9:00—17:00）
+            </p>
+            <if condition="($user['renzheng_yy'] neq NULL)">
+            <p style="color:#ff8800;">认证失败原因：{$user['renzheng_yy']}</p>
+            </if>
+            <p>审核标准</p>
+            <p>1.身份证照片：证件请放在白纸上，<font color="#FF8800">并在纸上手写：“宏信交易平台”、本人姓名及上传日期，并且身份证信息必须与初始认证信息一致。</p>
+            <p>2.手持证件照：脸部及身份证字体清晰可见，手持身份证必须竖向捏在手心。</p>
+        </div>
+        <div class="ifor_flow">
+            <p>身份证正面照 :  </p>
+            <p><notempty name="data1.img">
+                    <!--没有图片显示默认图片-->
+                    <img id="up_img" onclick="getElementById('inputfile').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="/Upload/coin/{$data1.img}">
+                    <else/>
+                    <!--没有图片显示默认图片-->
+                    <img id="up_img" onclick="getElementById('inputfile').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="__PUBLIC__/Admin/images/addimg.png">
+                </notempty>
+                <input type="hidden" id="img" name="img" value="{$data1.img}">
+                <input type="file" id="inputfile" style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;" value=""/>
+                </p>
+            <p>身份证背面照 :  </p>
+            <p><notempty name="data2.img">
+                        <!--没有图片显示默认图片-->
+                        <img id="up_img2" onclick="getElementById('inputfile2').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="/Upload/coin/{$data2.img}">
+                        <else/>
+                        <!--没有图片显示默认图片-->
+                        <img id="up_img2" onclick="getElementById('inputfile2').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="__PUBLIC__/Admin/images/addimg.png">
+                    </notempty>
+                    <input type="hidden" id="img2" name="img2" value="{$data2.img}">
+                    <input type="file" id="inputfile2" style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;" value=""/>
+                    </p>
+            <p>手持身份证照 :   </p>
+            <p> <notempty name="data3.img">
+                        <!--没有图片显示默认图片-->
+                        <img id="up_img3" onclick="getElementById('inputfile3').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="/Upload/coin/{$data2.img}">
+                        <else/>
+                        <!--没有图片显示默认图片-->
+                        <img id="up_img3" onclick="getElementById('inputfile3').click()" style="cursor:pointer;max-width:100%;" title="点击添加图片" alt="点击添加图片" src="__PUBLIC__/Admin/images/addimg.png">
+                    </notempty>
+                    <input type="hidden" id="img3" name="img3" value="{$data3.img}">
+                    <input type="file" id="inputfile3" style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;" value=""/>
+                    </p>
+        </div>
+        <div class="logbot">
+          <input type="button" class="logbut" name="index_submit" id="loginSubmin" onclick="Update();" value="提交认证" title="提交认证" >
+        </div>
+    </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //响应文件添加成功事件
+        $("#inputfile").change(function () {
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#inputfile')[0].files, function (i, file) {
+                data.append('upload_file' + i, file);
+            });
+            //发送数据
+            $.ajax({
+                url: '/User/coinImage',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,   //不可缺参数
+                processData: false,   //不可缺参数
+                dataType:'json',
+                success: function (data) {
+                    if (data) {
+                        $.trim(data);
+                        $('#up_img').attr("src", '/Upload/renzheng/' + data);
+                        $('#img').val(data);
+                        $('#up_img').show();
+                    }
+                },
+                error: function () {
+                    alert('上传出错');
+                    $(".loading").hide(); //加载失败移除加载图片
+                }
+            });
+
+        });
+    });
+     $(document).ready(function () {
+        //响应文件添加成功事件
+        $("#inputfile2").change(function () {
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#inputfile2')[0].files, function (i, file) {
+                data.append('upload_file' + i, file);
+            });
+            //发送数据
+            $.ajax({
+                url: '/User/coinImage',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,   //不可缺参数
+                processData: false,   //不可缺参数
+                dataType:'json',
+                success: function (data) {
+                    if (data) {
+                        $.trim(data);
+                        $('#up_img2').attr("src", '/Upload/renzheng/' + data);
+                        $('#img2').val(data);
+                        $('#up_img2').show();
+                    }
+                },
+                error: function () {
+                    alert('上传出错');
+                    $(".loading").hide(); //加载失败移除加载图片
+                }
+            });
+
+        });
+    });
+    $(document).ready(function () {
+        //响应文件添加成功事件
+        $("#inputfile3").change(function () {
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#inputfile3')[0].files, function (i, file) {
+                data.append('upload_file' + i, file);
+            });
+            //发送数据
+            $.ajax({
+                url: '/User/coinImage',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,   //不可缺参数
+                processData: false,   //不可缺参数
+                dataType:'json',
+                success: function (data) {
+                    if (data) {
+                        $.trim(data);
+                        $('#up_img3').attr("src", '/Upload/renzheng/' + data);
+                        $('#img3').val(data);
+                        $('#up_img3').show();
+                    }
+                },
+                error: function () {
+                    alert('上传出错');
+                    $(".loading").hide(); //加载失败移除加载图片
+                }
+            });
+
+        });
+    });
+    function Update(){
+    var zhengmian=$("#img").val();
+    var beimian=$("#img2").val();
+    var shouchi=$("#img3").val();
+    if(zhengmian==""||zhengmian==null){
+      alert('请上传身份证正面照！');
+      return false;
+    }
+    if(beimian==""||beimian==null){
+      alert('请上传身份证背面照！');
+      return false;
+    }
+    if(shouchi==""||shouchi==null){
+      alert('请上传手持身份证照！');
+      return false;
+    }
+    $.post("{:U('User/uprenzheng')}",{zhengmian:zhengmian,beimian:beimian,shouchi:shouchi},function(data){
+      if(data.status==1){
+        layer.msg(data.info,{icon:1});
+        window.location='/User/nameauth';
+      }else{
+        layer.msg(data.info,{icon:2});
+        if(data.url){
+          window.location=data.url;
+        }
+      }
+    },"json");
+  }
+</script>
+<script type="text/javascript" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <include file="Public:footer" />
+</body>
+</html>

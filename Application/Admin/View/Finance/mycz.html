@@ -1,0 +1,205 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">人民币充值</span>
+		</div>
+		<div class="cf">
+			<div class="fl">
+				<button class="btn ajax-post confirm btn-danger" url="{:U('Finance/myczStatus',array('type'=>'del'))}" target-form="ids">删除</button>
+				<button class="btn btn-success" url="{:U('Finance/myczExcel',$info)}" target-form="ids" id="submit" type="submit">导出Excel</button>
+				<button class="btn btn-warning" onClick="location.href='{:U('Finance/mycz')}'">初始化搜索</button>
+				<form action="{:U('Finance/myczExcel')}" method="post" style="display:inline-block;">
+					<input type="hidden" name="id" value="{$czid}" />
+					<input type="submit" class="btn btn-success" value="导出全部" />
+				</form>
+			</div>
+
+			<div class="search-form fr cf" style="padding-top: 43px;float: none !important;">
+				<div class="sleft">
+					<form name="formSearch" id="formSearch" method="get" name="form1">
+
+						<select style="width: 140px; float: left; margin-right: 10px;" name="mycz_type" class="form-control">
+							<option value=""
+							<empty name="Think.get.mycz_type">selected</empty>
+							>全部充值方式</option>
+							<option value="alipay"
+							<eq name="Think.get.mycz_type" value="alipay">selected</eq>
+							>支付宝转账</option>
+							<option value="bank"
+							<eq name="Think.get.mycz_type" value="bank">selected</eq>
+							>银行卡转账</option>
+						</select>
+
+						<select style="width: 140px; float: left; margin-right: 10px;" name="time_type" class="form-control">
+							<option value="addtime"
+							<eq name="Think.get.time_type" value="addtime">selected</eq>
+							>申请时间</option>
+							<option value="endtimes"
+							<eq name="Think.get.time_type" value="endtimes">selected</eq>
+							>审核通过时间</option>
+						</select>
+
+						<!-- 时间筛选 -->
+						<script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+						<input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="starttime" value="{:I('get.starttime')}" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						<input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="endtime" value="{:I('get.endtime')}" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+
+						<select style="width: 110px; float: left; margin-right: 10px;" name="status" class="form-control">
+							<option value=""
+							<empty name="Think.get.status">selected</empty>
+							>全部状态</option>
+							<option value="1"
+							<eq name="Think.get.status" value="1">selected</eq>
+							>未付款</option>
+							<option value="2"
+							<eq name="Think.get.status" value="2">selected</eq>
+							>充值成功</option>
+							<option value="3"
+							<eq name="Think.get.status" value="3">selected</eq>
+							>人工到账</option>
+							<option value="4"
+							<eq name="Think.get.status" value="4">selected</eq>
+							>处理中</option>
+						</select>
+						<select style=" width: 100px; float: left; margin-right: 10px;" name="field" class="form-control">
+							<option value="username"
+							<eq name="Think.get.field" value="username">selected</eq>
+							>用户名</option>
+							<option value="tradeno"
+							<eq name="Think.get.field" value="tradeno">selected</eq>
+							>订单号</option>
+						</select>
+						<input type="hidden" name="zhanwei" value="" />
+						<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+					</form>
+					<script>
+						//搜索功能
+						$(function () {
+							$('#search').click(function () {
+								$('#formSearch').submit();
+							});
+						});
+						//回车搜索
+						$(".search-input").keyup(function (e) {
+							if (e.keyCode === 13) {
+								$("#search").click();
+								return false;
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<div class="data-table table-striped">
+			<form id="form" action="{:U('Finance/myczExcel')}" method="post" class="form-horizontal">
+				<table class="">
+					<thead>
+					<tr>
+						<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+						<th class="">ID</th>
+						<th class="">用户名</th>
+						<th class="">申请金额</th>
+						<th width="">实付金额</th>
+						<th width="">充值方式</th>
+						<th width="">真实姓名</th>
+						<th width="">账号</th>
+						<th width="">充值订单</th>
+						<th class="">充值时间</th>
+						<th class="">确认时间</th>
+						<th width="">状态</th>
+						<th width="">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<notempty name="list">
+						<volist name="list" id="vo">
+							<tr>
+								<td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}"/></td>
+								<td>{$vo.id}</td>
+								<td>{$vo['username']}
+								</td>
+								<td>{$vo.num}</td>
+								<td>{$vo.mum}</td>
+								<td>{$vo.type}</td>
+								<td>{$vo.alipay_truename}</td>
+								<td>{$vo.alipay_account}</td>
+								<td>{$vo.tradeno}</td>
+								<td>{$vo.addtime|addtime}</td>
+								<td>{$vo.endtime|addtime}</td>
+								<td>
+									<eq name="vo.status" value="0">未付款</eq>
+									<eq name="vo.status" value="1">充值成功</eq>
+									<eq name="vo.status" value="2">人工到账</eq>
+									<eq name="vo.status" value="3">处理中</eq>
+								</td>
+								<td>
+									<eq name="vo.status" value="0">
+										<a href="{:U('Finance/myczQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认到账 </a>
+									</eq>
+									<eq name="vo.status" value="3">
+										<a href="{:U('Finance/myczQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认到账 </a>
+									</eq>
+								</td>
+							</tr>
+						</volist>
+						<else/>
+						<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+					</notempty>
+					</tbody>
+					<!--<tfoot>
+						<tr>
+							<td class="" colspan="3">
+								充值成功数目总计：<br/>
+								充值成功金额总计：
+							</td>
+							<td class="" colspan="3">
+								充值未付款数目总计：<br/>
+								充值未付款金额总计：
+							</td>
+							<td widtd=""></td>
+							<td class=""></td>
+							<td widtd=""></td>
+							<td widtd=""></td>
+						</tr>
+					</tfoot>-->
+				</table>
+			</form>
+			<div class="page">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+	$(".page > div").children("a").each(function(){
+		var ahref = $(this).attr('href');
+		var ahrefarr = ahref.split("/");
+		var ahlength = ahrefarr.length;
+		if(ahrefarr[ahlength-2]=="p"){
+			var jiewei = ahrefarr[ahlength-1].split(".");
+			var page = jiewei[0];
+		}
+		ahrefarr.splice(ahlength-2,2);
+		var newhref = ahrefarr.join("/");
+		newhref = newhref+"&p="+page;
+		$(this).attr("href",newhref);
+	});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('Finance/mycz')}");
+	</script>
+</block>

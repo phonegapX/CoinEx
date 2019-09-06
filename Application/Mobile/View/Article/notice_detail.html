@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="graybg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            
+            <if condition="LANG_SET eq 'en-us'">
+                {$data_s['title_en']} details page
+            <else />
+                {$data_s['title']}详情页
+            </if>
+        </div>
+        <div class="nwdtsbox">
+            <if condition="LANG_SET eq 'en-us'">
+                <div class="nwtop">
+                <h3 style="line-height: 22px;">{$data.title_en}</h3>
+                <p class="time">Release time：{$data.addtime|date="Y-m-d",###}
+                <span style="float: right;">Publisher：{:C('en_web_title')}</span></p>
+                <!-- <p class="time"></p> -->
+                </div>
+                <div class="nwbot">
+                    {$data['content_en']}
+                </div>
+            <else />
+
+            <div class="nwtop">
+                <h3 style="line-height: 22px;">{$data.title}</h3>
+                <p class="time">发布时间：{$data.addtime|date="Y-m-d",###}
+                <span style="float: right;">发布人：{:C('web_title')}</span></p>
+                <!-- <p class="time"></p> -->
+            </div>
+            <div class="nwbot">
+                 {$data['content']}
+            </div>
+            </if>
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<style type="text/css">
+.usernewout .usncont .usnc_right h1{line-height: 50px;text-align: center;font-size: 16px;}
+.rechmid .rechipt_box label{width:160px;}
+</style>
+<div class="aqsz">
+	<a href="{:U('User/index')}" <if condition="strstr($_SERVER['REQUEST_URI'],'index')">class="active"</if>>{$Think.lang.g_account}</a>
+	<a href="{:U('User/nameauth')}" <if condition="strstr($_SERVER['REQUEST_URI'],'nameauth')">class="active"</if>>{$Think.lang.g_shimingrz}</a>
+	<a href="{:U('User/ga')}" <if condition="strstr($_SERVER['REQUEST_URI'],'ga')">class="active"</if>>{$Think.lang.g_gugerz}</a>
+	<a href="{:U('User/email')}" <if condition="strstr($_SERVER['REQUEST_URI'],'email')">class="active"</if>>{$Think.lang.g_youxiangrz}</a>
+	<a href="{:U('User/password')}" <if condition="strstr($_SERVER['REQUEST_URI'],'password') && !strstr($_SERVER['REQUEST_URI'],'paypassword')">class="active"</if>>{$Think.lang.g_denglumm}</a>
+	<a href="{:U('User/paypassword')}" <if condition="strstr($_SERVER['REQUEST_URI'],'paypassword')">class="active"</if>>{$Think.lang.g_jiaoyimm}</a>
+	<!-- <a href="{:U('User/mibao')}" <if condition="strstr($_SERVER['REQUEST_URI'],'mibao')">class="active"</if>>{$Think.lang.g_mbquestion}</a> -->
+</div>

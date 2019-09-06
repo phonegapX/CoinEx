@@ -1,0 +1,21 @@
+<script type="text/javascript" name="ueditorcontent_en" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" name="ueditorcontent_en" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<tr class="controls">
+									<td class="item-label">英文内容 :</td>
+									<td height=530 align='top'>
+										<div style="height:530px;overflow-y:scroll;">
+											<textarea name="ueditorcontent_en" id="ueditorcontent_en" style="width:850px;border:none;">{$data.content_en}</textarea>
+										</div>
+									</td>
+									<td class="item-note"></td>
+								</tr>
+<script type="text/javascript">
+
+    var ue = UE.getEditor('ueditorcontent_en',{
+        toolbars: [
+            ['bold', 'indent', 'italic', 'underline', 'strikethrough', 'subscript', 'fontborder', 'superscript', 'formatmatch', 'source', 'blockquote', 'pasteplain', 'selectall', 'horizontal', 'removeformat', 'time', 'date', 'unlink', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'cleardoc', 'fontfamily', 'fontsize', 'paragraph', 'edittable', 'edittd', 'link', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'forecolor', 'backcolor', 'imagecenter', 'insertimage', 'drafts', 'lineheight', 'inserttable', 'insertparagraphbeforetable', '', '', '', '', '', '']
+        ],
+        initialFrameWidth:800,
+        initialFrameHeight:400
+    });
+</script>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+    <meta name="format-detection" content="telephone=no,email=no,address=no">
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+	<script src="__PUBLIC__/Mobile/js/jquery.SuperSlide.2.1.1.js"></script>
+     <style>
+    .saletable h4 img{height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;}
+    .saletable h4{font-size: 18px;
+    color: #fff;
+    font-weight: 900;
+    width: 96%;
+    margin: 0px auto;
+    height: 35px;
+    line-height: 35px;}
+        </style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="{:U('Trade/trade_coin_list')}"></a></span>
+            {$coin_info['title']}{$Think.lang.Finance_jyhq}<!-- 交易行情 -->
+        </div>
+        <span style="display:none" id="hidden_buy"></span>
+        <span style="display:none" id="hidden_sell"></span>
+        <input type="hidden" id="zuo_price">
+        <input type="hidden" id="zhang_bili">
+        <input type="hidden" id="die_bili">
+        <input type="hidden" id="hidden_sell">
+        <input type="hidden" id="hidden_buy">
+        <div class="tadtop">
+            <div class="tadtitle">
+                <div class="tadleft">{$market|strtoupper=###}
+                </div>
+                <div class="tadright" style="line-height: 36px;">
+                <a href="{:U('Trade/market_condition',array('coin_name'=>$market))}">
+                    <!-- <span class="price">{$data['new_price']}</span> -->
+                    <if condition="$market_info['change'] eq 0">
+                        <span class="percent red">+{$market_info['change']|round=###,2}%</span>
+                    <elseif condition="$market_info['change'] lt 0"/>
+                        <span class="percent green">-{$market_info['change']|round=###,2}%</span>
+                    <else />
+                        <span class="percent red">+{$market_info['change']|round=###,2}%</span>
+                    </if>
+                    <img src="__PUBLIC__/Mobile/images/rightarrow.png" alt="" style="width:9px;vertical-align: middle;">
+                    </a>
+                </div>
+            </div>
+            <table class="tadtable">
+                <tr>
+                    <th>{$Think.lang.Finance_topjg}<!-- 最高价 --></th>
+                    <th>{$Think.lang.Finance_downjg}<!-- 最低价 --></th>
+                    <th>{$Think.lang.sTrade_index_cjl}<!-- 成交量 --></th>
+                    <th>{$Think.lang.g_price_new}<!-- 最新价 --></th>
+                </tr>
+                <tr>
+                    <td>{$data['max_price']}</td>
+                    <td>{$data['min_price']}</td>
+                    <td>{$data['volume']}</td>
+                    <!-- <td>{$market_info['cje']}</td> -->
+                    <td>{$data['new_price']}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="salebox">
+            <div class="salehd">
+                <ul>
+                    <li>{$Think.lang.sTrade_index_mr}<!-- 买入 --></li>
+                    <li>{$Think.lang.sTrade_index_mc}<!-- 卖出 --></li>
+                    <!-- 撤单 -->
+                    <!-- <li style="width: 34%;">{$Think.lang.sTrade_index_cx}</li> -->
+                </ul>
+            </div>
+            <div class="salebd">
+                <ul>
+                    <li>
+                        <div class="bdts_top">
+
+                            {$Think.lang.sFinance_myzr_ky}<!-- 可用 --><!-- {$rmbname} -->{$rmb|strtoupper=###}：<span id="my_rmb">{$yue|NumTofour}</span>
+
+                            <span class="recharge"><a href="{:U('Finance/myzr_coin_list')}">{$Think.lang.g_chongzhi}</a></span>
+                            <br/><br/>
+                            {$Think.lang.sFinance_myzr_ky}<!-- 可卖 --><!-- {$xnbname} -->{$xnb|strtoupper=###}：<span id="my_xnb">{$xnbyue|NumTofour}</span>
+                            <span class="recharge"><a href="{:U('Finance/index')}">{$Think.lang.Finance_cwzx}</a></span>
+                        </div>
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_zjmrj}：</label>
+                            <input type="text" class="priceipt readonly" id="buy_best_price" readonly="readonly" onclick="$('#buy_price').val($('#buy_best_price').val());buymax();" value="{$sell}" />
+                        </div>
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_mrjg}<!-- 买入价格 -->：</label>
+                            <input type="text" class="priceipt" name="buy_price" id="buy_price" onkeyup="buyforb();buymax();" />
+                            <span class="delete"></span>
+                        </div>
+
+						<div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_mrsl}<!-- 买入数量 -->：</label>
+                            <input type="text" placeholder="0.000000" name="buy_num" id="buy_num" class="priceipt" onkeyup="buyforbi();fanbar();" />
+                            <span class="delete"></span>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.Finance_maxkm}<!-- 最大可买 -->：</label>
+                            <input type="text" class="priceipt readonly" id="buy_max" disabled="disabled" />
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.Finance_mrbl}<!-- 买入比例 -->：</label>
+                            <select id="buy_bl" class="priceipt">
+                                <option value="0">0%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                                <option value="30">30%</option>
+                                <option value="40">40%</option>
+                                <option value="50">50%</option>
+                                <option value="60">60%</option>
+                                <option value="70">70%</option>
+                                <option value="80">80%</option>
+                                <option value="90">90%</option>
+                                <option value="100">100%</option>
+                            </select>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_jye}<!-- 交易额 -->：</label>
+                            <input type="text" placeholder="0" id="buy_mum" class="priceipt readonly" readonly>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_sxf}<!-- 手续费 -->：</label>
+                            <input type="text" placeholder="{:C('market')[$market]['fee_buy']}%" class="priceipt readonly" value="{:C('market')[$market]['fee_buy']}%" id="buy_fee" readonly>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_jymm}<!-- 交易密码 -->：</label>
+                            <empty name="user_info.id">
+                                <div style="height:40px;line-height:40px;font-size:12px;float:right;">
+                                    <a style="color:#fff;" href="{:U('Login/index')}">{$Think.lang.sCommon_qxdl}<!-- 请先登录 -->>></a>
+                                </div>
+                            <else/>
+                                <empty name="user_info.paypassword">
+                                    <div style="height:40px;line-height:40px;font-size:12px;float:right;">
+                                        <a style="color:#fff;" href="{:U('User/paypassword')}">{$Think.lang.Login_szjymm}<!-- 设置交易密码 -->>></a>
+                                    </div>
+                                <else/>
+                                    <input type="password"  id="buy_paypassword" name="pwtrade" placeholder="{$Think.lang.sFinance_myzr_qsrjymm}" class="priceipt">
+                                    <span class="delete"></span>
+                                </empty>
+                            </empty>
+                        </div>
+
+                        <input type="button" value="{$Think.lang.buy_in}" class="buyin" onclick="tradeadd_buy();" style="background:#d33734;">
+                    </li>
+                    <li>
+                        <div class="bdts_top">
+
+                            {$Think.lang.Finance_keyong}<!-- 可用 --><!-- {$rmbname} -->{$rmb|strtoupper=###}：<span id="my_rmbs">{$yue|NumTofour}</span>
+
+                            <span class="recharge"><a href="{:U('Finance/mycz')}">{$Think.lang.g_chongzhi}<!-- 充值 --></a></span>
+                            <br/><br/>
+
+
+
+                            {$Think.lang.Can_sell}<!-- 可卖 --><!-- {$xnbname} -->{$xnb|strtoupper=###}：<span id="my_xnbs">{$xnbyue|NumTofour}</span>
+
+                            <span class="recharge"><a href="{:U('Finance/index')}">{$Think.lang.Finance_cwzx}<!-- 财务中心 --></a></span>
+                        </div>
+                        <div class="iptbox">
+                            <label>{$Think.lang.Finance_goodmj2}<!-- 最佳卖价 -->：</label>
+                            <input type="text" class="priceipt readonly" id="sell_best_price" readonly="readonly" onclick="$('#sell_price').val($('#sell_best_price').val());" value="{$buy}"/>
+                        </div>
+                        <div class="iptbox">
+                            <label>{$Think.lang.Finance_mcjg2}<!-- 卖出价格 -->：</label>
+                            <input type="text" id="sell_price" class="priceipt" onkeyup="sellforb();" />
+                            <span class="delete"></span>
+                        </div>
+
+						<div class="iptbox">
+                            <label>{$Think.lang.Finance_mcsl2}<!-- 卖出数量 -->：</label>
+                            <input type="text" placeholder="0.000000" id="sell_num" class="priceipt" onkeyup="sellforbi();fanbar2();" />
+                            <span class="delete"></span>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_zdkm}<!-- 最大可卖 -->：</label>
+                            <input type="text" class="priceipt readonly" id="sell_max" disabled="disabled"/>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.sTrade_index_mcbl}<!-- 卖出比例 -->：</label>
+                            <select id="sell_bl" class="priceipt">
+                                <option value="0">0%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                                <option value="30">30%</option>
+                                <option value="40">40%</option>
+                                <option value="50">50%</option>
+                                <option value="60">60%</option>
+                                <option value="70">70%</option>
+                                <option value="80">80%</option>
+                                <option value="90">90%</option>
+                                <option value="100">100%</option>
+                            </select>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.Deal_jine}<!-- 交易金额 -->：</label>
+                            <input type="text" placeholder="0" id="sell_mum" class="priceipt readonly" readonly>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.Finance_sxf}<!-- 手续费 -->：</label>
+                            <input type="text" placeholder="{:C('market')[$market]['fee_sell']}%" class="priceipt readonly" value="{:C('market')[$market]['fee_sell']}%" id="sell_fee" readonly>
+                        </div>
+
+                        <div class="iptbox">
+                            <label>{$Think.lang.g_jiaoyimm}<!-- 交易密码 -->：</label>
+                            <empty name="user_info.id">
+                                <div style="height:40px;line-height:40px;font-size:12px;float:right;">
+                                    <a style="color:#fff;" href="{:U('Login/index')}">{$Think.lang.sCommon_qxdl}<!-- 请先登录 -->>></a>
+                                </div>
+                            <else/>
+                                <empty name="user_info.paypassword">
+                                    <div style="height:40px;line-height:40px;font-size:12px;float:right;">
+                                        <a style="color:#fff;" href="{:U('User/paypassword')}">{$Think.lang.Login_szjymm}<!-- 设置交易密码 -->>></a>
+                                    </div>
+                                <else/>
+                                    <input type="password"  id="sell_paypassword" name="pwtrade" placeholder="{$Think.lang.sFinance_myzr_qsrjymm}" class="priceipt">
+                                    <span class="delete"></span>
+                                </empty>
+                            </empty>
+                        </div>
+
+                        <input type="button" value="{$Think.lang.sell_out}" class="buyin" onclick="tradeadd_sell();" style="background:#2dab6a;">
+                    </li>
+                    <li>
+                        <table class="cancel">
+                            <tr>
+                                <th>{$Think.lang.Finance_bors}<!-- 买/卖 --></th>
+                                <th>{$Think.lang.sTrade_index_jg}<!-- 价格 --></th>
+                                <th>{$Think.lang.sTrade_index_sl}<!-- 数量 --></th>
+                                <th>{$Think.lang.sTrade_index_ycj}<!-- 已成交 --></th>
+                                <th>{$Think.lang.total}<!-- 总额 --></th>
+                                <th>{$Think.lang.Bazaar_state}<!-- 状态 --></th>
+                            </tr>
+                            <tbody id="entrustlist">
+
+                            </tbody>
+
+                        </table>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(".delete").click(function() {
+                $(this).siblings('.priceipt').val(" ");
+            });
+            jQuery(".salebox").slide({mainCell:".salebd ul",titCell:".salehd ul li"});
+        </script>
+        <!-- <div class="saletable">
+            <div class="saletable_top">
+                <table>
+                    <tr>
+                        <th width="19%">{$Think.lang.Finance_bors}</th>
+                        <th width="24%">{$Think.lang.sTrade_index_jg}</th>
+                        <th width="24%">{$Think.lang.sTrade_index_sl}</th>
+						<th width="33%">{$Think.lang.Finance_jine}</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="saletable_bot">
+                <table class="green" id="selllist">
+                </table>
+                <table class="red" id="buylist">
+                </table>
+            </div>
+        </div> -->
+        <div class="saletable">
+        <h4><img src="__PUBLIC__/Mobile/images/tradeicon1.png">{$Think.lang.Finance_newcjjln}<!-- 委托记录 --></h4>
+        <div class="saletable_top" style="background: rgba(0,0,0,0.5);width:96%;padding:0 2%;margin:0;">
+        <table>
+                    <tr>
+                        <th width="19%">{$Think.lang.Finance_bors}</th>
+                        <th width="24%">{$Think.lang.sTrade_index_jg}</th>
+                        <th width="24%">{$Think.lang.sTrade_index_sl}</th>
+                        <th width="33%">{$Think.lang.Finance_jine}</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="saletable_bot" style="background: #1d1d29;">
+                <table class="green" id="selllist">
+                </table>
+                <table class="red" id="buylist">
+                </table>
+            </div>
+        </div>
+        <include file="Public:footer" />
+    </div>
+
+<script type="text/javascript">
+    var market="{$market}";
+    var coinnames="{$coin_info['name']|strtoupper=###}";
+	var market_round="{$market_info['round']}";
+    // var market_round_num=7-"{$market_info['round']}";
+    var market_round_num=6;
+	var market_round_total=6;
+	var userid="{$Think.session.userId}";
+	var mbuycoin = "{$mbuycoin_token}";
+	var msellcoin = "{$msellcoin_token}";
+	var mcancel = "{$mcancel_token}";
+	var ling = 0;
+
+	ffconf = [[],[],[100, 0.01],[1000, 0.001],[10000, 0.0001],[100000, 0.00001],[1000000, 0.000001]];
+	function formatfloat(f, size, add){
+		f = parseFloat(f);
+		var ff = Math.floor(f * ffconf[size][0]) / ffconf[size][0];
+		if(add && f > ff) ff += ffconf[size][1];
+		return isNaN(ff)? 0: ff;
+	}
+
+    // 我的委托 我的财产信息
+    function getEntrustAndUsercoin(){
+        $.getJSON("/Ajax/getEntrustAndUsercoin?market="+market+"&t="+Math.random(),function(data){
+            if(data){
+                if(data['entrust']){
+                    $('#entrustlist').show();
+                    var list='';
+                    var state='';
+                    var sum=0;
+                    var cont=data['entrust'].length;
+                    for(i=0; i<data['entrust'].length; i++){
+                        if(data['entrust'][i]['type']==1){
+                            sum = data['entrust'][i]['num'] - data['entrust'][i]['deal'];
+                            if(sum > 0 && (sum != data['entrust'][i]['num'])){
+                                state = '<td>{$Think.lang.Finance_jine}{$Think.lang.Bufen_trade}</td>';
+                            }else if(sum == 0){
+                                state = '<td>{$Think.lang.Finance_jine}{$Think.lang.Bazaar_ycj}</td>';
+                            }else if(sum == data['entrust'][i]['num']){
+                                state = '<td>{$Think.lang.Finance_jine}{$Think.lang.No_trade}</td>';
+                            }
+
+                            list+='<tr><td><span class="red">{$Think.lang.sTrade_index_buy}</span></td><td>'+data['entrust'][i]['price'].toFixed(market_round)+'</td><td>'+data['entrust'][i]['num'].toFixed(market_round_num)+'</td><td>'+data['entrust'][i]['deal']+'</td><td>'+(data['entrust'][i]['price']*data['entrust'][i]['num']).toFixed(market_round_total)+'</td>'+state+'</tr><tr><td colspan="4" class="left">'+data['entrust'][i]['addtime']+'</td><td colspan="2" class="right"><a  href="javascript:void(0);" id="'+data['entrust'][i]['id']+'" onclick="cancelaa(\''+data['entrust'][i]['id']+'\')" class="red">{$Think.lang.sTrade_index_cx}</a></td></tr>';
+                        }else{
+                              sum = data['entrust'][i]['num'] - data['entrust'][i]['deal'];
+                              if(sum > 0 && (sum != data['entrust'][i]['num'])){
+                                //部分成交
+                                state = '<td>{$Think.lang.Bufen_trade}</td>';
+                              }else if(sum == 0){
+                                //已成交
+                                state = '<td>{$Think.lang.Bazaar_ycj}</td>';
+                              }else if(sum == data['entrust'][i]['num']){
+                                //未成交
+                                state = '<td>{$Think.lang.No_trade}</td>';
+                              }
+                              //卖
+                              list+='<tr><td><span class="green">{$Think.lang.Finance_sell2}</span></td><td>'+data['entrust'][i]['price'].toFixed(market_round)+'</td><td>'+data['entrust'][i]['num'].toFixed(market_round_num)+'</td><td>'+data['entrust'][i]['deal']+'</td><td>'+(data['entrust'][i]['price']*data['entrust'][i]['num']).toFixed(market_round_total)+'</td>'+state+'</tr><tr><td colspan="4" class="left">'+data['entrust'][i]['addtime']+'</td><td colspan="2" class="right"><a  href="javascript:void(0);" id="'+data['entrust'][i]['id']+'" onclick="cancelaa(\''+data['entrust'][i]['id']+'\')" class="red">{$Think.lang.sTrade_index_cx}</a></td></tr>';
+                        }
+                    }
+                    $('#entrustlist').html(list);
+                }else{
+                    $('#entrustlist').hide();
+                }
+                // 我的财产信息
+                if(data['usercoin']){
+                  if(data['usercoin']['becc']){
+                    $("#my_rmb").html(data['usercoin']['becc']);
+                    $("#my_rmbs").html(data['usercoin']['becc']);
+					if($('#buy_price').val()>0){
+						var buy_fee = parseFloat($("#buy_fee").val());
+						if(buy_fee>0){
+							var bmax = formatfloat(data['usercoin']['becc']*(1-(buy_fee/100))/$('#buy_price').val(),market_round_num-1,0);
+						}else{
+							var bmax = formatfloat(data['usercoin']['becc']/$('#buy_price').val(),market_round_num-1,0);
+						}
+						$("#buy_max").val(bmax);
+					}else{
+						$("#buy_max").val('---');
+					}
+                  }else{
+                    $("#my_rmb").html(ling.toFixed(6));
+                    $("#my_rmbs").html(ling.toFixed(6));
+                  }
+                  if(data['usercoin']['xnb']){
+                    $("#my_xnb").html(formatfloat(data['usercoin']['xnb'],market_round_num,0));
+                    $("#my_xnbs").html(formatfloat(data['usercoin']['xnb'],market_round_num,0));
+					$("#sell_max").val(formatfloat(data['usercoin']['xnb'],market_round_num-1,0));
+                  }else{
+                    $("#my_xnb").html(ling.toFixed(market_round_num));
+                    $("#my_xnbs").html(ling.toFixed(market_round_num));
+                    $("#sell_max").val(ling.toFixed(market_round_num));
+                  }
+                }
+            }
+        });
+        setTimeout('getEntrustAndUsercoin()', 5000);
+    }
+
+	// 最新成交价 买一价 卖一价
+    function getJsonTop() {
+        $.getJSON("/Ajax/getJsonTop?market={$market}&t=" + Math.random(), function (data) {
+            if (data) {
+                // 最新成交价
+                if (data['info']['new_price']) {
+                    $("#price_new").html(data['info']['new_price'].toFixed(market_round));
+                }
+                // 买一价
+                if (data['info']['buy_price']) {
+                    // $("#price_sell_new").html(data['info']['buy_price'].toFixed(market_round));
+                    $("#price_buy_new").html(data['info']['buy_price'].toFixed(market_round));
+					$("#sell_best_price").val(data['info']['buy_price'].toFixed(market_round));
+                }
+                // 卖一价
+                if (data['info']['sell_price']) {
+                    // $("#price_sell_new").html(data['info']['sell_price'].toFixed(market_round));
+                    $("#price_buy_new").html(data['info']['sell_price'].toFixed(market_round));
+					$("#buy_best_price").val(data['info']['sell_price'].toFixed(market_round));
+
+                }
+            }
+        });
+        setTimeout('getJsonTop()', 5000);
+    }
+
+    // 委托记录
+    function getDepth(){
+        $.getJSON("/Ajax/getDepth?market="+market+"&trade_moshi=1&t="+Math.random(),function(data){
+            if(data){
+                if(data['depth']){
+                    var list='';
+                    var sellk=data['depth']['sell'].length;
+                    if(data['depth']['sell']){
+                        for(i=0; i<data['depth']['sell'].length; i++){
+                            //卖
+                            list+='<tr><td width="19%">{$Think.lang.Finance_sell2}'+(sellk-i)+'</td><td width="24%">'+data['depth']['sell'][i][0].toFixed(market_round)+'</td><td width="24%">'+data['depth']['sell'][i][1].toFixed(market_round_num)+'</td><td width="33%">'+(data['depth']['sell'][i][0]*data['depth']['sell'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                        }
+                    }
+                    $("#selllist").html(list);
+                    list='';
+                    if(data['depth']['buy']){
+                        for(i=0; i<data['depth']['buy'].length; i++){
+                            //买
+                            list+='<tr><td width="19%">{$Think.lang.Finance_buy2}'+(i+1)+'</td><td width="24%">'+data['depth']['buy'][i][0].toFixed(market_round)+'</td><td width="24%">'+data['depth']['buy'][i][1].toFixed(market_round_num)+'</td><td width="33%">'+(data['depth']['buy'][i][0]*data['depth']['buy'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                        }
+                    }
+                    $("#buylist").html(list);
+                }
+            }
+        });
+        setTimeout('getDepth()',5000);
+    }
+
+	function closetanchu(){
+		layer.closeAll('loading');
+	}
+    //撤销
+    function cancelaa(id){
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Trade/chexiao')}",{id : id,mtoken: mcancel },function(data){
+			mcancel = data.url;
+			setTimeout("closetanchu()",4000);
+            if(data.status==1){
+                getEntrustAndUsercoin();
+				setTimeout("regainprice()",2000);
+                layer.msg(data.info,{icon : 1 });
+            }else{
+                layer.msg(data.info,{icon : 2 });
+            }
+        });
+    }
+
+    $(function(){
+		getJsonTop();
+		getDepth();
+		if(userid>0){
+			getEntrustAndUsercoin();
+		}
+    });
+
+    // 买入操作
+    function tradeadd_buy(){
+        var price=parseFloat($('#buy_price').val());
+        var num=parseFloat($('#buy_num').val());
+        var paypassword=$('#buy_paypassword').val();
+        var reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        if(price==""||price==null||!reg.test(price)){
+          layer.tips('{$Think.lang.Finance_pdy0}','#buy_price',{tips : 3 });
+          return false;
+        }
+        if(num==""||num==null||!reg.test(num)){
+          layer.tips('{$Think.lang.Finance_ndy0}','#buy_num',{tips : 3 });
+          return false;
+        }
+        //加载层-风格3
+        layer.load(2);
+        $.post("{:U('Trade/upTrade')}",{price : $('#buy_price').val(),num : $('#buy_num').val(),paypassword : $('#buy_paypassword').val(),market : market,type : 1,mtoken:mbuycoin  },function(data){
+			mbuycoin = data.url;
+            layer.closeAll('loading');
+            if(data.status==1){
+                setTimeout("regainprice()",2000);
+                layer.msg(data.info,{icon : 1 });
+                // window.location.reload();
+            }else{
+                layer.msg(data.info,{icon : 2 });
+            }
+        },'json');
+    }
+
+
+    // 卖出操作
+    function tradeadd_sell(){
+        var price=parseFloat($('#sell_price').val());
+        var num=parseFloat($('#sell_num').val());
+        var reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        if(price==""||price==null||!reg.test(price)){
+          layer.tips('{$Think.lang.Finance_pdy0}','#sell_price',{tips : 3 });
+          return false;
+        }
+        if(num==""||num==null||!reg.test(num)){
+          layer.tips('{$Think.lang.Finance_ndy0}','#sell_num',{tips : 3 });
+          return false;
+        }
+
+        layer.load(2);
+        $.post("{:U('Trade/upTrade')}",{price : $('#sell_price').val(),num : $('#sell_num').val(),paypassword : $('#sell_paypassword').val(),market : market,type : 2,mtoken:msellcoin  },function(data){
+			msellcoin = data.url;
+            layer.closeAll('loading');
+            if(data.status==1){
+                setTimeout("regainprice()",2000);
+                layer.msg(data.info,{icon : 1 });
+                // window.location.reload();
+            }else{
+                layer.msg(data.info,{icon : 2 });
+            }
+        },'json');
+    }
+
+	function regainprice(){
+		$.getJSON("/Ajax/getprice?market={$market}&t=" + Math.random(), function (data) {
+			$('#buy_price').val('');
+			$('#sell_price').val('');
+			$("#buy_max").html("---");
+			$("#buy_num").val(0);
+			$("#buy_bl").val(0);
+			$("#buy_mum").val(0);
+			$("#sell_num").val(0);
+			$("#sell_bl").val(0);
+			$("#sell_mum").val(0);
+		});
+	}
+
+    $('#buy_price,#buy_num,#sell_price,#sell_num').css("ime-mode","disabled").bind('keyup change',function(){
+        var buyprice=parseFloat($('#buy_price').val());
+        var buynum=parseFloat($('#buy_num').val());
+        var sellprice=parseFloat($('#sell_price').val());
+        var sellnum=parseFloat($('#sell_num').val());
+        var buymum=buyprice*buynum;
+        var sellmum=sellprice*sellnum;
+        var myrmb=$("#my_rmb").html();
+        var myxnb=$("#my_xnb").html();
+        var buykenum=0;
+        var sellkenum=0;
+        if(myrmb>0){
+            buykenum=myrmb/buyprice;
+        }
+        if(myxnb>0){
+            sellkenum=myxnb;
+        }
+        if(buymum!=null&&buymum>0){
+            $('#buy_mum').val(buymum.toFixed(6)*1);
+        }
+        if(sellmum!=null&&sellmum>0){
+            $('#sell_mum').val(sellmum.toFixed(6)*1);
+        }
+    }).bind("paste",function(){
+        return false;
+    }).bind("blur",function(){
+        if(this.value.slice(-1)=="."){
+            this.value=this.value.slice(0,this.value.length-1);
+        }
+    }).bind("keypress",function(e){
+        var code=(e.keyCode ? e.keyCode : e.which); //兼容火狐 IE
+        if(this.value.indexOf(".")==-1){
+            return (code>=48&&code<=57)||(code==46);
+        }else{
+            return code>=48&&code<=57
+        }
+    });
+
+    $('#buy_bl').bind('change',function(){
+        var buy_bls = parseInt($("#buy_bl").val());
+        var buyprice=parseFloat($('#buy_price').val());
+		if(!buyprice){
+			layer.tips('{$Think.lang.Finance_txmrjg}','#buy_price',{tips : 3 });
+			$(this).val(0);
+		}
+        // 人民币数据，这里包含收益数据
+        var myrmb=parseFloat($("#my_rmb").html());
+        if(myrmb>0){
+            if(buy_bls == 0){
+                //买入比例为0
+                buynum = 0;
+                buymum = 0;
+            }else{
+				var buy_fee = parseFloat($("#buy_fee").val());
+				if(buy_bls==100){
+					if(buy_fee>0){
+						buynum = formatfloat(myrmb*(1-(buy_fee/100))/$('#buy_price').val(),market_round_num-1,0);
+					}else{
+						buynum = formatfloat(myrmb/$('#buy_price').val(),market_round_num-1,0);
+					}
+					buymum = myrmb;
+				}else{
+					if(buy_fee>0){
+						buynum = ((myrmb*(1-(buy_fee/100))/100)*buy_bls)/buyprice;
+						buymum = (myrmb*(1-(buy_fee/100))/100)*buy_bls;
+					}else{
+						buynum = ((myrmb/100)*buy_bls)/buyprice;
+						buymum = (myrmb/100)*buy_bls;
+					}
+				}
+            }
+        }
+
+        if(buymum!=null&&buymum>0){
+            $('#buy_mum').val(buymum.toFixed(3));
+        }else{
+            $('#buy_mum').val('0.000');
+        }
+
+		if(buynum!=null&&buynum>0){
+			$("#buy_num").val(buynum.toFixed(market_round_num-1));
+		}else{
+			$("#buy_num").val("0.000");
+		}
+    });
+
+    $('#sell_bl').bind('change',function(){
+        var sell_bls = parseInt($("#sell_bl").val());
+        var sellprice=parseFloat($('#sell_price').val());
+		if(!sellprice){
+			layer.tips('{$Think.lang.Pinput_price}','#sell_price',{tips : 3 });
+			$(this).val(0);
+		}
+        var myxnb=parseFloat($("#my_xnb").html());
+        if(myxnb>0){
+            if(sell_bls == 0){
+                //买入比例为0
+                sellnum = 0;
+                sellmum = 0;
+            }else{
+                //买入比例为100
+                sellnum = (myxnb/100)*sell_bls;
+                sellmum = ((myxnb/100)*sell_bls)*sellprice;
+            }
+        }
+
+        if(sell_bls == '100'){
+            $('#sell_num').val(myxnb);
+        }else{
+			if(sellnum!=null&&sellnum>0){
+				$("#sell_num").val(sellnum.toFixed(market_round_num-1));
+			}else{
+				$("#sell_num").val("0.000");
+			}
+        }
+
+        if(sellmum!=null&&sellmum>0){
+            $('#sell_mum').val(sellmum.toFixed(4));
+        }else{
+            $('#sell_mum').val('0.0000');
+        }
+    });
+
+	function buyforbi(){
+		var b_nums = $('#buy_num').val();
+		if(b_nums.indexOf(".") != "-1"){
+			var barr = b_nums.split(".");
+			var xiaoshu = barr[1].length;
+			if(xiaoshu>market_round_num){
+				var org = barr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(barr[0]+"."+org);
+				$("#buy_num").val(xin);
+			}
+		}
+	 }
+	 function sellforbi(){
+		var s_nums = $("#sell_num").val();
+		if(s_nums.indexOf("." != "-1")){
+			var sarr = s_nums.split(".");
+			var xiaoshu = sarr[1].length;
+			if(xiaoshu>market_round_num){
+				var org = sarr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(sarr[0]+"."+org);
+				$("#sell_num").val(xin);
+			}
+		}
+	}
+	function buyforb(){
+		var b_nums = $('#buy_price').val();
+		if(b_nums.indexOf(".") != "-1"){
+			var barr = b_nums.split(".");
+			var xiaoshu = barr[1].length;
+			if(xiaoshu>market_round){
+				var org = barr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(barr[0]+"."+org);
+				$("#buy_price").val(xin);
+			}
+		}
+	 }
+	 function sellforb(){
+		var s_nums = $("#sell_price").val();
+		if(s_nums.indexOf("." != "-1")){
+			var sarr = s_nums.split(".");
+			var xiaoshu = sarr[1].length;
+			if(xiaoshu>market_round){
+				var org = sarr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(sarr[0]+"."+org);
+				$("#sell_price").val(xin);
+			}
+		}
+	}
+	function buymax(){
+		var myrmb = parseFloat($("#my_rmb").html());
+		var buy_fee = parseFloat($("#buy_fee").val());
+
+		if(buy_fee>0){
+			var bmax = formatfloat(myrmb*(1-(buy_fee/100))/$('#buy_price').val(),market_round_num-1,0);
+		}else{
+			var bmax = formatfloat(myrmb/$('#buy_price').val(),market_round_num-1,0);
+		}
+		$("#buy_max").val(bmax);
+	}
+</script>
+</body>
+</html>

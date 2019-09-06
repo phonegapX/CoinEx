@@ -1,0 +1,161 @@
+<include file="Public:header_new" />
+<div class="usernewout">
+    <div class="usncont">
+        <include file="User:left" />
+        <div class="usnc_right" style="background:none;">
+            <!-- <h1 style="text-indent:20px;background: #2d2c3c;">{$Think.lang.u_api_m}</h1> -->
+            <div class="recharge_list mt10" style="margin-top:0!important">
+                <h1 style="text-indent:20px;">{$Think.lang.u_creat_new_api}</h1>
+                <div class="box" style="margin: 0 20px;color: #c7cce6;padding: 10px 0;">
+                    {$Think.lang.u_beizhu}<br>
+                    <input type="text" placeholder="{$Think.lang.u_beizhu}" style="background-color: #1e2235;border: none;height: 40px;margin: 20px 0;border-radius: 5px;text-indent:10px;width:300px;color:#fff;"
+                        id="beizhu"><br>
+                        {$Think.lang.u_bind_ip_select}<br>
+                    <input type="text" placeholder="{$Think.lang.u_bind_ip_select}" style="background-color: #1e2235;border: none;height: 40px;margin: 20px 0;border-radius: 5px;text-indent:10px;width:300px;color:#fff;"
+                        id="ip">
+                    <div style="width:200px;height: 40px;line-height: 40px;text-align: center;background:#7a98f7;border-radius: 5px;margin:10px 0;cursor: pointer;"
+                        id="creat">{$Think.lang.u_creat}</div>
+                </div>
+            </div>
+            <div class="recharge_list mt10" style="margin-top: 20px;">
+                <h1 style="text-indent:20px;">{$Think.lang.u_api_m}</h1>
+                <table>
+                    <tr>
+
+                        <th width="250px">{$Think.lang.u_creat_time}</th>
+                        <th width="100px">{$Think.lang.u_beizhu}</th>
+                        <th width="150px">{$Think.lang.u_access_key}</th>
+                        <th width="350px">{$Think.lang.u_bind_ip}</th>
+                        <th width="200px">{$Think.lang.u_reset_day}</th>
+                        <!-- <th width="50px">{$Think.lang.u_status}</th> -->
+                        <th width="350px">{$Think.lang.sPublic_left_cz}</th>
+                    </tr>
+
+
+                <volist name="info" id="vo">
+                    <tr key_id="{$vo.id}">
+                        <td style="overflow: hidden;">{$vo.create_time}</td>
+                        <td style="overflow: hidden;">{$vo.remarks}</td>
+                        <td style="overflow: hidden;">{$vo.accesskey}</td>
+                        <td style="overflow: hidden;">{$vo.ip}</td>
+                        <td style="overflow: hidden;">90</td>
+                        <!-- <td style="overflow: hidden;">123456</td> -->
+                        <td id="delete_key" style="overflow: hidden;"><span style="display:inline-block;cursor: pointer;border:1px solid #7a98f7;color:#7a98f7;padding: 3px;">{$Think.lang.User_delete}</span></td>
+                    </tr>
+                </volist>
+
+
+                </table>
+                <div class="pages">{$page}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popBox" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#262a42;z-index: 1000;color:#fff;">
+    <div id="pop" style="padding:50px;position: relative;display:none;">
+        <div style="position: absolute;right: 30px;top:0;color:#fff;font-size: 30px;cursor: pointer;" id="close">×</div>
+        <h1 style="font-size: 20px;text-align: center;">{$Think.lang.u_creat_success}</h1>
+        <div class="box">
+            <div>
+                Access Key<br>
+                <div style="position: relative;">
+                    <input type="text" style="background-color: #1e2235;border: none;height: 40px;margin: 20px 0;border-radius: 5px;text-indent:10px;width:600px;color:#fff;"
+                        id="Access_Key">
+                    <span style="display:inline-block;position:absolute;right: 0px;top:32px;cursor: pointer;width:100px;border-left:1px solid #fff;text-align: center;"
+                        class="copyBtn" data-clipboard-action="copy" data-clipboard-target="#Access_Key">{$Think.lang.u_copy}</span>
+                </div>
+            </div>
+            <div>
+                Secret Key<br>
+                <div style="position: relative;">
+                    <input type="text" style="background-color: #1e2235;border: none;height: 40px;margin: 20px 0;border-radius: 5px;text-indent:10px;width:600px;color:#fff;"
+                        id="Secret_Key">
+                    <span style="display:inline-block;position:absolute;right: 0px;top:32px;cursor: pointer;width:100px;border-left:1px solid #fff;text-align: center;"
+                        class="copy_btn" data-clipboard-action="copy" data-clipboard-target="#Secret_Key" >{$Think.lang.u_copy}</span>
+                </div>
+            </div>
+            <div>
+                {$Think.lang.u_bind_ip}<br>
+                <div><input type="text" placeholder="{$Think.lang.u_bind_ip}" style="background-color: #1e2235;border: none;height: 40px;margin: 20px 0;border-radius: 5px;text-indent:10px;width:600px;color:#fff;"
+                        id="bind_ip"></div>
+            </div>
+            <div style="width:600px;height: 40px;line-height: 40px;text-align: center;background:#7a98f7;border-radius: 5px;margin-top:20px;cursor: pointer;"
+                id="sure">{$Think.lang.u_sure}</div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="__PUBLIC__/Home/js/clipboard.js"></script>
+<script>
+    $('#creat').click(function () {
+        if ($('#beizhu').val() == '') {
+            layer.msg('{$Think.lang.u_input_beizhu}');
+            return;
+        } else {
+            var ip = $('#ip').val();
+            $.ajax({
+                url: '/Ajax/getkey',
+                type: 'post',
+                data: {
+                    'remarks': $('#beizhu').val(),
+                    'ip': ip
+                },
+                success: function (data) {
+                    var formData = JSON.parse(data);
+                    $('#beizhu').val('');
+                    $('#ip').val('');
+                    $('#pop').show();
+                    $('#Access_Key').val(formData.AccessKey);
+                    $('#Secret_Key').val(formData.SecretKey);
+                    $('#bind_ip').val(ip);
+                }
+            })
+        }
+
+    })
+    $('#close,#sure').click(function () {
+        $('#pop').hide();
+    })
+    $('#user_api').addClass('on');
+    $("#type-selectTest,#market-selectTest").change(function () {
+        var type = $("#type-selectTest option:selected").val();
+        var market = $("#market-selectTest option:selected").val();
+        window.location = '/Finance/mycj/type/' + type + '/market/' + market + '.html';
+    });
+
+    //copy
+    var clipboard1 = new Clipboard('.copyBtn');
+    clipboard1.on('success', function (e) {
+        layer.msg('{$Think.lang.u_copy_success}');
+    });
+
+    clipboard1.on('error', function (e) {
+        layer.msg('{$Think.lang.u_copy_success}');
+    });
+    var clipboard2 = new Clipboard('.copy_btn');
+    clipboard2.on('success', function (e) {
+        layer.msg('{$Think.lang.u_copy_success}');
+    });
+
+    clipboard2.on('error', function (e) {
+        layer.msg('{$Think.lang.u_copy_success}');
+    });
+
+    $(function(){
+
+             //删除key按钮被点击
+            $('td[id=delete_key]').click(function(obj){
+
+                key_id = $(this).parent().attr('key_id');
+
+                $.post('/Ajax/deleteKey',{id:key_id},function(result){
+                    history.go(0);
+                },'json');
+
+                
+          })
+
+
+    })
+</script>
+<include file="Public:footer_new" />

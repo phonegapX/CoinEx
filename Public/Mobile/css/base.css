@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+/************************css reset start*****************************/
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,lengend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,select,textarea{font:12px/1 "微软雅黑","Microsoft Yahei","\5b8b\4f53",Tahoma,Helvetica,Arial,sans-serif;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+address,cite,dfn,em,var{font-style:normal;}
+code,kbd,pre,samp,tt{font-family:"Courier New",Courier,monospace;}
+small{font-size:12px;}
+ul,ol,li{list-style:none;}
+a{text-decoration:none;}
+abbr[title],acronym[title]{border-bottom:1px dotted;cursor:help;}
+q:before,q:after{content:'';}
+legend{color:#000;}
+fieldset,img{border:0 none;height:auto}
+button,input,select,textarea{font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+hr{height:1px;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%;border:none;outline:none;}
+
+/************************css reset end*****************************/
+
+/******************************************************************/
+html{font-size:62.5%;    /*10 ÷ 16 × 100% = 62.5%*/}
+body{font-size:1.4rem;    /*1.4 × 10px = 14px */}
+h1{font-size:2.4rem;    /*2.4 × 10px = 24px*/}
+h2{font-size:2.4rem;font-weight:normal;}
+h3{font-size:1.8rem;font-weight:normal;}
+h4{font-size:1.6rem;font-weight:normal;}
+h5{font-size:1.4rem;font-weight:normal;}
+
+/******************************************************************/
+
+/************************common start******************************/
+.clearfix:after{content:".";display:block;height:0;visibility:hidden;clear:both;}
+.clearfix{*zoom:1;}
+.clear{clear:both;display:block;}
+.fl{float:left;}
+.fr{float:right!important;}
+::-moz-selection{background-color:#da251d;color:#fff;text-shadow:none;}
+::selection{background-color:#da251d;color:#fff;text-shadow:none;}
+.nml{margin-left:0!important;}
+.nmr{margin-right:0!important;}
+.nmt{margin-top:0!important;}
+.nmb{margin-bottom:0!important;}
+.mt10{margin-top:10px!important;}
+.mt20{margin-top:20px!important;}
+.mb20{margin-bottom:20px!important;}
+.mb10{margin-bottom:10px!important;}
+.ml20{margin-left:20px!important;}
+.mr20{margin-right:20px!important;}
+.nbor{border-right:none!important;}
+.nbot{border-top:none!important;}
+.nbob{border-bottom:none!important;}
+.mr0{margin-right:0px!important;}
+.pd10{padding-top:10px;}
+
+/************************common   end******************************/
+
+/************************layout start******************************/
+#container{clear:both;width:100%;margin:0 auto;position:relative;min-height:500px;padding-bottom:65px;}
+
+/************************layout   end******************************/
+
+/***************************手机****************************************/
+html{font-size:18px;}
+@media only screen and (min-width:401px){
+    html{font-size:20px!important;}
+}
+@media only screen and (min-width:428px){
+    html{font-size:22px!important;}
+}
+@media only screen and (min-width:481px){
+    html{font-size:24px!important;}
+}
+@media only screen and (min-width:569px){
+    html{font-size:28px!important;}
+}
+@media only screen and (min-width:641px){
+    html{font-size:30px!important;}
+}

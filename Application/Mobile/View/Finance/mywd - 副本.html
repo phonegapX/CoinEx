@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_wdtj}<!-- 我的推荐 -->
+        </div>
+        <div class="chgbox">
+            <ul>
+
+                <li>
+                    <table class="chglist_bot">
+                        <tr>
+                            <th width="48%">{$Think.lang.Fenhong_uname}<!-- 用户名 --></th>
+                            <th width="30%">{$Think.lang.Fenhong_regtime}<!-- 注册时间 --></th>
+                            <th>{$Think.lang.sFinance_myzr_zt}<!-- 状态 --></th>
+                        </tr>
+                    <volist name="list" id="v">
+                        <tr>
+                            <td style="text-align: center;width:48%;">{$v.username}{$v.usermoble}</td>
+                            <td style="text-align: center;width:30%;">{$v.addtime|addtime}</td>
+                            <td>
+							<if condition="$v['status'] eq 1">
+								{$Think.lang.User_success}<!-- 正常 -->
+							<else />
+								{$Think.lang.g_tj_fb}<!-- 禁止 -->
+							</if>
+							</td>
+                            <td>
+                                <span class="chattrigger" data="1" id="{$v['id']}" style="margin-top: -5px;">
+                                        <img src="__PUBLIC__/images/downdown.png" style="margin-left: 3px;" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="lx{$v['id']}" colspan="4">
+                             <table>
+                             </table>
+                            </td>
+                        </tr>
+                    </volist>
+                    </table>
+                </li>
+
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+<script>
+
+$(document).ready(function(){
+        //打开合上
+        $(".chattrigger").click(function(){
+
+            var data = $(this).attr("data");
+            if(data==1){
+
+                $(this).children("img:nth-child(1)").attr("src","/Public/images/upup.png");
+                $(this).attr("data","2");
+                var id = $(this).attr("id");
+                $.getJSON("/Ajax/gettulist?tuid="+id+"&status="+status+"&t="+Math.random(),function(datas){
+                    if(datas){
+                        var chatcontent="";
+                        for(var i=0;i<datas.length;i++){
+                            ttid=datas[i].id;
+                            chatcontent += '<tr><td width="48%">'+datas[i].username+'</td><td>'+datas[i].time+'</td><td width="30%">'+datas[i].status+'</td>'+"<td><span  onclick='javascript:three(this);'  class='chattriggers' data='1' id='"+ttid+"' style='margin-left: 5px;'><img src='__PUBLIC__/images/downdown.png' style='margin-left: 3px;' /></span></td>"+'</tr>'+"<tr id='lx2"+ttid+"'></tr>";
+                        }
+                        // for(var i=0;i<datas.length;i++){
+                        //     ttid=datas[i].id;
+                        //     chatcontent += '<tr><td>'+datas[i].username+'</td><td>'+datas[i].time+'</td><td>'+datas[i].status+'<span  onclick='javascript:three(this);'  class='chattriggers' data='1' id='"+ttid+"' style='margin-left: 5px;'><img src='__PUBLIC__/images/downdown.png' style='margin-left: 3px;' /></span></td>'+'</tr>'+"<tr colspan='3' id='lx2"+ttid+"'></tr>";
+                        // }
+
+                        $("#lx"+id).html(chatcontent);
+                    }
+                });
+
+
+            }
+            if(data==2){
+                $(this).children("img:nth-child(1)").attr("src","/Public/images/downdown.png");
+                $(this).attr("data","1");
+                var id = $(this).attr("id");
+                $("#lx"+id).html('');
+
+            }
+        });
+
+
+
+    });
+function three(obj){
+        var data = $(obj).attr("data");
+
+            if(data==1){
+
+               $(obj).children("img:nth-child(1)").attr("src","/Public/images/upup.png");
+               $(obj).attr("data","2");
+                var id =$(obj).attr("id");
+                $.getJSON("/Ajax/gettulist?tuid="+id+"&status="+status+"&t="+Math.random(),function(datas){
+                    if(datas){
+                        var chatcontent="";
+                        for(var i=0;i<datas.length;i++){
+                            ttid=datas[i].id;
+                            chatcontent += '<tr><td>'+datas[i].username+'</td><td>'+datas[i].time+'</td><td>'+datas[i].status+'</td>';
+                        }
+
+                        $("#lx2"+id).html(chatcontent);
+                    }
+                });
+
+
+            }
+            if(data==2){
+               $(obj).children("img:nth-child(1)").attr("src","/Public/images/downdown.png");
+               $(obj).attr("data","1");
+                var id = $(obj).attr("id");
+                $("#lx2"+id).html('');
+
+            }
+}
+
+</script>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

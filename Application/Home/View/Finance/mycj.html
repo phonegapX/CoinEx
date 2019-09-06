@@ -1,0 +1,91 @@
+<include file="Public:header_new"/>
+<script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+<div class="usncont">
+	<!--左侧导航开始-->
+	<include file="Public:left" />
+	<!--左侧导航结束-->
+	<div class="usnc_right">
+		<div class="topinfo">
+			<ul>
+			<volist name="market_list" id="vo">
+				<if condition="$vo['name'] eq $market">
+					<li class="selected" style="width:150px;">
+						<a href="/Finance/mycj/market/{$vo['name']}">{$vo['name']|convmarket}{$Think.lang.sFinance_mycj_zjls}</a>
+					</li>
+				<else />
+					<li style="width:150px;">
+						<a href="/Finance/mycj/market/{$vo['name']}">{$vo['name']|convmarket}{$Think.lang.sFinance_mycj_zjls}</a>
+					</li>
+				</if>
+			</volist>
+			</ul>
+		</div>
+		<div class="botinfo">
+			<form action="" method="get">
+				<div class="selecttype">
+					<div class="title">{$Think.lang.sFinance_mycj_lx}{$Think.lang.sTrade_index_cnmh}</div>
+					<select name="type" class="paysel">
+						<option value="">{$Think.lang.sFinance_mycj_qb}</option>
+						<option value="1" <if condition="!empty($_GET['type']) && $_GET['type'] eq 1">selected='selected'</if>>{$Think.lang.sTrade_index_mr}</option>
+						<option value="2" <if condition="!empty($_GET['type']) && $_GET['type'] eq 2">selected='selected'</if>>{$Think.lang.sTrade_index_mc}</option>
+					</select>
+				</div>
+				<div class="search">
+					<input type="submit" value="{$Think.lang.sFinance_mycj_cx}" />
+				</div>
+				<div class="selecttime">
+					<div class="title">{$Think.lang.sFinance_mycj_sj}{$Think.lang.sTrade_index_cnmh}</div>
+					<input type="text" class="shaixuantime" name="starttime" value="{$starttime}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_kssj}" />
+					<input type="text" class="shaixuantime" name="endtime" value="{$endtime}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_jssj}" />
+				</div>
+			</form>
+		</div>
+		<div class="recharge_list nmt">
+			<table>
+				<tr>
+					<th width="140px">{$Think.lang.sFinance_mycj_bzmc}</th>
+					<th width="120px">{$Think.lang.sTrade_index_cjsj}</th>
+					<th width="80px" class="last">
+					   {$Think.lang.sFinance_mycj_lx}
+					</th>
+					<th width="140px">{$Think.lang.sTrade_index_cjjg}</th>
+					<th width="140px">{$Think.lang.sFinance_mycj_cjsl}</th>
+					<th>{$Think.lang.sFinance_mycj_zje}</th>
+					<th width="110px" class="last">
+						{$Think.lang.sTrade_index_sxf}
+					</th>
+				</tr>
+				<volist name="list" id="vo">
+				  <tr>
+				   <td>
+					<if condition="LANG_SET eq 'en-us'">
+						{$coin_list[$market_list[$vo['market']]['xnb']]['js_yw']}
+					<else/>
+						{$coin_list[$market_list[$vo['market']]['xnb']]['title']}
+					</if>
+				   ({$market_list[$vo['market']]['xnb']|strtoupper}/{$market_list[$vo['market']]['rmb']|strtoupper})</td>
+				   <td>{$vo.addtime|date='m-d H:i:s',###}</td>
+				   <td><eq name="vo['userid']" value="$vo['peerid']"> <font class="buy">{$Think.lang.sFinance_mycj_zmr}</font><font class="sell">{$Think.lang.sFinance_mycj_zm}</font> <else /> <if condition="($vo['userid'] eq $userid) AND ($vo['type'] eq 1)"> <font class="buy">{$Think.lang.sTrade_index_mr}</font> </if> <if condition="($vo['userid'] eq $userid) AND ($vo['type'] eq 2)"> <font class="buy">{$Think.lang.sTrade_index_mr}</font> </if> <if condition="($vo['peerid'] eq $userid) AND ($vo['type'] eq 1)"> <font class="sell">{$Think.lang.sTrade_index_mc}</font> </if> <if condition="($vo['peerid'] eq $userid) AND ($vo['type'] eq 2)"> <font class="sell">{$Think.lang.sTrade_index_mc}</font> </if> </eq></td>
+				   <td>{$vo['price']}<!-- /￥{$vo['price_rmb']}/${$vo['price_usd']} --></td>
+				   <td>{$vo['num']}</td>
+				   <td>{$vo['mum']}<!-- /￥{$vo['mum_rmb']}/${$vo['mum_usd']} --></td>
+				   <td><eq name="vo['userid']" value="$vo['peerid']">
+					{$Think.lang.sTrade_index_mc}{$vo['fee_sell']}<br/>{$Think.lang.sTrade_index_mr}{$vo['fee_buy']}
+					<else />
+					<if condition="($vo['userid'] eq $userid)"> {$vo['fee_buy']} <else /> {$vo['fee_sell']} </if></eq></td>
+				  </tr>
+			  </volist>
+			</table>
+			<div class="pages">{$page}</div>
+		</div>
+	</div>
+</div>
+<script>
+    $("#type-selectTest,#market-selectTest").change(function(){
+        var type=$("#type-selectTest option:selected").val();
+        var market=$("#market-selectTest option:selected").val();
+        window.location='/Finance/mycj/type/'+type+'/market/'+market+'.html';
+    });
+</script>
+</div>
+<include file="Public:footer_new"/>

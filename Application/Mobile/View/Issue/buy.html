@@ -1,0 +1,194 @@
+<include file="Public:header"/>
+<script src="__PUBLIC__/Home/js/datepicker.min.js"></script>
+<div class="autobox">
+    <div class="now">
+        <a href="/" class="orange">首页</a> &gt; <a href="/Issue/index" class="orange">应用中心</a> &gt; 认购中心
+    </div>
+    <div class="assets_center clear po_re zin70">
+        <!--左侧菜单-->
+        <include file="Game:left"/>
+        <!--右侧内容-->
+        <div class="assets_content w900 right bg_w">
+            <div class="safe_center clear" style="padding-left: 0px; border-bottom: 2px solid #e55600;">
+                <h1 style="margin-top: 0px; margin-bottom: 15px; line-height: 15px;">认购中心</h1>
+            </div>
+            <div class="sj" style="top: 40px; left: 60px;"></div>
+
+            <notempty name="prompt_text">
+                <div class="mytips">
+                    <h6 style="color: #ff8000;">温馨提示</h6>
+                    {$prompt_text}
+                </div>
+            </notempty>
+            <br>
+            <div class="cnyin_record" style="    width: 918px;">
+                <div class="fund">
+                    <div class="fund_txt">
+
+
+                            <img src="__UPLOAD__/coin/{$issue['img']}" style="width: 24px;padding: 17px 5px 0px 0px;float: left;">
+
+
+
+                        <font style="font-size: 18px;">{$issue['name']}</font>
+
+                        <p class="fund_rt"><a href="{:U('Issue/index')}">返回认购中心</a></p>
+                    </div>
+                    <style type="text/css">
+                    .fund_inf ul li{float: left;width: 120px;color: #666666;line-height: 50px;}
+                    </style>
+                    <div class="fund_inf">
+                        <ul>
+                            <li>
+                                <p class="f14">发行价格<em></em></p>
+
+                                <p class="f30 c_orange">{$issue['price']*1}</p>
+                            </li>
+                            <li>
+                                <p class="f14">发行数量<em></em></p>
+
+                                <p class="f30 fff6d00">{$issue['num']*1}</p>
+                            </li>
+                            <li>
+                                <p class="f14">已认购<em></em></p>
+
+                                <p class="f30 fff6d00">{$issue['deal']*1}</p>
+                            </li>
+                            <li>
+                                <p class="f14">限购<em></em></p>
+
+                                <p class="f18">{$issue['limit']*1}</p>
+                            </li>
+                            <li>
+                                <p class="f14">单次最低<em></em></p>
+
+                                <p class="f30 fff6d00">{$issue['min']*1}</p>
+                            </li>
+                            <li>
+                                <p class="f14">单次最高<em></em></p>
+
+                                <p class="f30 fff6d00">{$issue['max']*1}</p>
+                            </li>
+                            <li style="width: 136px;">
+                                <p class="f14">开启时间<em></em></p>
+
+                                <p class="f18">{$issue['time']}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="productInfoWrap">
+                        <div class="proinwrap_lt">
+                            <ul>
+                                <li>认购币种：<i class="risk-icon"></i> {$issue['coinname']}</li>
+                                <li>解冻次数：<i class="risk-icon"></i> {$issue['ci']}次</li>
+                                <li>解冻间隔：<i class="f24 fff6d00">{$issue['jian']}</i>小时</li>
+                            </ul>
+                            <div class="proInvestment" style="width: 400px;">
+                                <p><i>认购进度:</i><em class="fff6d00">{$issue['bili']}%</em></p>
+
+                                <div class="p_bar"><span style="width:{$issue['bili']}%"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="proinwrap_rt">
+                            <ul>
+                                <li><span>账号余额：</span><h4 class="details1mar8">{$user_coin[$issue['buycoin']]*1}</h4>
+                                    {$issue['buycoin']|strtoupper}
+                                </li>
+                                <li><span>认购数量：</span> <input type="text" class="cztxinput" id="num" value=""></li>
+                                <li><span>交易密码：</span>
+                                    <input type="password" class="cztxinput" id="paypassword" value=""></li>
+                                <li><a href="javascript:void(0);" onclick="Update()">立即认购</a></li>
+                            </ul>
+                        </div> -->
+                        <div class="proinwrap_rt">
+                            <style>
+                                #ulnew li{margin-top: 15px;}
+                            </style>
+                            <ul id="ulnew">
+                                <li>
+                                    <span>人民币余额：</span>
+                                    <h4 class="details1mar8">{$user_coin[$issue['buycoin']]*1 - $user_coin['shouyi_num']*1}</h4>
+                                    {$issue['buycoin']|strtoupper}
+                                </li>
+                                <li>
+                                    <span>收益余额：</span>
+                                    <h4 class="details1mar8">{$user_coin['shouyi_num']*1}</h4>
+                                    {$issue['buycoin']|strtoupper}
+                                </li>
+                                <li><span>认购数量：</span> <input type="text" class="cztxinput" id="num" value=""></li>
+                                <li><span>交易密码：</span>
+                                    <input type="password" class="cztxinput" id="paypassword" value=""></li>
+                                <li><a href="javascript:void(0);" onclick="Update()">立即认购</a></li>
+                                <li style="color:red">
+                                    <label for="check_s">
+                                        <input type="checkbox" name="check_s[]" id="check_s" value="yes">勾选此款，优先选择扣除收益账户
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="slideTxtBox">
+                        <div class="slideHd">
+                            <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                            <ul class="active">
+                                <li class="on">详细介绍</li>
+                            </ul>
+                        </div>
+                        <div class="slideBd">
+                            <!-- 项目详情 S-->
+                            <div class="slideBdItem" style="display: block;">
+                                <div class="major">
+                                    <div class="major_info">
+                                        {$issue['content']|htmlspecialchars_decode}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<script>
+    function Update() {
+        var id = "{$issue['id']}";
+        var num = $('#num').val();
+        var paypassword = $('#paypassword').val();
+        if($('#check_s').is(':checked')){
+            var check_s = 'yes';
+        }else{
+            var check_s = 'no';
+        }
+
+        if (num == "" || num == null) {
+            layer.tips('请输入认购数量', '#num', {tips: 3});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#paypassword', {tips: 3});
+            return false;
+        }
+        $.post("{:U('Issue/upbuy')}", {id: id, num: num, paypassword: paypassword, check_s: check_s}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Issue/log')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+<script>
+    //菜单高亮
+    $('#game_box').addClass('active');
+    $('#game_issue').addClass('active');
+    $('#game_issue i').attr('class', 'coin_menu_op_11');
+</script>
+<include file="Public:footer"/>

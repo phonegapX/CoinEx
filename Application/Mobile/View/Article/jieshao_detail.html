@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="graybg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$data_s['title']}详情页
+        </div>
+        <div class="nwdtsbox">
+            <div class="nwtop">
+                <h3 style="line-height: 22px;">{$data.title}</h3>
+                <p class="time">发布时间：{$data.addtime|date="Y-m-d H:i:s",###}</p>
+                <p class="time">发布人：{:C('web_title')}</p>
+            </div>
+            <div class="nwbot">
+                 {$data['content']}
+            </div>
+
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

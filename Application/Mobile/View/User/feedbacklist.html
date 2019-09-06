@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="/User/index.html"></a></span>
+            我的工单
+        </div>
+        <div class="chgbox">
+			<ul>
+				<empty name="list">
+					<li>
+						<div class="chglist_top" style="text-align: center;">
+							<span class="state wait" style="float: none;color:#B7B6B6">
+								暂无数据
+							</span>
+						</div>
+					</li>
+				<else />
+					<volist name="list" id="vo">
+					<li>
+						<div class="chglist_top">
+							<span><a href="/User/feedbackdetail.html?id={$vo['id']}" style="color:#e55600;">{$vo['title']}</a></span>
+							<span style="float:right;">{$vo['status']}</span>
+						</div>
+						<table class="chglist_bot">
+							<tr>
+								<th>类型</th>
+								<th>提交时间</th>
+								<th>更新时间</th>
+							</tr>
+							<tr>
+								<td>{$vo['subject']}</td>
+								<td>{$vo['addtime']}</td>
+								<td>{$vo['freshtime']}</td>
+							</tr>
+						</table>
+					</li>
+					</volist>
+				</empty>
+			</ul>
+			<div class="pages">{$page}</div>
+		</div>
+		<button type="button" class="addbankbut" value="" onclick="Update()" id="btn"><img src="__PUBLIC__/Mobile/images/addbank.png">提交工单</button>
+	</div>
+<include file="Public:footer" />
+<script>
+    function Update() {
+        window.location = '/User/feedback';
+    }
+</script>
+</body>
+</html>

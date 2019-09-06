@@ -1,0 +1,225 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">资金变更日志</span>
+		</div>
+		<div>
+			<div class="cf">
+
+				<div class="fl">
+					<button class="btn btn-warning" onClick="location.href='{:U('User/amountlog')}'">初始化搜索</button>
+				</div>
+				<div class="fl" style="margin-left:40px;">
+					<a href="{:U('User/tradePrize')}" class="btn btn-warning">交易奖金记录</a>
+				</div>
+
+				<div class="search-form fr cf" style="padding-top: 43px;float: none !important;">
+					<div class="sleft">
+						<form name="formSearch" id="formSearch" method="get" name="form1">
+
+
+							<!-- 类型 -->
+
+							<select style="width: 80px; float: left; margin-right: 10px;" name="position" class="form-control">
+								<option value="all"
+								<eq name="Think.get.position" value="all">selected</eq>
+								>位置</option>
+								<option value="hou"
+								<eq name="Think.get.position" value="hou">selected</eq>
+								>后台</option>
+								<option value="qian"
+								<eq name="Think.get.position" value="qian">selected</eq>
+								>前台</option>
+							</select>
+
+
+							<!-- 类型 -->
+
+							<select style="width: 80px; float: left; margin-right: 10px;" name="plusminus" class="form-control">
+								<option value="all"
+								<eq name="Think.get.plusminus" value="all">selected</eq>
+								>加/减</option>
+								<option value="jia"
+								<eq name="Think.get.plusminus" value="jia">selected</eq>
+								>增加</option>
+								<option value="jian"
+								<eq name="Think.get.plusminus" value="jian">selected</eq>
+								>减少</option>
+							</select>
+
+							<!-- 全部资金类型 -->
+
+							<select style="width: 120px; float: left; margin-right: 10px;" name="cointype" class="form-control">
+								<option value=""
+								<empty name="Think.get.cointype">selected</empty>
+								>全部资金</option>
+								<option value="1"
+								<eq name="Think.get.cointype" value="1">selected</eq>
+								>人民币</option>
+								<option value="51"
+								<eq name="Think.get.cointype" value="51">selected</eq>
+								>比特币</option>
+								<option value="52"
+								<eq name="Think.get.cointype" value="52">selected</eq>
+								>以太坊</option>
+								<option value="53"
+								<eq name="Think.get.cointype" value="53">selected</eq>
+								>公牛币</option>
+								<option value="3"
+								<eq name="Think.get.cointype" value="3">selected</eq>
+								>其他</option>
+							</select>
+
+							<!-- 全部动作 -->
+
+							<select style="width: 160px; float: left; margin-right: 10px;" name="optype" class="form-control">
+								<option value=""
+								<empty name="Think.get.optype">selected</empty>
+								>全部动作</option>
+
+								<volist name="opstype" id="vo" key="num">
+									<option value="{$num}"
+									<eq name="Think.get.optype" value="$num">selected</eq>
+									>{$vo}</option>
+								</volist>
+
+							</select>
+
+							<!-- 时间筛选 -->
+	                        <script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+	                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="starttime" value="{:I('get.starttime')}" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+	                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="endtime" value="{:I('get.endtime')}" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+
+
+							<select style=" width: 100px; float: left; margin-right: 10px;" name="field" class="form-control">
+								<option value="username"
+								<eq name="Think.get.field" value="username">selected</eq>
+								>用户名</option>
+								<option value="adminname"
+								<eq name="Think.get.field" value="adminname">selected</eq>
+								>操作者</option>
+							</select>
+							<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+							<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+						</form>
+						<script>
+							//搜索功能
+							$(function () {
+								$('#search').click(function () {
+									$('#formSearch').submit();
+								});
+							});
+							//回车搜索
+							$(".search-input").keyup(function (e) {
+								if (e.keyCode === 13) {
+									$("#search").click();
+									return false;
+								}
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="data-table table-striped">
+			<table class="">
+				<thead>
+				<tr>
+					<th class="row-selected row-selected"></th>
+					<th class="">ID</th>
+					<th class="">用户名</th>
+					
+					<th class="">操作位置</th>
+
+					<th class="">资金类型</th>
+					<th class="">动作</th>
+					<th class="">改前数据</th>
+					<th class="">类型</th>
+					<th class="">操作数据</th>
+					<th class="">改后数据</th>
+
+					<!-- <th class="">备注信息</th> -->
+					<th class="">操作ip</th>
+
+					<th class="">操作时间</th>
+					<th class="">操作者</th>
+				</tr>
+				</thead>
+				<tbody>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<tr>
+							<td></td>
+							<td>{$vo.id}</td>
+							<td>{$vo['username']}</td>
+							
+							<td>{$vo.position}</td>
+
+							<td>{$vo.cointype}</td>
+							<td>{$vo.optype}</td>
+							<td>{$vo.old_amount}</td>
+							<td>{$vo.plusminus}</td>
+							<td>{$vo.amount}</td>
+							<td>{$vo.new_amount}</td>
+
+							
+							<td>{$vo.addip}</td>
+
+							<td>{$vo.addtime|addtime}</td>
+							<td>{$vo.adminname}</td>
+						</tr>
+					</volist>
+					<else/>
+					<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+				</notempty>
+				</tbody>
+			</table>
+			<div class="page">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(".page > div").children("a").each(function(){
+	var ahref = $(this).attr('href');
+	var ahrefarr = ahref.split("/");
+	var ahlength = ahrefarr.length;
+	if(ahrefarr[ahlength-2]=="p"){
+		var jiewei = ahrefarr[ahlength-1].split(".");
+		var page = jiewei[0];
+	}
+	ahrefarr.splice(ahlength-2,2);
+	var newhref = "";
+	for(var i=0;i<ahrefarr.length;i++){
+		if(i>0 && i<3){
+			newhref = newhref + "/" + ahrefarr[i];
+		}
+		if(i==3){
+			newhref = newhref + "/" + ahrefarr[i] + ".html?";
+		}
+		if(i>=4){
+			if(i%2==0){
+				newhref = newhref + "&" + ahrefarr[i];
+			}else{
+				newhref = newhref + "=" + ahrefarr[i];
+			}
+		}
+	}
+	newhref = newhref+"&p="+page;
+	$(this).attr("href",newhref);
+});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('User/amountlog')}");
+	</script>
+</block>

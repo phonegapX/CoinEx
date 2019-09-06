@@ -1,0 +1,152 @@
+<include file="Public:header_new"/>
+<style>
+     ::-ms-clear,::-ms-reveal{display:none;}
+            .container {
+  width:100%;
+  height:100%;
+  margin:auto;
+}
+.leftsidebar_box {
+  width:300px;
+  overflow:visible !important;
+  position:absolute;
+  min-height:500px;
+}
+.line {
+  height:2px;
+  width:100%;
+}
+.leftsidebar_box dt{
+  width: 290px;
+  text-indent: 20px;
+  color:#4A596B;
+  font-size:16px;
+  line-height:36px;
+  cursor:pointer;
+  font-weight: bold;
+}
+.leftsidebar_box dd a {
+  display: inline-block;
+  color:#99A6BF;
+  line-height:34px;
+  font-size: 14px;
+  text-indent: 40px;
+}
+.leftsidebar_box dl dd:last-child {
+  padding-bottom:10px;
+}
+.fl_container{width:1200px;margin:0 auto;height:60px;color:#99a6bf;}
+.fl_container a{display: inline-block;line-height: 60px;font-size: 14px;}
+.newmain{width:1200px;height:auto;overflow:hidden;margin:10px auto 50px;}
+.newmain .nwmleft .textcenter{text-align:left;}
+.newmain .nwmleft{width:700px;height:auto;overflow:hidden;float:right;padding:45px 80px;color:#666;font-size: 14px;background: #2d2c3c;box-shadow: 0 2px 8px 0 rgba(0,0,0,0.16);min-height:750px;}
+.newmain .nwmleft h2{color:#99a6bf;font-size: 22px;border-bottom: 1px solid #384157;line-height:35px;margin-bottom: 15px;padding-bottom: 10px;}
+.newmain .nwmleft .nwdtsbox{font-size:16px;color:#777;line-height:25px;margin-top:10px;}
+.newmain .nwmleft .nwdtsbox p{margin:10px 0;color:#7b8a9d;font-size: 14px;line-height: 20px;}
+.newmain .nwmleft .nwdtsbox img{max-width:100%;text-indent: 20px;}
+.newmain .nwmleft .nwlist li{width:830px;height:157px;padding:0 20px;margin-bottom:10px;background:#f6f6f6;overflow:hidden;}
+.newmain .nwmleft .nwlist li h3{margin-top:15px;}
+.newmain .nwmleft .nwlist li h3 a{color:#666;}
+.newmain .nwmleft .nwlist li .time{font-size:14px;color:#ccc;margin-top:5px;}
+.newmain .nwmleft .nwlist li .desc{font-size:16px;color:#999;line-height:24px;margin-top:20px;}
+.newmain .nwmleft .nwlist li .desc a{color:#999;}
+.newmain .nwmleft .nwlist li:hover{background:#ff9900;}
+.newmain .nwmleft .nwlist li:hover *,.newmain .nwmleft .nwlist li:hover * a{color:#fff;}
+.newmain .nwmleft .morelist{transition:all 0.2s;display:block;width:160px;height:40px;border-radius:5px;margin:0 auto;margin-top:40px;background:#f6f6f6;font-size:16px;color:#999;text-align:center;line-height:40px;}
+.newmain .nwmleft .morelist a{color:#999;display:block;width:100%;height:100%;}
+.newmain .nwmleft .morelist:hover{opacity:0.8;transition:all 0.2s;}
+.newmain .nwmright{width:298px;height:auto;overflow:hidden;float:left;min-height:500px;padding-bottom:150px;}
+.newmain .nwmright h3{height:60px;line-height:60px;border-bottom:1px solid #eee;color:#666;}
+.newmain .nwmright h3 img{vertical-align:middle;margin:0 10px 0 20px;}
+.newmain .nwmright .nwmenu li{width:100%;height:43px;border-bottom:1px solid #eee;line-height:43px;font-size:14px;}
+.newmain .nwmright .nwmenu li a{color:#666;display:block;width:100%;height:100%;}
+.newmain .nwmright .nwmenu li .img2{display:none;}
+.newmain .nwmright .nwmenu li .img3{display:none;}
+.newmain .nwmright .nwmenu li img{vertical-align:middle;width:20px;margin:0 10px 0 40px;}
+.newmain .nwmright .nwmenu li.semenu1:hover .img1{display:none;}
+.newmain .nwmright .nwmenu li.semenu1:hover .img2{display:none;}
+.newmain .nwmright .nwmenu li.semenu1:hover .img3{display:inline-block;*display:block;*zoom:1;}
+.newmain .nwmright .nwmenu li:hover,.newmain .nwmright .nwmenu li.on{background:#3c78c2;}
+.newmain .nwmright .nwmenu li:hover .img2,.newmain .nwmright .nwmenu li.on .img2{display:inline-block;}
+.newmain .nwmright .nwmenu li:hover .img1,.newmain .nwmright .nwmenu li.on .img1{display:none;}
+.newmain .nwmright .nwmenu li:hover a,.newmain .nwmright .nwmenu li.on a{color:#fff;}
+.newmain .nwmright .nwmenu .botmenu ul li{text-indent:75px;}
+</style>
+ <div class="fl_container">
+          <a href="/" style="color:#059FF5;">{$Think.lang.Fenhong_index}&nbsp;&nbsp;</a>&nbsp;/&nbsp;
+         <a href="{:U('Article/detail',array('type'=>$a_info['name']))}" style="color:#059FF5;">
+          <if condition="LANG_SET == 'en-us'">
+          {$a_info.title_en}
+          &nbsp;&nbsp;</a>/&nbsp;&nbsp;
+           <else/>
+           {$a_info.title}
+          &nbsp;&nbsp;</a>/&nbsp;&nbsp;
+           </if>
+           <if condition="LANG_SET == 'en-us'">
+           {$data.title_en}
+            <else/>
+           {$data.title}
+           </if>
+        </div>
+        <div class="newmain">
+            <div class="nwmleft">
+                <if condition="LANG_SET == 'en-us'">
+                <h2 class="textcenter">{$data.title_en}</h2>
+                <div class="nwdtsbox">
+                    {$data['content_en']}
+                </div>
+                <else/>
+                <h2 class="textcenter">{$data.title}</h2>
+                <div class="nwdtsbox">
+                    {$data['content']}
+                </div>
+                </if>
+            </div>
+            <div class="nwmright">
+             </div>
+                <div class="container">
+  <div class="leftsidebar_box">
+    <!-- <div style="position: relative;">
+    <span style="position: absolute;left:0;top:15px;"><img src="__PUBLIC__/Home/images/images/icon_search.png" alt="" style="width:20px;"></span>
+    <input type="search" style="display: inline-block;width:100%;border:0;border-bottom: 1px solid #dbdbdb;height:50px;text-indent: 30px;font-size: 14px;" placeholder="搜索"> onclick="changeImage()"
+    </div> -->
+
+    <volist name="ArticleTypeList" id="vo">
+        <dl class="system_log">
+        <if condition="LANG_SET == 'en-us'">
+         <dt>  {$vo.title_en} <span style="float: right;">></span></dt>
+        <else/>
+          <dt>  {$vo.title} <span style="float: right;">></span></dt>
+         </if>
+          <volist name="vo['child']" id="f">
+            <if condition="LANG_SET == 'en-us'">
+               <dd <eq name="data.type" value="$f['type']">style="display:block;"<else/>style="display:none;"</eq> > <a href="{:U('Article/detail',array('id'=>$f['id']))}"><eq name="data.id" value="$f['id']"><font style="    background: #059FF5;color: #EBEBEB;display:block;width:298px;line-height: 34px;text-indent: 40px;">{$f.title_en|msubstr=0,30,'utf-8'}</font><else/>{$f.title_en|msubstr=0,30,'utf-8'}</eq></a> </dd>
+            <else/>
+               <dd <eq name="data.type" value="$f['type']">style="display:block;"<else/>style="display:none;"</eq> > <a href="{:U('Article/detail',array('id'=>$f['id']))}"><eq name="data.id" value="$f['id']"><font style="    background: #059FF5;color: #EBEBEB;display:block;width:298px;line-height: 34px;text-indent: 40px;">{$f.title|msubstr=0,16,'utf-8'}</font><else/>{$f.title|msubstr=0,16,'utf-8'}</eq></a> </dd>
+            </if>
+          </volist>
+        </dl>
+    </volist>
+  </div>
+</div>
+</div>
+
+
+        <script>
+          var a_id = {$a_id};
+          //菜单高亮
+          $('#article_'+a_id).addClass('on');
+        </script>
+ <script>
+$(function() {
+    $(".leftsidebar_box dt").click(function() {
+        $(".leftsidebar_box dd").hide();
+        $(this).parent().find('dd').removeClass("menu_chioce");
+        $(".menu_chioce").slideUp();
+        $(this).parent().find('dd').slideToggle();
+        $(this).parent().find('dd').addClass("menu_chioce");
+    });
+})
+</script>
+
+<include file="Public:footer_new"/>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="108px" height="99px" viewBox="0 0 108 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>impression</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M78.6984848,81 L98.0026765,81 C100.20047,81 102,79.2078058 102,76.9970221 L102,4.00297786 C102,1.78620129 100.210337,1.49213975e-13 98.0026765,1.49213975e-13 L5.99732351,1.49213975e-13 C3.79952991,1.49213975e-13 2,1.79219423 2,4.00297786 L2,76.9970221 C2,79.2137987 3.78966269,81 5.99732351,81 L59.1005051,81 L68.8994949,90.7989899 L78.6984848,81 Z" id="path-1"></path>
+        <filter x="-6.0%" y="-4.4%" width="116.0%" height="117.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="2" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.27623981 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Combined-Shape">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            <path stroke="#E9ECEE" stroke-width="1" d="M68.8994949,90.0918831 L59.4540585,80.6464466 L59.3076118,80.5 L59.1005051,80.5 L5.99732351,80.5 C4.06377848,80.5 2.5,78.9356289 2.5,76.9970221 L2.5,4.00297786 C2.5,2.07177595 4.07223196,0.5 5.99732351,0.5 L98.0026765,0.5 C99.9362215,0.5 101.5,2.06437106 101.5,4.00297786 L101.5,76.9970221 C101.5,78.9282241 99.927768,80.5 98.0026765,80.5 L78.6984848,80.5 L78.491378,80.5 L78.3449314,80.6464466 L68.8994949,90.0918831 Z"></path>
+        </g>
+        <rect id="Rectangle-19-Copy-2" fill="#E9ECEE" x="2" y="40" width="100" height="1"></rect>
+    </g>
+</svg>

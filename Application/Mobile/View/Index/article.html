@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            帮助中心
+        </div>
+
+        <span class="layout">
+            <a href="{:U('Article/notice')}">官方公告</a>
+        </span>
+        <span class="layout">
+            <a href="{:U('Article/news')}">热门新闻</a>
+        </span>
+        <span class="layout">
+            <a href="{:U('Article/about_detail',array('id'=>11))}">交易指南</a>
+        </span>
+
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

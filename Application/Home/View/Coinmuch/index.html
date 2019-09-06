@@ -1,0 +1,34 @@
+<include file="Public:header"/>
+<style type="text/css">
+#tips{width:100%;height:30px;line-height:30px;text-align:center;font-size:16px;margin-top:20px;}
+#tips span{color:red;font-size:14px;}
+.assets_center .propg{width:100%;height:40px;line-height:40px;font-size:18px;text-align:center;margin-top:100px;}
+</style>
+<div class="autobox">
+    <div class="assets_center">
+		<div class="propg">{$Think.lang.sCoinmuch_cbjysy}</div>
+		<div id="tips"><span>5</span>{$Think.lang.sCoinmuch_mhzdfhsy}</div> 
+    </div>
+</div>
+<script type="text/javascript">
+var interval = 1000; 
+function ShowCountDown(time,divname) 
+{
+	var now = new Date(); 
+	var endDate = parseInt(time)+6000; 
+	var leftTime=endDate-now.getTime(); 
+	var leftsecond = parseInt(leftTime/1000); 
+	var day1=Math.floor(leftsecond/(60*60*24)); 
+	var hour=Math.floor((leftsecond-day1*24*60*60)/3600); 
+	var minute=Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+	var second=Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60);
+	if(second == 0){
+		window.location.href = "/";
+	}
+	var cc = document.getElementById(divname); 
+	cc.innerHTML = "<span>"+second+"</span>{$Think.lang.sCoinmuch_mhzdfhsy}"; 
+}
+var nowtime = new Date().getTime();
+window.setInterval(function(){ShowCountDown(nowtime,'tips');}, interval);
+</script> 
+<include file="Public:footer"/>

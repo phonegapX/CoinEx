@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/**************************拖拽进度条****************************************/
+.all_mask{width:100%;background:#000;opacity:0.6;filter:alpha(opacity=60);position:absolute;left:0;top:0;z-index:999;}
+.all_mask_loginbox{border-radius:4px;width:498px;border:1px solid #7f7f7f;position:absolute;left:50%;top:300px;margin-left:-250px;box-shadow:0 0 15px #7f7f7f;background:#fff;padding-top:10px;padding-bottom:32px;z-index:1000;}
+.login_title{height:30px;line-height:30px;font-size:18px;margin-bottom:19px;}
+.pl20{padding-left:20px;}
+.set_verify{padding-left:76px;padding-bottom:15px;}
+.save_verify{margin-top:21px;}
+.save_verify input{width:130px;height:35px;cursor:pointer;border-radius:3px;background:#e55600;color:#fff;border:none;}
+.mask_wrap_close{position:absolute;right:14px;top:12px;width:16px;height:16px;cursor:pointer;background:url(../../images/icon.png) no-repeat left -184px;}
+.set_verify li{height:40px;line-height:40px;font-size:14px;color:#7b8a9d;}
+.tpwd .text{width:190px;height:12px;border:1px solid #efefef;padding:10px 4px;line-height:12px;vertical-align:middle;}

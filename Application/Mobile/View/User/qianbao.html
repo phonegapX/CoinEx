@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<style type="text/css">
+    .layui-layer-btn a.layui-layer-btn0{background: #059ff5;}
+    .layui-layer-btn a.layui-layer-btn1{background: #ccc;}
+    .layui-layer-setwin .layui-layer-close1{width: 25px;height: 25px;background:url(__PUBLIC__/Home/news/images/closebut.png) center no-repeat!important;background-size: 16px!important; }
+    .layui-layer-setwin{right: 5px;top: 5px;}
+</style>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.User_qbdzgl}<!-- 钱包地址管理 -->
+        </div>
+        <div class="chgbox">
+            <ul>
+            <empty name="userQianbaoList">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6;font-weight: normal;">
+                            {$Think.lang.g_zudz}<!-- 暂无地址 -->
+                        </span>
+                    </div>
+                </li>
+            <else />
+				<div class="qbname">
+					<img src="{$coin_list[$userQianbaoList[0]['coinname']]['img']}">
+					<p><if condition="LANG_SET eq 'en-us'">{$coin_list[$userQianbaoList[0]['coinname']]['js_yw']}<else/>{$coin_list[$userQianbaoList[0]['coinname']]['title']}</if>({$userQianbaoList[0].coinname|strtoupper})</p>
+				</div>
+                <volist name="userQianbaoList" id="vo">
+                    <li>
+                        <table class="qbtable">
+                            <tr>
+                                <td colspan="2" class="bankid">
+                                    {$Think.lang.Finance_qb3}<!-- 钱包地址 -->&nbsp;&nbsp;<b>{$vo.addr}</b>
+                                    <span class="state wait">
+                                        <a class="cancel" href="javascript:void(0)" onclick="UpdateB({$vo['id']})" style="color:#059ff5;">{$Think.lang.User_delete}<!-- 删除 --></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                 <td colspan="2" style="padding-top: 10px;">
+                                    {$Think.lang.User_qbbs}<!-- 钱包标识 -->：{$vo.name}
+                                 </td>
+                            </tr>
+                            <tr>
+                                 <td colspan="2" style="padding-bottom: 10px;">
+                                    {$Think.lang.User_tjsj}<!-- 添加时间 -->：{$vo.addtime|addtime}
+                                 </td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <button type="button" class="addbankbut" value="{$Think.lang.sFinance_myzc_ljtj}" onclick="Update()"  id="btn" style="color:#059ff5;"><img src="__PUBLIC__/Mobile/images/addbank.png">{$Think.lang.sFinance_myzc_ljtj}</button>
+    </div>
+<include file="Public:footer" />
+<script>
+    $("#qianbao_type").change(function () {
+        var coin = $("#qianbao_type option:selected").val();
+        window.location = '/User/qianbao/coin/' + coin + '.html';
+    });
+
+    var coin = "{$xnb}";
+
+    $('#dialogBoxShadow').height($(document).height());
+    function closeAddress() {
+        $("#withdrawCnyAddress").hide();
+        $("#dialogBoxShadow").hide();
+    }
+    function showA() {
+        $("#withdrawCnyAddress").show();
+        $("#dialogBoxShadow").show();
+    }
+    function Update() {
+        window.location = '/User/qianbaoadd/coin/{$xnb}.html';
+    }
+
+    function UpdateB(id) {
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{$Think.lang.sFinance_myzc_qsrjymmbqr}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{:U('User/delqianbao')}", {
+                        id: id,
+                        paypassword: val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "{:U('User/qianbao')}?coin=" + coin;
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

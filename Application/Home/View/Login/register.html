@@ -1,0 +1,309 @@
+<include file="Public:header_new" />
+<style type="text/css">
+.emailtips{height:20px;line-height:20px;font-size:13px;text-indent:300px;}
+.clearfix:before,.clearfix:after {
+    content:"";
+    display:table;
+}
+.clearfix:after {
+    clear:both;
+}
+.clearfix {
+    clear:both;
+    *zoom:1;
+}
+.show {
+    display:block!important;
+}
+.box {
+    width:450px;
+}
+.ul_list {
+    width:100%;
+    height:32px;
+    text-align: center;
+}
+.ul_list li {
+    width:100px;
+    box-sizing:border-box;
+    cursor:pointer;
+    font-size:22px;
+    line-height: 22px;
+    text-align: center;
+    color:#99A6BF;
+    display:inline-block;
+}
+.ul_list li.active {
+    color:#059FF5;
+}
+.div_box {
+    width: 450px;background:#2D2C3C;border:1px solid #2D2C3C;margin:23px auto;
+}
+.div_box .div_list {
+    display:none;
+}
+.wjmm{color:#7B8A9D;}
+.wjmm:hover{color:#99a6bf;}
+.white:hover{color:#fff;}
+.outlogbox .logbox .inbox .boxrow{width:420px;}
+.outlogbox .logbox .inbox .boxrow .rightbox{width:275px;}
+.outlogbox .logbox .inbox .boxrow .rightbox .iptbox{width:273px;}
+</style>
+<div class="outlogbox">
+	<div class="logbox">
+		<!-- tab开始 -->
+		<div class="box">
+			<ul class="ul_list clearfix">
+				 <a href="{:U('Login/index')}"><li><span class="white">{$Think.lang.Finance_login}</span></li></a>
+				<li style='width:20px;'>·</li>
+				<li class="active"><span class="white">{$Think.lang.Finance_reg}</span></li>
+			</ul>
+			<div class="div_box">
+				<div class="div_list" style="display:block;">
+				<!-- 注册开始 -->
+				<div class="inbox">
+					<div class="boxrow" id="email_div">
+						<label>{$Think.lang.g_dz_yx} </label>
+						<div class="rightbox">
+							<input type="text" id="email" class="iptbox" placeholder="" onblur="regemail()" />
+						</div>
+						<div id="email-msg" class="form_explain" data-explain="{$Think.lang.g_put_mail} <em></em>" style="display: none;">
+							{$Think.lang.g_put_mail} <em></em>
+						</div>
+					</div>
+					<div class="boxrow" id="reg_first_verify">
+						<label>{$Think.lang.g_yzm} </label>
+						<div class="rightbox">
+							<input type="text" id="verify" class="iptbox" value="" placeholder="" onblur="regverify()" style="width: 130px; box-shadow: none;border:1px solid #21202D;float: left;" maxlength="4"/>
+								<img class="codeImg reloadverify" src="{:U('Verify/code')}" title="{$Think.lang.Finance_yzmhyz} " onclick="this.src=this.src+'?t='+Math.random()" style="width:130px;height: 40px;float: right;">
+						</div>
+						<div id="verify-msg" class="form_explain" data-explain="{$Think.lang.Login_sryzm} <em></em>" style="display: none;">
+							{$Think.lang.Login_sryzm} <em></em>
+						</div>
+					</div>
+					<div class="boxrow" id="eyz_div">
+						<label>{$Think.lang.g_yx_code} </label>
+						<div class="rightbox">
+							<input type="text" id="emailcode" class="iptbox" value="" onblur="emailcode()" style="width: 130px;float:left;" placeholder="" maxlength="6"/>
+							<input id="regBtn" type="button" class="getyzm" value="{$Think.lang.g_hq_code} " onclick="EmCode()" style="float: right;width:130px;">
+						</div>
+						<div id="emailcode-msg" class="form_explain" data-explain="{$Think.lang.g_yj_scode} <em></em>" style="display: none;">
+							{$Think.lang.g_yj_scode} <em></em>
+						</div>
+					</div>
+					<div class="emailtips" style="display:none;"><a style="color:red;" href="/Article/detail/id/74.html">{$Think.lang.g_yj_nshou} </a></div>
+					<div class="boxrow">
+						<label>{$Think.lang.g_dlpwd} </label>
+						<div class="rightbox">
+							<input type="password" id="password" class="iptbox" value="" onblur="regpassword()" placeholder="{$Think.lang.User_sixbyte} " onkeyup="chkpwd();" maxlength="16"/>
+						</div>
+						<div id="password-msg" class="form_explain" data-explain="{$Think.lang.code_format} <em></em>" style="display: none;">
+							{$Think.lang.code_format} <em></em>
+						</div>
+					</div>
+					<div class="boxrow">
+						<label>{$Think.lang.g_pwd_repet} </label>
+						<div class="rightbox">
+							<input type="password" id="repassword" class="iptbox" value="" onblur="regrepassword()" placeholder="{$Think.lang.User_sixbyte} " onkeyup="chkrepwd();" maxlength="16"/>
+						</div>
+						<div id="repassword-msg" class="form_explain" data-explain="{$Think.lang.two_code_diff} <em></em>" style="display: none;">
+							{$Think.lang.two_code_diff} <em></em>
+						</div>
+					</div>
+					<div class="boxrow" style="margin-bottom:5px;">
+						<label>{$Think.lang.Login_yqm} </label>
+						<div class="rightbox">
+							<input id="invit" name="invite" type="text" class="iptbox" placeholder="{$Think.lang.Login_keempty} " value="{$Think.session.invit}" <notempty name="Think.session.invit">readonly</notempty> />
+						</div>
+					</div>
+					<div class="boxrow" style="width:420px;">
+						<div class="rightbox nolabel" style="width:420px;">
+						<p class="linkbox textleft" style="text-align: center;margin-bottom: 20px;color:#059FF5;">{$Think.lang.Login_zcswty}  <a href="/Article/detail/id/91.html" style="color:#059FF5;" target="_blank">{$Think.lang.Login_yhzcxy} </a></p>
+							<input type="button" class="iptbut" name="index_submit" id="loginSubmin" onclick="Update();" value="{$Think.lang.Login_ljzc} " title="{$Think.lang.Login_ljzc} " style="width:350px;">
+						</div>
+					</div>
+				</div>
+				<!-- 注册结束 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('input').focus(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+		// t.css({'box-shadow':'0px 0px 3px #1583fb','border':'1px solid #1583fb','color':'#333' });
+		if(t.val()==t.attr('placeholder'))
+			t.val('');
+	});
+	$('input').blur(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+			// t.css({'box-shadow':'none','border':'1px solid #e1e1e1','color':'#333' });
+		if(t.attr('type')!='password'&&!t.val())
+			t.val(t.attr('placeholder'));
+	});
+
+	function regemail(){
+		var email = $('#email').val();
+		if(email==""||email==null){
+			layer.tips('{$Think.lang.g_yx_put} ','#email',{tips:3});
+			return false;
+		}
+		$.post("{:U('Login/chkemail')}",{email:email},function(data){
+			if(!data.status){
+				layer.tips(data.info,'#email',{tips:3});
+			}
+		},'json');
+	}
+
+	function EmCode(){
+		var email = $("#email").val();
+        if (email == "" || email == null) {
+            layer.tips('{$Think.lang.g_yx_put} ', '#email', {tips: 3});
+            return false;
+        }
+		var verify = $('#verify').val();
+		if(verify==""||verify==null){
+			layer.tips('{$Think.lang.g_put_tcode} ', '#verify', {tips: 3});
+			return false;
+		}
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Verify/regssemail')}", {
+            email: email,verify: verify
+        }, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                //刷新验证码
+                $('#regBtn').attr("disabled", "disabled");
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#135F91');
+                    obj.val(wait + '{$Think.lang.Finance_again} ');
+                    wait--;
+                    if (wait < 0) {
+                    	$('#regBtn').removeAttr("disabled");
+                        clearInterval(interval);
+                        obj.val('{$Think.lang.Finance_hqyzm2} ');
+                        obj.css('backgroundColor', '#135F91');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                //刷新验证码
+                layer.msg(data.info, {icon: 2});
+                $('#regBtn').removeAttr("disabled");
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+	}
+
+	function regverify(){
+		var verify = $('#verify').val();
+		if(verify==""||verify==null){
+			layer.tips('{$Think.lang.User_txyzm} ','#verify',{tips:3});
+			return false;
+		}
+	}
+
+	function regpassword(){
+		var password = $('#password').val();
+		if(password==""||password==null){
+			layer.tips('{$Think.lang.Finance_srdlmm} ','#password',{tips:3});
+			return false;
+		}
+	}
+
+	function regrepassword(){
+		var password = $('#password').val();
+		var repassword = $('#repassword').val();
+		if(repassword==""||repassword==null){
+			layer.tips('{$Think.lang.Login_srqrmm} ','#repassword',{tips:3});
+			return false;
+		}else{
+			if(password!=repassword){
+				layer.tips('{$Think.lang.two_code_diff} ','#repassword',{tips:3});
+				return false;
+			}
+		}
+	}
+	function Update(){
+		var email = $("#email").val();
+		var password=$("#password").val();
+		var repassword=$("#repassword").val();
+		var verify=$("#verify").val();
+		var invit=$("#invit").val();
+		var emailcode = $("#emailcode").val();
+        if ((email == "" || email == null)) {
+            layer.tips('{$Think.lang.g_yx_put}', '#email', {tips: 3});
+            return false;
+        }
+		if(password==""||password==null){
+			layer.tips('{$Think.lang.Finance_srdlmm} ','#password',{tips:3});
+			return false;
+		}
+		if(repassword==""||repassword==null){
+			layer.tips('{$Think.lang.Login_srqrmm} ','#repassword',{tips:3});
+			return false;
+		}
+		if(password!=repassword){
+			layer.tips('{$Think.lang.two_code_diff} ','#repassword',{tips:3});
+			return false;
+		}
+		if((emailcode==""||emailcode==null)){
+			layer.tips('{$Think.lang.g_yx_put_verfy} ','#emailcode',{tips:3});
+			return false;
+		}
+		if(verify==""||verify==null){
+			layer.tips('{$Think.lang.User_txyzm} ','#verify',{tips:3});
+			return false;
+		}
+		$.post("{:U('Login/upregister')}",{email:email,password:password,repassword:repassword,invit:invit,verify:verify,emailcode:emailcode},function(data){
+			if(data.status==1){
+				layer.msg(data.info,{icon:1});
+				$.cookies.set('cookie_username',email);
+				window.location.href=window.location.href;
+			}else{
+				layer.msg(data.info,{icon:2});
+				if(data.url){
+					window.location.href=data.url;
+				}
+			}
+		},"json");
+	}
+	function chkpwd(){
+		var password = $("#password").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(password)) {
+			layer.tips('{$Think.lang.code_format} ','#password',{tips:3});
+			var result = password.substring(0,password.length-1);
+			$("#password").val(result);
+		}
+	}
+	function chkrepwd(){
+		var repassword = $("#repassword").val();
+		var paypassword = $("#paypassword").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(repassword)) {
+			layer.tips('{$Think.lang.code_format} ','#repassword',{tips:3});
+			var result = repassword.substring(0,repassword.length-1);
+			$("#repassword").val(result);
+		}
+	}
+	function emailcode(){
+		var emailcode = $("#emailcode").val();
+		if(emailcode==""||emailcode==null){
+			layer.tips('{$Think.lang.g_yx_put_verfy} ','#emailcode',{tips:3});
+			return false;
+		}
+	}
+</script>
+<include file="Public:footer_new" />

@@ -1,0 +1,165 @@
+<include file="Public:header_new"/>
+<div class="usernewout">
+<p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+<div class="usncont">
+    <!--左侧菜单-->
+    <include file="User:left"/>
+    <!--右侧内容-->
+    <div class="usnc_right">
+        <h1>手机绑定</h1>
+        <div class="rech_top">
+            <div class="rech_box">
+            <empty name="user['mobile']">
+                <form id="form-mobilebinda">
+					<div class="rech_bd safe_rech_bd">
+						<ul>
+							<li>
+								<div class="rechmid">
+									<div class="rechipt_box">
+										<label>手机号码：</label>
+										<div class="iptbox">
+											<input type="text" class="rechipt" id="mobile"/>
+										</div>
+									</div>
+									<div class="rechipt_box">
+										<label>短信验证码：</label>
+										<div class="iptbox">
+											<input type="text" id="mobile_verify" value="" class="rechipt halfipt">
+											<input type="button" id="regBtn" onclick="SendCode()" value="点击获取手机验证码" class="yzmbut">
+										</div>
+									</div>
+									<div class="rechipt_box">
+										<div class="iptbox mrl110">
+											<input type="button" class="rechbut" value="绑定手机" id="btn-mobilebind" onclick="Update()"/>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</form>
+            <else/>
+                <div class="rech_bd safe_rech_bd">
+                    <ul>
+                        <li>
+                            <div class="rechmid">
+                                <div class="rechipt_box">
+                                    <label></label>
+                                    <div class="band_succ" style="margin-left: 20px;">
+                                       <em></em>您的账户已启用手机验证。
+                                    </div>
+                                </div>
+
+                                <div class="rechipt_box">
+                                    <label>手机号码：</label>
+                                    <div class="iptbox">
+                                        <input type="text" value="{$user.mobile}" class="rechipt" readonly/>
+                                    </div>
+                                </div>
+
+                                <div class="rechipt_box">
+                                    <label>绑定时间：</label>
+                                    <div class="iptbox">
+                                        <input type="text" class="rechipt" value="{$user.mobiletime|date='Y-m-d H:i:s',###}" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </empty>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $('input').focus(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({'box-shadow': '0px 0px 3px #1583fb', 'border': '1px solid #1583fb', 'color': '#333'});
+        if (t.val() == t.attr('placeholder'))
+            t.val('');
+    });
+    $('input').blur(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({'box-shadow': 'none', 'border': '1px solid #e1e1e1', 'color': '#333'});
+        if (t.attr('type') != 'password' && !t.val())
+            t.val(t.attr('placeholder'));
+    });
+
+    function SendCode() {
+        var mobile = $("#mobile").val();
+        if (mobile == "" || mobile == null) {
+            layer.tips('请输入手机号码', '#mobile', {tips: 3});
+            return false;
+        }
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Verify/mobilebd')}", {
+            mobile: mobile
+        }, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                $('#regBtn').attr("disabled", "disabled");
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#f6f6f6');
+                    obj.val(wait + '秒再次发送');
+                    wait--;
+                    if (wait < 0) {
+                        $('#regBtn').removeAttr("disabled");
+                        clearInterval(interval);
+                        obj.val('获取验证码');
+                        obj.css('backgroundColor', '#f6f6f6');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                $('#regBtn').removeAttr("disabled");
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function Update() {
+        var mobile = $("#mobile").val();
+        var mobile_verify = $("#mobile_verify").val();
+        if (mobile == "" || mobile == null) {
+            layer.tips('请输入手机号码', '#mobile', {tips: 3});
+            return false;
+        }
+        if (mobile_verify == "" || mobile_verify == null) {
+            layer.tips('请输入短信验证码', '#mobile_verify', {tips: 3});
+            return false;
+        }
+        $.post("{:U('User/upmobile')}", {
+            mobile: mobile,
+            mobile_verify: mobile_verify
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('User/mobile')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+
+<script>
+    //菜单高亮
+    $('#user_mobile').addClass('on');
+    $('#user_box').addClass('on');
+</script>
+
+<include file="Public:footer_new"/>

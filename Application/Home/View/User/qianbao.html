@@ -1,0 +1,224 @@
+<include file="Public:header_new"/>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+<div class="usernewout">
+<p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+<div class="usncont">
+    <!--左侧菜单-->
+    <include file="User:left"/>
+    <!--右侧内容-->
+    <style type="text/css">
+        .layui-layer-btn a.layui-layer-btn0{background: #e75600;}
+        .layui-layer-btn a.layui-layer-btn1{background: #ccc;}
+        .layui-layer-setwin .layui-layer-close1{width: 25px;height: 25px;background:url(__PUBLIC__/Home/news/images/closebut.png) center no-repeat!important;background-size: 18px!important; }
+        .layui-layer-setwin{right: 5px;top: 5px;}
+        #withdrawCnyAddress .tan_title{width: 600px;}
+        #withdrawCnyAddress{width: 600px;height: 506px;}
+        #withdrawCnyAddress .PopLayer li .cztxinput{width: 270px!important;color: #666!important;}
+        #withdrawCnyAddress .PopLayer li select{width: 272px!important;color: #666!important;}
+        #withdrawCnyAddress .PopLayer li #btn{width: 270px!important;}
+    </style>
+    <div class="usnc_right">
+        <h1>钱包地址管理</h1>
+        <div class="leftmoney">
+            <div class="select">
+                <img src="{$coin_list[$xnb]['img']}">
+                <select name="type" id="qianbao_type" class="selul">
+                     <volist name="coin_list" id="vo">
+                        <eq name="xnb" value="$key">
+                            <option value="{$vo['name']}" selected="selected">{$vo.title} ({$vo['name']|strtoupper})</option>
+                            <else/>
+                            <option value="{$vo['name']}">{$vo.title} ({$vo['name']|strtoupper})</option>
+                        </eq>
+                    </volist>
+                </select>
+            </div>
+        </div>
+        <div class="recharge_list nmt">
+            <table>
+                <tr>
+                    <th width="150px">币种名称</th>
+                    <th width="160px">钱包标识</th>
+                    <th width="100px" class="last">
+                        钱包地址
+                    </th>
+                    <th width="140px">添加时间</th>
+                    <th width="140px">操作</th>
+                </tr>
+                <volist name="userQianbaoList" id="vo">
+                    <tr>
+                        <td>{$coin_list[$vo['coinname']]['title']}({$vo.coinname})</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.addr}</td>
+                        <td>{$vo.addtime|addtime}</td>
+                        <td>
+                            <a class="cancel" href="javascript:void(0)" onclick="UpdateB({$vo['id']})">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="pages">{$page}</div>
+            <div class="addbanks">
+                <a href="javascript:void(0)" onclick="addAddress()">添加一个地址</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="okcoinPop" id="withdrawCnyAddress" style="display: none;">
+    <div class="tan_title">
+          <h4>添加一个钱包地址</h4>
+          <span class="closebut" onclick="closeCharge();"><img src="__PUBLIC__/Home/news/images/closebut.png"></span>
+    </div>
+    <div class="dialog_content" id="dialog_content_CnyAddress">
+        <div class="dialog_body center">
+            <div style="line-height: 35px; text-align: left; padding-left:100px;">
+                <ul class="PopLayer">
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan1">币种名称 </span>
+                        <b class="khname">{$coin_list[$xnb]['title']}({$xnb|strtoupper})</b>
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan2">钱包标识 </span>
+                        <input name="name" id="qianbao_name" type="text" class="cztxinput">
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan3">钱包地址 </span>
+                        <input name="name" id="qianbao_addr" type="text" class="cztxinput">
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan4">交易密码 </span>
+                        <input name="name" id="qianbao_paypassword" type="password" class="cztxinput"> 
+                        <if condition="empty($user['paypassword'])">
+							请先<a href="/User/paypassword.html">设置交易密码</a>
+						<else />
+							<a href="/Login/findpaypwd.html" class="reg_floatr">忘记密码?</a>
+						</if>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="Update()" class="btn" id="btn" style="">立 即 添 加</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialogBoxShadow" style="position: absolute; top: 0px; left: 0px; z-index: 100; background-color: rgb(0, 0, 0); opacity: 0.4; width: 100%; background-position: initial initial; background-repeat: initial initial; display: none;"></div>
+<br>
+<br>
+<script>
+    $("#qianbao_type").change(function () {
+        var coin = $("#qianbao_type option:selected").val();
+        window.location = '/User/qianbao/coin/' + coin + '.html';
+    });
+
+
+    var coin = "{$xnb}";
+
+
+    $("#city_1").citySelect({
+        nodata: "none",
+        required: false
+    });
+
+    $('#dialogBoxShadow').height($(document).height());
+    function closeAddress() {
+        $("#withdrawCnyAddress").hide();
+        $("#dialogBoxShadow").hide();
+    }
+    function showA() {
+        $("#withdrawCnyAddress").show();
+        $("#dialogBoxShadow").show();
+    }
+    function addAddress(){
+       layer.open({
+          type: 1,
+          title: false,
+          closeBtn: 0,
+          area: 'autos',
+          skin: 'layui-layer-nobg', //没有背景色
+          shadeClose: true,
+          content: $('#withdrawCnyAddress')
+        });
+    }
+    function closeCharge(){
+        layer.closeAll();
+    }
+    function Update() {
+
+        var name = $('#qianbao_name').val();
+        var addr = $('#qianbao_addr').val();
+        var paypassword = $('#qianbao_paypassword').val();
+        if (name == "" || name == null) {
+            layer.tips('请输入钱包标识', '#qianbao_name', {tips: 3});
+            return false;
+        }
+        if (addr == "" || addr == null) {
+            layer.tips('请输入钱包地址', '#qianbao_addr', {tips: 3});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#qianbao_paypassword', {tips: 3});
+            return false;
+        }
+
+
+        $.post("{:U('User/upqianbao')}", {
+            coin: coin,
+            name: name,
+            addr: addr,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('User/qianbao')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+    function UpdateB(id) {
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '输入交易密码，并确认',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{:U('User/delqianbao')}", {
+                        id: id,
+                        paypassword: val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "{:U('User/qianbao')}?coin=" + coin;
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+
+
+                }
+                ;
+            });
+
+        });
+    }
+</script>
+<script>
+    //菜单高亮
+    $('#user_box').addClass('on');
+    $('#user_qianbao').addClass('on');
+    //$('#user_qianbao i').attr('class', 'coin_menu_op_0');
+</script>
+<include file="Public:footer_new"/>

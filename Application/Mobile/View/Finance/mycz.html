@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            充值
+        </div>
+        <div class="logbot">
+            <p style="font-size:14px;line-height:24px;color:#ff8800;margin-top: 15px;">
+                账户余额：<img src="__PUBLIC__/Home/images/coin_rmb.png" style="width: 18px;vertical-align:middle;margin-top: -3px;" />
+                                <span>{$user_coin['becc']|NumToStr}</span></p>
+            <form>
+
+                <!-- 选择充值方式 -->
+                <select name="type" id="mycz_type" class="logipt">
+                    <option value="">---选择方式---</option>
+                    <volist name="myczTypeList" id="vo">
+                        <option value="{$key}">{$vo}</option>
+                    </volist>
+                </select>
+
+                <!-- 充值金额 -->
+                <input type="text" placeholder="充值金额" class="logipt"  id="mycz_amount" style="width:89%;">
+                <span style="line-height:40px;font-size:14px;color:#ff9900;font-weight:900;margin-left:2%;" id="plus1_amount">.09</span>
+                <p id="tian" style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                </p>
+                <p style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                    * 为快速到账，请按上述金额汇款，包括小数点后两位
+                </p>
+
+
+                <input type="hidden" value="" id="plus1_amounts" class="rechipt wd328">
+
+                <!-- 汇款人姓名 -->
+                <input type="text" placeholder="汇款人姓名" class="logipt" id="mycz_xingming" value="{$user_info['truename']}" readonly>
+                <p style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                    * 系统只接受您实名认证账户充值
+                </p>
+
+                <select name="bank_bank" id="bank_bank" class="logipt" style="display:none">
+                   <option value="0">--选择银行--</option>
+                   <volist name="UserBankType" id="vo">
+                        <option value="{$vo['title']}">{$vo['title']}</option>
+                   </volist>
+                </select>
+                <p id="bank_p" style="display:none;font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                    * 部分银行周末汇款，不能及时到账
+                </p>
+
+                <!-- 充值账户卡号 -->
+                <input type="text" placeholder="充值账户/卡号" class="logipt" id="mycz_zhanghao">
+                <p style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                    * 银行账户姓名必须与您的实名认证姓名一致
+                </p>
+
+                <!-- 提交操作 -->
+                <input type="button" class="logbut" value="立即充值" onclick="myczUp()">
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer"/>
+
+
+    <script type="text/javascript">
+        $('#mycz_type').change(function(){
+            var pp = $(this).val();
+
+            if(pp == 'bank'){
+                $('#bank_bank').css('display','block');
+                $('#bank_p').css('display','block');
+            }else{
+                $('#bank_bank').css('display','none');
+                $('#bank_p').css('display','none');
+            }
+
+            $.post("{:U('Finance/mycz_type_ajax')}", {pp: pp}, function (data) {
+                if (data) {
+                    $('#tian').html('充值最小金额：￥'+data);
+                } else {
+                    $('#tian').html('充值最小金额：￥0');
+                }
+            }, "json");
+        });
+    </script>
+    <script>
+        $("#status-selectTest").change(function () {
+            var status = $("#status-selectTest option:selected").val();
+            window.location = '/Finance/mycz/status/' + status + '/.html';
+        });
+
+
+        function myczHuikuan(id) {
+            $.post("{:U('Finance/myczHuikuan')}", {id: id}, function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.info, {icon: 1});
+                    window.location.reload();
+                } else {
+                    layer.msg(data.info, {icon: 2});
+                }
+            }, "json");
+        }
+
+        function myczChakan(id) {
+
+            layer.open({
+                title: '人民币充值',
+                type: 2,
+                area: ['650px', '500px'],
+                content: ["{:U('Pay/mycz')}?id=" + id, 'no']
+            });
+
+        }
+
+        function myczUp() {
+            var bankt = '';
+            var mbTest_num = /^([1-9]{1}\d*)(\.(\d){1,2})?$/;
+            var type = $('#mycz_type option:selected').val();
+            var num = $("#mycz_amount").val();
+            var xingming = $("#mycz_xingming").val();
+            var zhanghao = $("#mycz_zhanghao").val();
+            if (type == "" || type == null) {
+                layer.tips('请选择充值方式', '#mycz_type', {tips: 3});
+                return false;
+            }
+            if (num == "" || num == null) {
+                layer.tips('请输入充值金额', '#mycz_amount', {tips: 3});
+                return false;
+            }
+
+            if (xingming == "" || xingming == null) {
+                layer.tips('请输入充值账号姓名', '#mycz_xingming', {tips: 3});
+                return false;
+            }
+
+            if (zhanghao == "" || zhanghao == null) {
+                layer.tips('请输入充值账号卡号', '#mycz_zhanghao', {tips: 3});
+                return false;
+            }
+  
+            if (!mbTest_num.test(num)) {
+                layer.tips('充值金额格式错误 (人民币格式)', '#mycz_amount', {tips: 3});
+                return false;
+            }
+            var mum= parseFloat(num)+parseFloat($("#plus1_amounts").val());
+
+            if(type == 'bank'){
+                bankt = $('#bank_bank option:selected').val();
+            }
+            
+            $.post("{:U('Finance/myczUp')}", {
+                bankt: bankt,
+                type: type,
+                num: num,
+                mum: mum,
+                truename: xingming,
+                aliaccount: zhanghao
+            }, function (data) {
+                if (data.status == 1) {
+                    if(typeof(data.cztype)!='undefined' && data.cztype=="wxpay"){
+                        window.location = "{:U('Pay/mycz')}?id=" + data.id;
+                    }else{
+                        window.location = "{:U('Pay/mycz')}?id=" + data.url.id;
+                    }
+                } else {
+                    layer.msg(data.info, {icon: 2});
+                    if (data.url) {
+                        window.location = data.url;
+                    }
+                }
+            }, "json");
+        }
+        function randomNum(n){
+            var t='';
+            for(var i=0;i<n;i++){
+                t+=Math.floor(Math.random()*10);
+            }
+            return t;
+        }
+        function calnum(){
+            // var plus_amount=Math.random();
+            // plus_amount=plus_amount.toFixed(2);
+            var count_amount=randomNum(2);
+            if(count_amount<=0){
+                var count_amount=randomNum(2);
+            }
+            var plus_amount=count_amount/100;
+            $("#plus1_amount").html('.'+count_amount);
+            $("#plus1_amounts").val(plus_amount);
+        }
+         $(function(){
+            calnum();
+          });
+    </script>
+
+
+</body>
+</html>

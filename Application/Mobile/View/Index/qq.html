@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            QQ在线客服
+        </div>
+        <!-- qq号 -->
+        <volist name=":C('contact_qq')" id="v">
+            <span class="layout">
+                <a href="mqqwpa://im/chat?chat_type=wpa&uin={$v}&version=1&src_type=web&web_src=oicqzone.com">QQ号：{$v}</a>
+            </span>
+        </volist>
+        <volist name=":C('contact_qqun')" id="v">
+            <span class="layout">
+                <a href="mqqapi://card/show_pslcard?src_type=internal&version=1&uin={$v}&card_type=group&source=qrcode">QQ群：{$v}</a>
+            </span>
+        </volist>
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

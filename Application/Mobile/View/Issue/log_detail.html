@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.cookies.2.2.0.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            解冻记录详情
+        </div>
+        <div class="logbot">
+            <form>
+
+                <input type="hidden" value="{$id}" id="ids">
+                <input type="text" readonly class="logipt" id="addtime">
+                <input type="text" readonly class="logipt" id="endtime">
+                <input type="text" readonly class="logipt" id="name">
+                <input type="text" readonly class="logipt" id="price">
+                <input type="text" readonly class="logipt" id="num">
+                <input type="text" readonly class="logipt" id="mum">
+                <input type="text" readonly class="logipt" id="unlock">
+                <input type="text" readonly class="logipt" id="shen">
+                <input type="text" readonly class="logipt" id="status">
+
+                <input type="button" class="logbut" id="sub" value="立即解冻">
+            </form>
+        </div>
+        <include file="Public:footer" />
+    </div>
+<script>
+
+    var id = $('#ids').val();
+
+
+
+    $.post("{:U('Issue/ajax_log_detail')}", {id: id}, function (data) {
+        if (data) {
+            $('#addtime').val('创建时间：' + data.addtime);
+            
+            if(data.unlock > 0){
+                $('#endtime').val('上次解冻时间：' + data.endtime);
+            }else{
+                $('#endtime').val('首次解冻时间：' + data.endtime);
+            }
+            
+            $('#name').val('认购名称：' + data.name);
+            $('#price').val('认购价格：' + data.price);
+            $('#num').val('认购数量：' + data.num);
+            $('#mum').val('认购总价：' + data.mum);
+            $('#unlock').val('解冻次数：' + data.unlock + '/' + data.ci);
+            $('#shen').val('剩余冻结：' + data.shen);
+
+            if(data.status){
+                $('#status').val('状态：已完成');
+                $('#sub').val('已完成解冻');
+                $('#sub').css('background','#69655F');
+                $('#sub').attr('disabled','disabled');
+
+            }else{
+                $('#status').val('状态：解冻中');
+            }
+        } else {
+            layer.msg(data.info, {icon: 2});
+        }
+    }, "json");
+
+    $('#sub').click(function () {
+
+        $.post("{:U('Issue/unlock')}", {id: id}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Issue/log')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

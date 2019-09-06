@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            代理收益提现
+        </div>
+        <div class="logbot">
+            <p style="font-size:14px;line-height:24px;color:#ff8800;margin-top: 15px;">
+                可用代理收益：<img src="__PUBLIC__/Home/images/coin_rmb.png" style="width: 18px;vertical-align:middle;margin-top: -3px;" />
+                                <span>{$user_coin['shouyi_num']|NumToStr}</span></p>
+            <form>
+               <select name="type" id="mytx_type" class="logipt">
+                    <option value="">--选择提现地址--</option>
+                    <volist name="userBankList" id="vo">
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    </volist>
+                    <option value="tianjia">新添加一个提现地址</option>
+                </select>
+                <input type="text" placeholder="提现金额" class="logipt"  id="num" >
+                <p id="tian" style="font-size:14px;line-height:20px;color:#ff8800;">
+                    <if condition="$level eq 3">
+                        提现手续费{$C['mytxdl3_fee']}%
+                    <elseif condition="$level eq 2" />
+                        提现手续费{$C['mytxdl2_fee']}%
+                    <else />
+                        提现手续费{$C['mytxdl1_fee']}%
+                    </if>
+                </p>
+                <p id="tian" style="font-size:14px;line-height:20px;color:#ff8800;">
+                    <if condition="$level eq 3">
+                        提现最小金额：￥{$C['mytxdl3_min']}，提现最大金额：￥{$C['mytxdl3_max']}，提现整数倍：￥{$C['mytxdl3_bei']}
+                    <elseif condition="$level eq 2" />
+                        提现最小金额：￥{$C['mytxdl2_min']}，提现最大金额：￥{$C['mytxdl2_max']}，提现整数倍：￥{$C['mytxdl2_bei']}
+                    <else />
+                        提现最小金额：￥{$C['mytxdl1_min']}，提现最大金额：￥{$C['mytxdl1_max']}，提现整数倍：￥{$C['mytxdl1_bei']}
+                    </if>
+                </p>
+                <script type="text/javascript">
+                    $('#num').blur(function(){
+                        var min_price = 0;
+                        var levels = "<?php echo $level?>";
+                        if(levels == 1){
+                            min_price = "<?php echo $C['mytxdl1_min']?>";
+                            max_price = "<?php echo $C['mytxdl1_max']?>";
+                        }else if(levels == 2){
+                            min_price = "<?php echo $C['mytxdl2_min']?>";
+                            max_price = "<?php echo $C['mytxdl2_max']?>";
+                        }else if(levels == 3){
+                            min_price = "<?php echo $C['mytxdl3_min']?>";
+                            max_price = "<?php echo $C['mytxdl3_max']?>";
+                        }else if(levels == 0){
+                            min_price = "<?php echo $C['mytxdl1_min']?>";
+                            max_price = "<?php echo $C['mytxdl1_max']?>";
+                        }
+                        var maxs_price = parseFloat("<?php echo $user_coin['shouyi_num'];?>");
+                        var nums = $(this).val();
+                        if(nums < min_price){
+                            $(this).val(min_price);
+                        }
+                        if(nums > max_price){
+                            $(this).val(max_price);
+                        }
+                        if(maxs_price < max_price){
+                        if(nums > maxs_price){
+                            $(this).val(maxs_price);
+                        }
+                        }
+                    });
+                </script>
+                <input type="password" placeholder="交易密码" class="logipt" id="paypassword" name="paypassword">
+                <a href="{:U('Login/findpaypwd')}" class="reg_floatr" style="color:#ff8800;font-size: 14px;line-height: 20px;">忘记密码?</a>
+                <div class="yzmbox">
+                    <input type="text" placeholder="短信验证码" class="logipt yzmipt" id="moble_verify" name="code">
+                    <input type="button" value="获取验证码" class="phonebut" onclick="SendCode()"  id="regBtn" style="background:#ff9900;color:#fff;">
+                </div>
+                <p  style="font-size:14px;line-height:20px;color:#ff8800;">
+                   接受短信的手机{$moble}
+                </p>
+                <input type="button" class="logbut" value="申请提现" onclick="Update()">
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer"/>
+<script>
+    $("#status-selectTest").change(function () {
+        var status = $("#status-selectTest option:selected").val();
+        window.location = '/Finance/mytx/status/' + status + '/.html';
+    });
+
+
+    $("#mytx_type").change(function () {
+        var type = $("#mytx_type option:selected").val();
+        if (type == 'tianjia') {
+            window.location = '/User/bank.html';
+        }
+    });
+
+    function mytxChexiao(id) {
+        $.post("{:U('Finance/mytxChexiao')}", {id: id}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location.reload();
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    }
+
+
+    function SendCode() {
+
+
+        $('#regBtn').attr("disabled", "disabled");
+        $.post("{:U('Verify/mytx')}", {}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {
+                    icon: 1
+                });
+                var obj = $('#regBtn');
+                var wait = 120;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#999B9C');
+                    obj.val(wait + '秒再次发送');
+                    wait--;
+                    if (wait < 0) {
+                        clearInterval(interval);
+                        obj.val('获取验证码');
+                        obj.css('backgroundColor', '#0096e0');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                layer.msg(data.info, {
+                    icon: 2
+                });
+            }
+        }, "json");
+    }
+    function Update() {
+        var num = $("#num").val();
+        var paypassword = $("#paypassword").val();
+        var moble_verify = $("#moble_verify").val();
+        var type = $('#mytx_type option:selected').val();
+        // if (moble_verify == "" || moble_verify == null) {
+        //  layer.tips('请输入短信验证码', '#moble_verify', {
+        //      tips: 3
+        //  });
+        //  return false;
+        // }
+        if (num == "" || num == null) {
+            layer.tips('请输入提现金额', '#num', {
+                tips: 3
+            });
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#paypassword', {
+                tips: 3
+            });
+            return false;
+        }
+        $.post("{:U('Finance/mytxdlUp')}", {
+            type: type,
+            num: num,
+            paypassword: paypassword,
+            moble_verify: moble_verify
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {
+                    icon: 1
+                });
+                window.location.reload();
+            } else {
+                layer.msg(data.info, {
+                    icon: 2
+                });
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+</body>
+</html>

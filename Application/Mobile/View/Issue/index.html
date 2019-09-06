@@ -1,0 +1,92 @@
+<include file="Public:header"/>
+<script src="__PUBLIC__/Home/js/datepicker.min.js"></script>
+<div class="autobox">
+    <div class="now">
+        <a href="/" class="orange">首页</a> &gt; <a href="/Issue/index" class="orange">应用中心</a> &gt; 认购中心
+    </div>
+    <div class="assets_center clear po_re zin70">
+        <!--左侧菜单-->
+        <include file="Game:left"/>
+        <!--右侧内容-->
+        <div class="assets_content w900 right bg_w">
+            <div class="safe_center clear" style="padding-left: 0px; border-bottom: 2px solid #e55600;">
+                <h1 style="margin-top: 0px; margin-bottom: 15px; line-height: 15px;">认购中心</h1>
+            </div>
+            <div class="sj" style="top: 40px; left: 60px;"></div>
+
+            <notempty name="prompt_text">
+                <div class="mytips">
+                    <h6 style="color: #ff8000;">温馨提示</h6>
+                    {$prompt_text}
+                </div>
+            </notempty>
+            <br>
+            <div class="cnyin_record"  style="width: 916px;">
+                <div class="filter_tabs">
+                    <div class="filter_tabs_body">
+                        <volist name="list" id="vo">
+                            <div class="rz_li">
+                                <div style="font-size: 16px;padding: 10px 0px 0px 10px;">
+                                    <a href="{:U('Issue/buy?id='.$vo['id'])}">{$vo['name']}</a>
+                                </div>
+                                <div class="circular " style="height: 80px;">
+                                    <img src="__UPLOAD__/coin/{$vo['img']}" style="width: 90px;margin-top: 25px;margin-left: 21px;">
+                                </div>
+                                <div class="rebody" style="margin-right: 0px;">
+                                    <div class="rebody-top">
+                                        <ul class="clearfix">
+                                            <li><h5 class="c_orange">{$vo['price']*1}</h5>
+
+                                                <p>发行价格</p></li>
+                                            <li><h5>{$vo['num']}</h5>
+
+                                                <p>发行数量</p></li>
+                                            <li><h5>{$vo['deal']}</h5>
+
+                                                <p>已认购</p></li>
+                                            <li><h5>{$vo['limit']}</h5>
+
+                                                <p>限购</p></li>
+                                            <li><h5>{$vo['time']}</h5>
+
+                                                <p>开启时间</p></li>
+                                        </ul>
+                                    </div>
+                                    <div class="rebody-bottom">
+                                        <div class="jindu" style="margin-left: 21px;">
+                                            <div class="proInvestment" style="width: 600px;">
+                                                <i style="margin-right: 5px;">
+                                                    进度:</i><em class="fff6d00">{$vo['bili']}%</em>
+
+                                                <div class="p_bar" style="float: left;margin-top: 0px;">
+                                                    <span style="width:{$vo['bili']}%"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pages" style="float: right;
+margin-top: -20px;margin-right: 30px;"> 
+                                        <if condition="$vo['status'] eq 1 ">
+                                            <a href="{:U('Issue/buy?id='.$vo['id'])}">立即抢购</a>
+                                        <else /> <a>已结束</a>
+                                        </if>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </volist>
+                        <div class="pages">{$page}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<script>
+    //菜单高亮
+    $('#game_box').addClass('active');
+    $('#game_issue').addClass('active');
+    $('#game_issue i').attr('class', 'coin_menu_op_11');
+</script>
+<include file="Public:footer"/>

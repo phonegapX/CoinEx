@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.User_viplogin}
+        </div>
+        <div class="logbot">
+            <form>
+
+                <input type="text" placeholder="{$Think.lang.Fenhong_uname}" id="index_username" class="logipt" onblur="usernames()" >
+
+                <input type="password" placeholder="{$Think.lang.Finance_dlpw}" id="index_password" class="logipt" onblur="passwords()" maxlength="16" onkeyup="chkpwd();"/>
+
+                <input type="text" id='index_ga' value="" placeholder="{$Think.lang.Login_wbdbs}" class="logipt" style="display:none">
+
+                <div class="yzmbox">
+                    <input type="text" placeholder="{$Think.lang.Finance_yzm}" class="logipt yzmipt" id="index_verify" onblur="verifys()" maxlength="4"/>
+                    <img id="codeImg reloadverifyindex" src="{:U('Verify/code')}" onclick="this.src=this.src+'?t='+Math.random()" class="codeImg" />
+                </div>
+
+                <input type="button" class="logbut" value="{$Think.lang.Finance_login}"  onclick="upLoginIndex();">
+                <div class="phonebox">
+                    <!--<span class="phleft">客服电话：13123777630</span>-->
+                    <span class="phright">
+                        <a href="{:U('Login/register')}">{$Think.lang.Finance_reg}</a>
+                        <a href="{:U('Login/findpwd')}">{$Think.lang.sFinance_myzc_wjmm}</a>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    // 检测用户名
+    function usernames(){
+        var username = $('#index_username').val();
+        if(username==""||username==null){
+            layer.tips('{$Think.lang.Finance_srusn}','#index_username',{tips:3});
+            return false;
+        }
+        $.post("{:U('/Login/jiancega')}", {
+            username:username,
+            }, function (data) {
+                if (data.status == 1) {
+                    $('#index_ga').show();
+                }
+
+            }, "json");
+    }
+
+    // 检测密码
+    function passwords(){
+        var password = $('#index_password').val();
+        if(password==""||password==null){
+            layer.tips('{$Think.lang.Finance_srdlmm}','#index_password',{tips:3});
+            return false;
+        }
+    }
+
+    // 检测验证码
+    function verifys(){
+        var verify = $('#index_verify').val();
+        if(verify==""||verify==null){
+            layer.tips('{$Think.lang.Finance_sryzm}','#index_verify',{tips:3});
+            return false;
+        }
+    }
+
+	function chkpwd(){
+		var loginpassword = $("#index_password").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(loginpassword)) {
+			layer.tips('{$Think.lang.Finance_mmjc}','#index_password',{tips:3});
+			var result = loginpassword.substring(0,loginpassword.length-1);
+			$("#index_password").val(result);
+		}
+	}
+	
+    function upLoginIndex() {
+
+        var username = $("#index_username").val();
+        var password = $("#index_password").val();
+        var verify = $("#index_verify").val();
+        var ga = $("#index_ga").val();
+
+        if (username == "" || username == null) {
+            layer.tips('{$Think.lang.Finance_srusn}', '#index_username', {tips: 3});
+            return false;
+        }
+        if (password == "" || password == null) {
+            layer.tips('{$Think.lang.Finance_srdlmm}', '#index_password', {tips: 3});
+            return false;
+        }
+        if (verify == "" || verify == null) {
+            layer.tips('{$Think.lang.Finance_sryzm}', '#index_verify', {tips: 3});
+            return false;
+        }
+
+        $.post("{:U('Login/submit')}", {
+            username: username,
+            password: password,
+            ga: ga,
+            verify:verify,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = '/User/index';
+            } else {
+                //刷新验证码
+                var codeImg = $(".codeImg").attr("src");
+                if (codeImg.indexOf('?') > 0) {
+                    $(".codeImg").attr("src",
+                            codeImg + '&random=' + Math.random());
+                } else {
+                    $(".codeImg").attr(
+                            "src",
+                            codeImg.replace(/\?.*$/, '') + '?'
+                            + Math.random());
+                }
+				layer.msg(data.info, {icon: 2});
+				$('#loginSubmin').css('background','#e75600');
+				if (data.url) {
+					window.location = data.url;
+				}
+            }
+        }, "json");
+    }
+</script>
+</html>

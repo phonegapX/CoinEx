@@ -1,0 +1,195 @@
+<include file="Public:header"/>
+<link href="__PUBLIC__/Admin/index_css/style.css" rel="stylesheet">
+<link href="__PUBLIC__/Admin/index_js/morris.js-0.4.3/morris.css" rel="stylesheet">
+<script src="__PUBLIC__/Admin/index_js/morris.js-0.4.3/morris.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Admin/index_js/morris.js-0.4.3/raphael-min.js" type="text/javascript"></script>
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <section class="wrapper">
+        <!--state overview start-->
+        <div class="row state-overview">
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol terques">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class="count" style="font-size: 24px;">{$arr['reg_sum']}</h1>
+
+                        <p>注册总人数</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol red">
+                        <i class="glyphicon glyphicon-signal"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class=" count2" style="font-size: 24px;">{$arr['btc_num']}</h1>
+                        <p>比特币总计</p>
+						
+						<h1 class=" count2" style="font-size: 24px;">{$arr['eth_num']}</h1>
+                        <p>以太坊总计</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol yellow">
+                        <i class="glyphicon glyphicon-tower"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class=" count3" style="font-size: 24px;">{$arr['trance_mum']}</h1>
+
+                        <p>累计交易额</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <section class="panel">
+                    <div class="symbol blue">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </div>
+                    <div class="value">
+                        <h1 class=" count4" style="font-size: 24px;">{$arr['art_sum']}</h1>
+
+                        <p>文章总数</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div id="morris">
+            <div class="row">
+                <div class="col-lg-6">
+                    <section class="panel">
+                        <header class="panel-heading text-warning">
+                            用户注册报表(30天)
+                        </header>
+                        <div class="panel-body">
+                            <div id="hero-bar" class="graph"></div>
+                        </div>
+                    </section>
+                </div>
+                <!--<div class="col-lg-6">
+                    <section class="panel">
+                        <header class="panel-heading text-success">
+                            系统 充值/提现 统计图(30天)
+                        </header>
+                        <div class="panel-body">
+                            <div id="hero-graph" class="graph"></div>
+                        </div>
+                    </section>
+                </div>-->
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    var Script = function () {
+        $(function () {
+            show_cztx({$cztx});
+            show_reg({$reg});
+
+            //系统 充值/提现 统计图
+            function show_cztx(data) {
+                Morris.Line({
+                    element: 'hero-graph',
+                    data: data,
+                    xkey: 'date',
+                    ykeys: [
+                        'charge',
+                        'withdraw'
+                    ],
+                    labels: [
+                        '充值',
+                        '提现'
+                    ],
+                    lineColors: [
+                        '#8075c4',
+                        '#6883a3'
+                    ],
+                    xLabels: 'day',
+                    postUnits: ' 元'
+                });
+            }
+
+            //用户注册报表
+            function show_reg(data) {
+                Morris.Bar({
+                    element: 'hero-bar',
+                    data: data,
+                    xkey: 'date',
+                    ykeys: ['sum'],
+                    labels: ['人数'],
+                    barRatio: 0.4,
+                    xLabelAngle: 35,
+                    hideHover: 'auto',
+                    barColors: ['#6883a3'],
+                    xLabels: 'day',
+                    postUnits: ' 人',
+                });
+            }
+
+            //市场交易报表
+            function show_trance(data) {
+                Morris.Area({
+                    element: 'hero-area',
+                    data: [
+
+                    ],
+
+                    xkey: 'date',
+                    ykeys: [
+
+                    ],
+                    labels: [
+
+                    ],
+                    hideHover: 'auto',
+                    lineWidth: 1,
+                    pointSize: 10,
+                    lineColors: [
+                        '#4a8bc2',
+                        '#ff6c60',
+                        '#a9d86e'
+                    ],
+                    fillOpacity: 0.5,
+                    smooth: true,
+                    postUnits: ' 元',
+                    xLabels: 'day',
+                });
+            }
+
+            //市场活跃报表
+            function show_active() {
+                Morris.Donut({
+                    element: 'hero-donut',
+                    data: [
+                        {label: '人民币', value: 10450},
+                        {label: '人民币总计', value: 8440},
+                    ],
+                    colors: [
+                        '#41cac0',
+                        '#ff6c60',
+                        '#FF6C60'
+                    ],
+                    formatter: function (y) {
+                        return y + "总之"
+                    }
+                });
+            }
+        });
+
+    }();
+</script>
+<include file="Public:footer"/>
+<block name="script">
+    <script type="text/javascript" charset="utf-8">
+        //导航高亮
+        highlight_subnav("{:U('Index/index')}");
+    </script>
+</block>

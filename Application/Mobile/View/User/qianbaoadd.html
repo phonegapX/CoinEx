@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.g_addqbdz}
+        </div>
+        <div class="logbot">
+            <form>
+                <p style="font-size:14px;line-height:24px;color:#059ff5;margin-top: 15px;">
+                            {$Think.lang.sFinance_mycj_bzmc}: <if condition="LANG_SET eq 'en-us'">{$coin_list[$coin]['js_yw']}<else/>{$coin_list[$coin]['title']}</if>({$coin|strtoupper})<em></em>
+                </p>
+                <input type="text" placeholder="{$Think.lang.User_qbbs}" class="logipt" name="name" id="qianbao_name" value="" >
+                <input type="text" placeholder="{$Think.lang.sFinance_myzc_qbdz}" class="logipt" name="name" id="qianbao_addr" value="" >
+                <input  name="name" id="qianbao_paypassword" type="password" class="logipt" placeholder="{$Think.lang.Bazaar_jypw}">
+                <a href="{:U('Login/findpaypwd')}" class="reg_floatr" style="color:#059ff5;font-size: 14px;line-height: 20px;">{$Think.lang.Finance_wjmm}</a>
+                <input type="button" class="logbut" value="{$Think.lang.sFinance_myzc_ljtj}" name="index_submit" id="loginSubmin" onclick="Update()">
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer" />
+<script>
+    $("#qianbao_type").change(function () {
+        var coin = $("#qianbao_type option:selected").val();
+        window.location = '/User/qianbao/coin/' + coin + '.html';
+    });
+
+
+    var coin = "{$coin}";
+
+
+    $("#city_1").citySelect({
+        nodata: "none",
+        required: false
+    });
+
+    $('#dialogBoxShadow').height($(document).height());
+    function closeAddress() {
+        $("#withdrawCnyAddress").hide();
+        $("#dialogBoxShadow").hide();
+    }
+    function showA() {
+        $("#withdrawCnyAddress").show();
+        $("#dialogBoxShadow").show();
+    }
+    function Update() {
+        var name = $('#qianbao_name').val();
+        var addr = $('#qianbao_addr').val();
+        var paypassword = $('#qianbao_paypassword').val();
+        if (name == "" || name == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qsrqbbz}', '#qianbao_name', {tips: 3});
+            return false;
+        }
+        if (addr == "" || addr == null) {
+            layer.tips('{$Think.lang.User_srqbdz}', '#qianbao_addr', {tips: 3});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('{$Think.lang.Bazaar_srjypw}', '#qianbao_paypassword', {tips: 3});
+            return false;
+        }
+
+
+        $.post("{:U('User/upqianbao')}", {
+            coin: coin,
+            name: name,
+            addr: addr,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('User/qianbao')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+    function UpdateB(id) {
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        layer.ready(function () {
+            //默认prompt
+            layer.prompt({
+                title: '{$Think.lang.sFinance_myzc_qsrjymmbqr}',
+                formType: 1
+            }, function (val) {
+                if (val) {
+                    //需要执行的方法
+                    $.post("{:U('User/delqianbao')}", {
+                        id: id,
+                        paypassword: val
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "{:U('User/qianbao')}?coin=" + coin;
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, "json");
+
+
+                }
+                ;
+            });
+
+        });
+    }
+</script>
+</body>
+</html>

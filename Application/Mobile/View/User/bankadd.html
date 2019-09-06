@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            添加银行卡
+        </div>
+        <div class="logbot">
+            <form>
+                <input type="text" placeholder="备注名称" class="logipt" name="name" id="bank_name" value="" >
+                <select name="bank" id="bank_bank" class="logipt">
+                   <option value="0">--选择银行--</option>
+                   <volist name="UserBankType" id="vo">
+                   <option value="{$vo['title']}">{$vo['title']}</option>
+                   </volist>
+                 </select>
+                 <span id="city_1"> <select class="prov" id="bank_bankprov" name="prov" style="width:100%;height:40px;background:#0e0e14;border:none;margin-top:15px;text-indent:10px;font-size:14px;color:rgba(255,255,255,.3);"></select>
+                 <select class="city" id="bank_bankcity" name="city" style="width:100%;height:40px;background:#0e0e14;border:none;margin-top:15px;text-indent:10px;font-size:14px;color:rgba(255,255,255,.3);display: none;"></select></span>
+                <input type="text" placeholder="开户支行" class="logipt" name="name" id="bank_bankaddr" value="" >
+                <p style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                            开户姓名: {$truename}<em></em>
+                </p>
+                <input type="text" placeholder="银行卡号" class="logipt" name="name" id="bank_bankcard" >
+                <p style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                           银行卡号和开户姓名一致,否则无法到账<em></em>
+                </p>
+                <input  name="name" id="bank_paypassword" type="password" class="logipt" placeholder="交易密码">
+                <a href="{:U('Login/findpaypwd')}" class="reg_floatr" style="color:#ff8800;font-size: 14px;line-height: 20px;">忘记密码?</a>
+                <input type="button" class="logbut" value="立即添加" name="index_submit" id="loginSubmin" onclick="Update()">
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer"/>
+<script>
+
+
+
+ $("#city_1").citySelect({nodata:"none",required:false});
+
+ $('#dialogBoxShadow').height($(document).height());
+ function closeAddress(){
+  $("#withdrawCnyAddress").hide();
+  $("#dialogBoxShadow").hide();
+ }
+ function showA(){
+  $("#withdrawCnyAddress").show();
+  $("#dialogBoxShadow").show();
+ }
+
+ function Update(){
+  var name=$('#bank_name').val();
+  var bank=$('#bank_bank option:selected').val();
+  var bankprov=$('#bank_bankprov option:selected').val();
+  var bankcity=$('#bank_bankcity option:selected').val();
+  var bankaddr=$('#bank_bankaddr').val();
+  var bankcard=$('#bank_bankcard').val();
+  var paypassword=$('#bank_paypassword').val();
+  if(name==""||name==null){
+   layer.tips('请输入备注名称','#bank_name',{tips:3});
+   return false;
+  }
+  if(bank==0){
+   layer.tips('请输入开户银行','#bank_bank',{tips:3});
+   return false;
+  }
+  if(bankprov==0){
+   layer.tips('请输入开户省份','#bank_bankprov',{tips:3});
+   return false;
+  }
+  if(bankcity==0){
+   layer.tips('请输入开户城市','#bank_bankcity',{tips:3});
+   return false;
+  }
+  if(bankaddr==""||bankaddr==null){
+   layer.tips('请输入开户支行','#bank_bankaddr',{tips:3});
+   return false;
+  }
+  if(bankcard==""||bankcard==null){
+   layer.tips('请输入银行账号','#bank_bankcard',{tips:3});
+   return false;
+  }
+  if(paypassword==""||paypassword==null){
+   layer.tips('请输入交易密码','#bank_paypassword',{tips:3});
+   return false;
+  }
+
+
+  $.post("{:U('User/upbank')}",{type:1,name:name,bank:bank,bankprov:bankprov,bankcity:bankcity,bankaddr:bankaddr,bankcard:bankcard,paypassword:paypassword},function(data){
+   if(data.status==1){
+    layer.msg(data.info,{icon:1});
+    window.location="{:U('User/bank')}";
+   }else{
+    layer.msg(data.info,{icon:2});
+    if(data.url){
+     window.location=data.url;
+    }
+   }
+  },"json");
+ }
+
+ function UpdateB(id){
+  layer.config({
+   extend: 'extend/layer.ext.js'
+  });
+  layer.ready(function () {
+   //默认prompt
+   layer.prompt({
+    title: '输入交易密码，并确认',
+    formType: 1},function(val){
+    if (val) {
+     //需要执行的方法
+     $.post("{:U('User/delbank')}",{type:2,id:id,paypassword:val},function(data){
+      if(data.status==1){
+       layer.msg(data.info,{icon:1});
+       window.location="{:U('User/bank')}";
+      }else{
+       layer.msg(data.info,{icon:2});
+       if(data.url){
+        window.location=data.url;
+       }
+      }
+     },"json");
+
+
+    };
+   });
+
+  });
+
+
+ }
+
+</script>
+</body>
+</html>

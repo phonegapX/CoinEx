@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+	<style type="text/css">
+		.gtctable{width: 96%;margin:0 auto;border-collapse: collapse;margin-top:15px;}
+		.gtctable tr td{border:1px solid rgba(255,255,255, .3);font-size:16px;color: #fff;padding:8px 5px;}
+		.gtctable tr td img{vertical-align: middle;}
+	</style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.sPublic_left_xnbtx}<!-- 虚拟币提现 -->
+        </div>
+        <div class="logbot">
+            <form>
+                <table class="gtctable">
+                    <tr>
+                        <td valign="middle">
+                            <img src="{$coin_list[$coin]['img']}" alt="" style="width: 22px; margin-right: 5px;"/> <if condition="LANG_SET eq 'en-us'">{$coin_list[$coin]['js_yw']}<else/>{$coin_list[$coin]['title']}</if>({$coin|strtoupper})
+                        </td>
+                        <td>
+                            {$Think.lang.sTrade_index_ky}<!-- 可用 -->{$user_coin[$coin]}
+                        </td>
+                    </tr>
+                </table>
+                <select name="type" id="myzc_addr" class="logipt">
+                    <option value="">{$Think.lang.Finance_xzjsdz}</option>
+                    <volist name="userQianbaoList" id="vo">
+                        <option value="{$vo.addr}">{$vo.name}|{$vo.addr}</option>
+                    </volist>
+                    <option value="tianjia" style="color:#059ff5;">{$Think.lang.Finance_tjjsdz}</option>
+                </select>
+                <input type="text" placeholder="{$Think.lang.Finance_txsl}" class="logipt" name="name"  id="nums" value="" />
+                <p class="attention">
+					* {$Think.lang.g_safe_tinum}{$coin_list[$coin]['zc_min']|remove_ling=###}，{$Think.lang.Bazaar_zdsl}{$coin_list[$coin]['zc_max']|remove_ling=###}，{$Think.lang.Finance_tbsm3}{$coin_list[$coin]['zc_fee']}%。{$Think.lang.Finance_tbsm4}
+                </p>
+                <div class="yzmbox">
+					<!--<select id="chkstyle" class="logipt">
+						<option value="">请选择验证方式</option>
+						<option value="mobile">手机号码验证</option>
+						<option value="email">邮箱验证</option>
+					</select>
+					<div id="mobile_div" style="display:none;">
+						<input type="text" id="mobile_verify" value="" class="logipt yzmipt" placeholder="短信验证码" />
+						<input type="button" id="regBtn" onclick="SendCode()" value="点击获取验证码" class="phonebut" />
+						<if condition="$user['mobile'] eq '' || $user['mobile'] eq null">
+							<p class="attention">您没有绑定手机，请先绑定手机或换成其它验证方式</p>
+						<else />
+							<p class="attention">* 接收短信的手机{$user['mobile']|addstar=###,mobile}</p>
+						</if>
+					</div>-->
+					<div id="email_div">
+						<input type="text" id="email_verify" value="" class="logipt yzmipt" maxlength="6" placeholder="{$Think.lang.g_yx_verify}" />
+						<input type="button" id="regBtn" onclick="EmCode()" value="{$Think.lang.Finance_hqyzm2}" class="phonebut" />
+						<if condition="$user['email'] eq '' || $user['email'] eq null">
+							<p class="attention">{$Think.lang.g_nbdyx_huan}</p>
+						<else />
+							<p class="attention">* {$Think.lang.g_pwd_yx_recode}{$user['email']|addstar=###,email}</p>
+						</if>
+					</div>
+				</div>
+                <input name="name" id="paypassword" type="password" class="logipt" placeholder="{$Think.lang.sFinance_myzc_jymm}" />
+                <a href="{:U('Login/findpaypwd')}" class="reg_floatr">{$Think.lang.sFinance_myzc_wjmm}?</a>
+                <input type="button" class="logbut" value="{$Think.lang.Finance_tjtxsq}" name="index_submit" id="loginSubmin" onclick="Update()" />
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer" />
+<script type="text/javascript">
+	$("#chkstyle").change(function(){
+	    if($(this).val()=="mobile"){
+	      $("#mobile_div").show();
+	      $("#email_div").hide();
+	    }else if($(this).val()=="email"){
+	      $("#mobile_div").hide();
+	      $("#email_div").show();
+	    }
+	  });
+	var myzc="{$myzc_token}";
+
+    $("#myzc_type").change(function () {
+        var coin = $("#myzc_type option:selected").val();
+        window.location = '/Finance/myzc/coin/' + coin + '.html';
+    });
+
+    $("#myzc_addr").change(function () {
+        var coin = $("#myzc_type option:selected").val();
+        var type = $("#myzc_addr option:selected").val();
+        if (type == 'tianjia') {
+            window.location = '/User/qianbao?coin={$xnb}';
+        }
+    });
+
+    function tiaozhuan(){
+        var coin = $("#myzc_type option:selected").val();
+        window.location = '/Finance/myzc_user/coin/' + coin + '.html';
+    }
+
+    function SendCode() {
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $('#regBtn').attr("disabled", "disabled");
+        $.post("{:U('Verify/myzc')}", {}, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#f6f6f6');
+                    obj.val(wait + '{$Think.lang.Finance_again}');
+                    wait--;
+                    if (wait < 0) {
+                    	$('#regBtn').removeAttr("disabled");
+                        clearInterval(interval);
+                        obj.val('{$Think.lang.sFinance_myzc_hqyzm}');
+                        obj.css('backgroundColor', '#f6f6f6');
+                    }
+                    ;
+                }, 1000);
+            }else {
+                //刷新验证码
+                layer.msg(data.info, {icon: 2});
+                $('#regBtn').removeAttr("disabled");
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+    function EmCode() {
+	  var chkstyle = 'email';
+	  if(!chkstyle || chkstyle != 'email'){
+	  layer.tips('{$Think.lang.g_nxzdyzfsbsyx}', '#chkstyle', {
+	        tips: 3
+	    });
+	    return false;
+	  }
+	  layer.load(0, {shade: [0.5,'#8F8F8F']});
+	    $('#regBtn').attr("disabled", "disabled");
+	    $.post("{:U('Verify/myzcemail')}", {}, function (data) {
+	    layer.closeAll();
+	      if (data.status == 1) {
+	        layer.msg(data.info, {
+	          icon: 1
+	        });
+	        var obj = $('#regBtn');
+	        var wait = 120;
+	        var interval = setInterval(function () {
+	          obj.css('backgroundColor', '#135f91');
+	          obj.val(wait + '{$Think.lang.Finance_again}');
+	          wait--;
+	          if (wait < 0) {
+	            obj.removeAttr("disabled");
+	            clearInterval(interval);
+	            obj.val('{$Think.lang.sFinance_myzc_hqyzm}');
+	            obj.css('backgroundColor', '#135f91');
+	          }
+	          ;
+	        }, 1000);
+	      } else {
+	        $('#regBtn').removeAttr("disabled");
+	        layer.msg(data.info, {
+	          icon: 2
+	        });
+	      }
+	    }, "json");
+	}
+
+    function Update() {
+        var coin = "{$xnb}";
+        var addr = $('#myzc_addr option:selected').val();
+        var num = $("#nums").val();
+        //var mobile_verify = $("#mobile_verify").val();
+        var paypassword = $("#paypassword").val();
+        var chkstyle = 'email';
+    	var email_verify = $("#email_verify").val();
+    	if(!chkstyle){
+	      layer.tips('{$Think.lang.g_chooseyzfs}', '#chkstyle', {
+	        tips: 3
+	      });
+	      return false;
+	    }
+        if (addr == "" || addr == null) {
+            layer.tips('{$Think.lang.sFinance_myzc_qxzqb}', '#myzc_addr', {tips: 3});
+            return false;
+        }
+
+/*        if (chkstyle == 'mobile' && (mobile_verify == "" || mobile_verify == null)) {
+            layer.tips('请输入短信验证码', '#mobile_verify', {tips: 3});
+            return false;
+        }*/
+
+        if (chkstyle == 'email' && (email_verify == "" || email_verify == null)) {
+			layer.tips('{$Think.lang.g_yx_put_verfy}', '#email_verify', {
+				tips: 3
+			});
+			return false;
+		}
+
+        if (num == "" || num == null) {
+            layer.tips('{$Think.lang.Finance_txsl2}', '#nums', {tips: 3});
+            return false;
+        }
+
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('{$Think.lang.Bazaar_srjypw}', '#paypassword', {tips: 3});
+            return false;
+        }
+		layer.load(2);
+        $.post("{:U('Finance/upmyzc')}", {
+            coin: coin,
+            addr: addr,
+            num: num,
+            paypassword: paypassword,
+            //mobile_verify: mobile_verify,
+			token: myzc,
+			chkstyle: chkstyle,
+			email_verify: email_verify
+        }, function (data) {
+			myzc = data.url;
+			layer.closeAll('loading');
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Finance/myzc')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+    }
+</script>
+</body>
+</html>

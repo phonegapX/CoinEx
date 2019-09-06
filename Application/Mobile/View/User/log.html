@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.User_loginrz}
+        </div>
+        <div class="logbot" id="button" style="display:none">
+        <button type="button" class="layout" style="border:none;width: 100%;" onclick="bianhua()">{$Think.lang.g_shuaixuan}</button>
+        </div>
+        <div class="logbot" style="display:none" id="check">
+     <form action="" method="get" style="display:none">
+      <!-- 开始时间： -->
+      <input type="text" name="starttime" class="search-input form-control" value="{$info['starttime']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_kssj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;">
+
+      <!-- -结束时间： -->
+      <input type="text" name="endtime" class="search-input form-control" value="{$info['endtime']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_jzsj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;">
+      <button type="submit" class="layout" style="border:none;width: 100%;">{$Think.lang.sFinance_mycj_cx}</button>
+      <button type="button" class="layout" style="border:none;width: 100%;background:rgba(255,255,255, .5)" onclick="bianhua1()">{$Think.lang.g_shouqi}</button>
+    </form>
+    </div>
+        <div class="chgbox">
+            <ul>
+            <volist name="list" id="vo">
+                <li>
+                    <table class="chglist_bot">
+                        <tr>
+                            <th>{$Think.lang.Finance_cztime}</th>
+                            <th>{$Think.lang.User_czip}</th>
+                            <th>{$Think.lang.sFinance_myzr_zt}</th>
+                        </tr>
+                        <tr>
+                            <td>{$vo.addtime|date='Y-m-d H:i:s',###}</td>
+                            <td>{$vo.addip}</td>
+                            <td>
+                                <eq name="vo.status" value="0">
+                                    <font color="violet">{$Think.lang.User_error1}</font>
+                                </eq>
+                                <eq name="vo.status" value="1">{$Think.lang.User_success}</eq>
+                                <eq name="vo.status" value="2">
+                                    <font color="red">{$Think.lang.User_error2}</font>
+                                </eq>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </volist>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+    </div>
+<include file="Public:footer" />
+<script type="text/javascript">
+	$(".pages").children("a").each(function(){
+		var ahref = $(this).attr('href');
+		var ahrefarr = ahref.split("/");
+		var ahlength = ahrefarr.length;
+		if(ahrefarr[ahlength-2]=="p"){
+			var jiewei = ahrefarr[ahlength-1].split(".");
+			var page = jiewei[0];
+		}
+		ahrefarr.splice(ahlength-2,2);
+		var newhref = "";
+		for(var i=0;i<ahrefarr.length;i++){
+			if(i==1){
+				newhref = newhref + "/" + ahrefarr[i];
+			}
+			if(i==2){
+				newhref = newhref + "/" + ahrefarr[i] + ".html?";
+			}
+			if(i>=3){
+				if(i%2==0){
+					newhref = newhref + "=" + ahrefarr[i];
+				}else{
+					newhref = newhref + "&" + ahrefarr[i];
+				}
+			}
+		}
+		newhref = newhref+"&p="+page;
+		$(this).attr("href",newhref);
+	});
+    function bianhua(){
+        $("#check").show();
+        $("#button").hide();
+    }
+    function bianhua1(){
+        $("#button").show();
+        $("#check").hide();
+    }
+</script>
+</body>
+</html>

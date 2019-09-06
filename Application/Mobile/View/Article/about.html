@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="graybg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            关于平台
+        </div>
+        <ul class="nwlist">
+            <volist name="list" id="vo">
+            <li>
+                <div class="nwl_top">
+                    <img src="__PUBLIC__/Mobile/images/coin.png">
+                    <div class="rightext">
+                        <a href="{:U('Article/about_detail',array('id'=>$vo['id']))}">
+                            <h3>{$vo.title}</h3>
+                        </a>
+                        <p class="time">{$vo.addtime|date="Y-m-d H:i:s",###}</p>
+                    </div>
+                </div>
+                <div class="nwl_bot">
+                    <div class="desc">
+                        <a href="{:U('Article/about_detail',array('id'=>$vo['id']))}">
+                            {$vo.content|msubstr=0,52}
+                        </a>
+                    </div>
+                </div>
+            </li>
+            </volist>
+            
+        </ul>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

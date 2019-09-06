@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.g_bzlb}<!-- 币种列表 -->
+        </div>
+        <ul class="tdlist">
+            <volist name="coin_list" id="vo">
+                <li>
+                    <a href="/User/qianbao/coin/{$vo['name']}.html">
+                        <div class="xsltop">
+                            <img src="{$vo['img']}"><if condition="LANG_SET eq 'en-us'">{$vo['js_yw']}<else/>{$vo['title']}</if>({$vo['name']|strtoupper=###})
+                        </div>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

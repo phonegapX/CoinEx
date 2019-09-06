@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            <!-- 委托管理/交易市场 -->{$Think.lang.User_wtgl}/{$Think.lang.deal_mark}
+        </div>
+        <ul class="tdlist">
+            <volist name="coin_list" id="vo">
+                <li>
+                    <a href="/Finance/mywt/market/{$vo['name']}">
+                        <div class="xsltop">
+                            {$vo['name']|convmarket}
+                        </div>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

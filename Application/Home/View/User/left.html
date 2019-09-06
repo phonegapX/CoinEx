@@ -1,0 +1,34 @@
+<div class="usnc_left">
+    <div class="ulmenubox">
+        <h4><img src="__PUBLIC__/Home/images/images/account_icon.png">{$Think.lang.User_zhsz}</h4>
+        <ul>
+            <li id="user_index" class="">
+                <a href="{:U('User/index')}">{$Think.lang.g_safe_set}</a>
+            </li>
+            <li id="finance_mytj" class=""><a href="/finance/mytj.html">{$Think.lang.g_tui_user}</a></li>
+            <li id="user_log" class="">
+                <a href="{:U('User/log')}">{$Think.lang.g_login_log}</a>
+            </li>
+
+            <li id="user_api" class="">
+                <a href="{:U('User/api')}">{$Think.lang.g_login_api}</a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+$(window).scroll(function(){
+	if($(window).scrollTop()>80){
+		$('.usnc_left').css({
+			'position':'fixed',
+			'top':'10px'
+		});
+	}else{
+		$('.usnc_left').css({
+			'position':'static',
+			'top':'none'
+		});
+	}
+});
+</script>

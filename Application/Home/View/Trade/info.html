@@ -1,0 +1,157 @@
+<include file="Public:header_new" />
+        <div class="dealtop">
+            <div class="first">
+                <span class="topimg"><img src="{$C['market'][$market]['xnbimg']}"></span>
+                <p>
+                    {$C['market'][$market]['title_n']}<br/>{$C['market'][$market]['title_ns']}
+                </p>
+            </div>
+            <div class="td">
+                <p class="title">最新成交价</p>
+                <h3 class="yellow"><span class="little">¥</span> <span id="market_new_price"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">最高价</p>
+                <h3 class="orange"><span class="little">¥</span> <span id="market_max_price"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">最低价</p>
+                <h3 class="green"><span class="little">¥</span> <span id="market_min_price"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">买一价</p>
+                <h3><span class="little">¥</span> <span id="market_buy_price"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">卖一价</p>
+                <h3><span class="little">¥</span> <span id="market_sell_price"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">成交量</p>
+                <h3><span class="little"></span> <span id="market_volume"></span></h3>
+            </div>
+            <div class="td">
+                <p class="title">日涨跌</p>
+                <h3 class="orange"><span class="little"></span><span id="market_change"></span></h3>
+            </div>
+        </div>
+        <div class="abtmain">
+            <div class="abthd">
+                <ul>
+                    <li style="width: 200px;"><a href="/Trade/index/market/{$market}">{$C['market'][$market]['title_n']}{$C['market'][$market]['title_ns']}交易</a></li>
+                    <li class="on"><a href="#">了解{$C['market'][$market]['title_n']}</a></li>
+                </ul>
+            </div>
+            <div class="abtbd">
+                <ul>
+                    <li>
+                        <div class="abtdts">
+                            <div class="abtdts_top">
+                                <div class="title_top">
+                                    <h4>{$C['market'][$market]['title_n']}（{$C['market'][$market]['title_nsm']}）介绍</h4>
+                                    <div class="rightbut">
+                                        <ul>
+                                            <li><a target="_blank" href="{$C['coin'][$xnb]['js_qb']}">{$C['market'][$market]['title_n']}钱包下载</a></li>
+                                            <li class="on"><a target="_blank" href="{$C['coin'][$xnb]['js_gw']}">{$C['market'][$market]['title_n']}官方网站</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="title_bot">
+                                    <div class="leftimg">
+                                        <img src="{$C['market'][$market]['xnbimg']}">
+                                    </div>
+                                    <div class="rightext">
+                                        <p class="name">(英文：{$C['coin'][$xnb]['js_yw']} 缩写：{$xnb|strtoupper})</p>
+                                        <p class="date">推出日期：{$C['coin'][$xnb]['cs_fb']}</p>
+                                        <p class="desc">{$C['coin'][$xnb]['js_sm']|htmlspecialchars_decode}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="abtdts_bot">
+                                <h4>详细参数</h4>
+                                <table>
+                                    <tr>
+                                        <td width="33%">中文名：<span class="dark">{$C['coin'][$xnb]['title']}</span></td>
+                                        <td width="33%">英文名：<span class="dark">{$C['coin'][$xnb]['js_yw']}</span></td>
+                                        <td>英文简称：<span class="dark">{$xnb|strtoupper}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>研发者：<span class="dark">{$C['coin'][$xnb]['cs_yf']}</span></td>
+                                        <td>核心算法：<span class="dark">{$C['coin'][$xnb]['cs_sf']}</span></td>
+                                        <td>发布日期：<span class="dark">{$C['coin'][$xnb]['cs_fb']}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>区块速度：<span class="dark">{$C['coin'][$xnb]['cs_qk']}</span></td>
+                                        <td>发行总量：<span class="dark">{$C['coin'][$xnb]['cs_zl']}</span></td>
+                                        <td>存量：<span class="dark">{$C['coin'][$xnb]['cs_cl']}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>证明方式：<span class="dark">{$C['coin'][$xnb]['cs_zm']}</span></td>
+                                        <td>难度调整：<span class="dark">{$C['coin'][$xnb]['cs_nd']}</span></td>
+                                        <td>区块奖励：<span class="dark">{$C['coin'][$xnb]['cs_jl']}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>主要特色：<span class="dark">{$C['coin'][$xnb]['cs_ts']}</span></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>不足之处：<span class="dark">{$C['coin'][$xnb]['cs_bz']}</span></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    	<script type="text/javascript" src="js/bar.js"></script>
+    	<script type="text/javascript">
+			var market_round="{$C['market'][$market]['round']}";
+			var market_round_num=7-"{$C['market'][$market]['round']}";
+			var market_round_total=4;
+    		getJsonTop();
+    		function getJsonTop() {
+		        $.getJSON("/Ajax/getJsonTop?market={$market}&t=" + Math.random(), function (data) {
+		            if (data) {
+		                if (data['info']['new_price']) {
+		                    $("#market_new_price").html((data['info']['new_price'].toFixed(market_round)));
+		                }
+		                if (data['info']['buy_price']) {
+		                    $("#market_buy_price").html(data['info']['buy_price'].toFixed(market_round));
+		                    $("#sell_best_price").html(data['info']['buy_price'].toFixed(market_round));
+		                }
+		                if (data['info']['sell_price']) {
+		                    $("#market_sell_price").html(data['info']['sell_price'].toFixed(market_round));
+		                    $("#buy_best_price").html(data['info']['sell_price'].toFixed(market_round));
+		                }
+		                if (data['info']['max_price']) {
+		                    $("#market_max_price").html(data['info']['max_price'].toFixed(market_round));
+		                }
+		                if (data['info']['min_price']) {
+		                    $("#market_min_price").html(data['info']['min_price'].toFixed(market_round));
+		                }
+		                if (data['info']['volume']) {
+							if(data['info']['volume'] <= 10000){
+								data['info']['volume'] = data['info']['volume'].toFixed(market_round_num);
+							}
+		                    if (data['info']['volume'] > 10000) {
+		                        data['info']['volume'] = (data['info']['volume'] / 10000).toFixed(2) + "万"
+		                    }
+		                    if (data['info']['volume'] > 100000000) {
+		                        data['info']['volume'] = (data['info']['volume'] / 100000000).toFixed(2) + "亿"
+		                    }
+		                    $("#market_volume").html(data['info']['volume']);
+		                }
+		                if (data['info']['change']) {
+		                    $("#market_change").html(data['info']['change'] + "%");
+		                }
+		            }
+		        });
+		        setTimeout('getJsonTop()', 5000);
+		      }
+              $('#trade_box').addClass('on');
+    	</script>
+<include file="Public:footer_new" />

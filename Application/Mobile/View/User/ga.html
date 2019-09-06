@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.g_gugeyz}
+        </div>
+    <eq name="is_ga" value="0">
+        <div class="ifor_flow">
+            <!-- <h2>更改实名认证信息流程：</h2> -->
+            <p>{$Think.lang.g_gugepp}</p>
+        </div>
+        <div class="ifor_flow">
+            <!-- <h2>更改实名认证信息流程：</h2> -->
+            <p>{$Think.lang.g_guge_one}
+            </p>
+            <p>{$Think.lang.g_guge_one_phone}</p>
+            <p>{$Think.lang.g_guge_one_andrond}</p>
+            <p>{$Think.lang.g_guge_two}</p>
+			<p>{$Think.lang.g_guge_two_p11}</p>
+			<p id="qrcode" style="background-color:white;width:200px;"></p>
+            <p>{$Think.lang.g_guge_two_p222}<font color="#fff">{$Asecret}</font></p>
+            <p>{$Think.lang.User_detailmsg2s}：
+            <br/><font color="#fff">{$zhanghu}</font></p>
+            <!-- <p><img src="__PUBLIC__/Mobile/images/gugeyanzheng.png" width="100%"></p> -->
+            <p>{$Think.lang.User_ggmsg3}</p>
+            <p>{$Think.lang.User_detailmsg3}: <font color="#fff">{$Asecret}</font> {$Think.lang.User_detailmsg3s}</p>
+            <p>{$Think.lang.User_detailmsg4}</p>
+        </div>
+        <div class="logbot">
+            <form>
+                <input type="text" placeholder="{$Think.lang.User_detailmsg5}" class="logipt"  id="ga">
+               <!--  <p style="font-size:14px;line-height:24px;color:#fff;padding-left:10px;">
+                            {$Think.lang.User_detailmsg6}<em></em>
+                </p> -->
+                <li><label for="only" style="font-size:16px;line-height:24px;color:#fff;padding-left:10px;"><input type="checkbox" id="ga-login" name="login" checked="1"> {$Think.lang.Finance_login} </label></li>
+                <input type="button" class="logbut" onclick="goole_verify()" value="{$Think.lang.User_open}">
+            </form>
+        </div>
+        <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.qrcode.min.js"></script>
+                <script>
+                    $('#qrcode').qrcode({
+                        render: "table", //table方式
+                        size: 200,
+                        text: "{$qrCodeUrl}" //任意内容
+                    }); //任意字符串
+
+                    function goole_verify() {
+                        var ga = $('#ga').val();
+                        var ga_login = $('#ga-login').is(':checked') ? 1 : 0;
+                        var ga_transfer = $('#ga-transfer').is(':checked') ? 1 : 0;
+                        var ga = $('#ga').val();
+                        if (!ga) {
+                            layer.tips('{$Think.lang.g_guge_put_yzm}', '#ga', {
+                                tips: [
+                                    1,
+                                    '#0FA6D8'
+                                ]
+                            });
+                            return;
+                        }
+                        $.post("{:U('user/ga')}", {
+                            ga: ga,
+                            ga_login: ga_login,
+                            ga_transfer: ga_transfer,
+                            type: 'add'
+                        }, function (ret) {
+                            if (ret.status) {
+                                layer.msg('{$Think.lang.g_guge_success}...', {icon: 16});
+                                setTimeout('flash()', 2000);
+                            } else {
+                                layer.msg(ret.info);
+                            }
+                        }, 'json');
+                    }
+                </script>
+    <else/>
+        <div class="logbot">
+            <form>
+                <p style="font-size:14px;line-height:24px;color:#fff;padding-left:10px;margin-top: 10px;">
+                            {$Think.lang.g_guge_peizhiyz}:
+                            <input style="margin-left: 5px;" type="checkbox" id="ga-login" name="login" <eq name="ga_login" value="1">checked="1"</eq>> {$Think.lang.Finance_login}
+                </p>
+                <input type="text" placeholder="{$Think.lang.User_detailmsg5}" class="logipt"  id="ga">
+                <!-- <p style="font-size:14px;line-height:24px;color:#fff;padding-left:10px;">
+                            {$Think.lang.User_detailmsg6}<em></em>
+                </p> -->
+                <!-- <li><label for="only" style="font-size:16px;line-height:24px;color:#fff;padding-left:10px;"><input type="checkbox" id="ga-login" name="login" <eq name="ga_login" value="1">checked="1"</eq>> {$Think.lang.Finance_login} </label></li> -->
+                <input type="button" class="logbut" value="{$Think.lang.User_save}" onclick="google_set()" style="margin-bottom: 15px;">
+            </form>
+        </div>
+        <div class="logbot">
+            <form>
+                <p style="font-size:14px;line-height:24px;color:#fff;padding-left:10px;">
+                            {$Think.lang.User_opendobyz}：<em></em>
+                </p>
+                <input type="text" class="logipt" id="ga_delete" name="ga_delete" placeholder="{$Think.lang.g_guge_input_sc}">
+               <!--  <p style="font-size:14px;line-height:24px;color:#fff;padding-left:10px;">
+                            {$Think.lang.g_guge_three_p222}<em></em>
+                </p> -->
+                <input type="button" class="logbut" value="{$Think.lang.User_offdobyz}" onclick="ga_cancel()">
+            </form>
+        </div>
+        <script>
+            function google_set() {
+                var ga = $('#ga').val();
+                var ga_login = $('#ga-login').is(':checked') ? 1 : 0;
+                var ga_transfer = $('#ga-transfer').is(':checked') ? 1 : 0;
+                var ga = $('#ga').val();
+                if (!ga) {
+                    layer.tips('{$Think.lang.g_guge_put_yzm}', '#ga', {
+                        tips: [
+                            1,
+                            '#0FA6D8'
+                        ]
+                    });
+                    return;
+                }
+                $.post("{:U('user/ga')}", {
+                    ga: ga,
+                    ga_login: ga_login,
+                    ga_transfer: ga_transfer,
+                    type: 'updat'
+                }, function (ret) {
+                    if (ret.status) {
+                        layer.msg('{$Think.lang.g_guge_success}...', {icon: 16});
+                        setTimeout('flash()', 2000);
+                    } else {
+                        layer.msg(ret.info);
+                    }
+                }, 'json');
+            }
+
+            function ga_cancel() {
+                var ga = $('#ga_delete').val();
+                var ga = $('#ga_delete').val();
+                if (!ga) {
+                    layer.tips('{$Think.lang.input_verify}', '#ga_delete', {
+                        tips: [
+                            1,
+                            '#0FA6D8'
+                        ]
+                    });
+                    return;
+                }
+                $.post("{:U('user/ga')}", {
+                    ga: ga,
+                    type: 'delet'
+                }, function (ret) {
+                    if (ret.status) {
+                        layer.msg('{$Think.lang.User_jumpin}...', {icon: 16});
+                        setTimeout('flash()', 2000);
+                    } else {
+                        layer.msg(ret.info);
+                    }
+                }, 'json');
+            }
+        </script>
+    </eq>
+        <script>
+
+            $('#user_box').addClass('active');
+            $('#user_ga').addClass('active');
+            $('#user_ga i').attr('class', 'coin_menu_op_11');
+
+            function flash() {
+
+                window.location = "{:U('user/ga')}"
+            }
+        </script>
+    </div>
+    <include file="Public:footer" />
+</body>
+</html>

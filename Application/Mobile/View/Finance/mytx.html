@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            人民币提现
+        </div>
+        <div class="logbot">
+            <p class="words" style="line-height:24px;margin-top: 15px;">
+                今日可提现人民币：<img src="__PUBLIC__/Home/images/coin_rmb.png" style="width: 18px;vertical-align:middle;margin-top: -3px;" />
+                <span>{$user_coin['becc']-$user_coin['shouyi_num'] - $today_dj|NumToStr}</span>
+			</p>
+            <form>
+				<select name="type" id="mytx_type" class="logipt">
+                    <option value="">--选择提现地址--</option>
+                    <volist name="userBankList" id="vo">
+                        <option value="{$vo.id}">{$vo.name}|{$vo.bank}|{$vo.bankcard}</option>
+                    </volist>
+                    <option value="tianjia" style="color:#e76500;">新添加一个提现地址</option>
+                </select>
+                <input type="text" placeholder="提现金额" class="logipt" id="num" />
+                <p class="words" id="tian">
+                    提现手续费{$C['mytx_fee']}%
+                    <if condition="($C['mytx_fee_min'] neq '') OR($C['mytx_fee_min'] neq 0) ">
+                        ,提现手续费最低{$C['mytx_fee_min']}元
+                    </if>
+                </p>
+                <p class="words" id="tian">
+					单次提现最小金额：￥{$C['mytx_min']}，最大金额：￥{$C['mytx_max']}
+                </p>
+                <script type="text/javascript">
+                    $('#num').blur(function(){
+                        var min_price = parseFloat("<?php echo $C['mytx_min']?>");
+                        var max_price = parseFloat("<?php echo $C['mytx_max']?>");
+                        var maxs_price = parseFloat("<?php echo $user_coin['becc']-$user_coin['shouyi_num'] - $today_dj;?>");
+                        var nums = parseFloat($(this).val());
+                        if(nums < min_price){
+                            $(this).val(min_price);
+                        }
+                        if(nums > max_price){
+                            $(this).val(max_price);
+                        }
+                        if(maxs_price < max_price){
+							if(nums > maxs_price){
+								$(this).val(maxs_price);
+							}
+                        }
+                    });
+                </script>
+                
+				<input type="password" placeholder="交易密码" class="logipt" id="paypassword" name="paypassword" />
+                
+				<a href="{:U('Login/findpaypwd')}" class="reg_floatr words">忘记密码?</a>
+
+				<select id="chkstyle" class="logipt">
+					<option value="">请选择验证方式</option>
+					<option value="mobile">手机号码验证</option>
+					<option value="email">邮箱验证</option>
+				</select>
+				<div class="yzmbox" id="mobile_div" style="display:none;">
+					<input type="text" id="mobile_verify" value="" class="logipt yzmipt" placeholder="短信验证码" />
+					<input type="button" id="regBtn" onclick="SendCode()" value="点击获取验证码" class="phonebut" />
+					<if condition="$user['mobile'] eq '' || $user['mobile'] eq null">
+						<p class="attention">您没有绑定手机，请先绑定手机或换成其它验证方式</p>
+					<else />
+						<p class="attention">* 接收短信的手机{$user['mobile']|addstar=###,mobile}</p>
+					</if>
+				</div>
+				<div class="yzmbox" id="email_div" style="display:none;">
+					<input type="text" id="email_verify" value="" class="logipt yzmipt" maxlength="6" placeholder="邮箱验证码" />
+					<input type="button" id="regBtn" onclick="EmCode()" value="点击获取验证码" class="phonebut" />
+					<if condition="$user['email'] eq '' || $user['email'] eq null">
+						<p class="attention">您没有绑定邮箱，请先绑定邮箱或换成其它验证方式</p>
+					<else />
+						<p class="attention">* 接收验证码的邮箱{$user['email']|addstar=###,email}</p>
+					</if>
+				</div>
+                <input type="button" class="logbut" value="申请提现" onclick="Update()" />
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer"/>
+<script type="text/javascript">
+		$("#chkstyle").change(function(){
+		    if($(this).val()=="mobile"){
+		      $("#mobile_div").show();
+		      $("#email_div").hide();
+		    }else if($(this).val()=="email"){
+		      $("#mobile_div").hide();
+		      $("#email_div").show();
+		    }
+		  });
+		var mytx = "{$mytx_token}";
+		var txcancel = "{$txcancel_token}";
+
+		$("#status-selectTest").change(function () {
+			var status = $("#status-selectTest option:selected").val();
+			window.location = '/Finance/mytx/status/' + status + '/.html';
+		});
+
+
+		$("#mytx_type").change(function () {
+			var type = $("#mytx_type option:selected").val();
+			if (type == 'tianjia') {
+				window.location = '/User/bank.html';
+			}
+		});
+
+		function closetanchu(){
+			layer.closeAll('loading');
+		}
+		function shuaxin(){
+			window.location.href=window.location.href;
+		}
+
+		function mytxChexiao(id) {
+			layer.load(0, {shade: [0.5,'#8F8F8F']});
+			$.post("{:U('Finance/mytxChexiao')}", {id: id, token: txcancel}, function (data) {
+				txcancel=data.url;
+				setTimeout("closetanchu()",2000);
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					setTimeout("shuaxin()",1000);
+				} else {
+					layer.msg(data.info, {icon: 2});
+				}
+			}, "json");
+		}
+
+
+		function SendCode() {
+			layer.load(0, {shade: [0.5,'#8F8F8F']});
+			$('#regBtn').attr("disabled", "disabled");
+			$.post("{:U('Verify/mytx')}", {}, function (data) {
+				layer.closeAll();
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					var obj = $('#regBtn');
+					var wait = 120;
+					var interval = setInterval(function () {
+						obj.css('backgroundColor', '#f6f6f6');
+						obj.val(wait + '秒再次发送');
+						wait--;
+						if (wait < 0) {
+							$('#regBtn').removeAttr("disabled");
+							clearInterval(interval);
+							obj.val('获取验证码');
+							obj.css('backgroundColor', '#0096e0');
+						}
+						;
+					}, 1000);
+				} else {
+					$('#regBtn').removeAttr("disabled");
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+		function EmCode() {
+		  var chkstyle = $("#chkstyle").val();
+		  if(!chkstyle || chkstyle != 'email'){
+		  layer.tips('您选择的验证方式不是邮箱验证', '#chkstyle', {
+		        tips: 3
+		    });
+		    return false;
+		  }
+		  layer.load(0, {shade: [0.5,'#8F8F8F']});
+		    $('#regBtn').attr("disabled", "disabled");
+		    $.post("{:U('Verify/mytxemail')}", {}, function (data) {
+		    layer.closeAll();
+		      if (data.status == 1) {
+		        layer.msg(data.info, {
+		          icon: 1
+		        });
+		        var obj = $('#regBtn');
+		        var wait = 120;
+		        var interval = setInterval(function () {
+		          obj.css('backgroundColor', '#f6f6f6');
+		          obj.val(wait + '秒再次发送');
+		          wait--;
+		          if (wait < 0) {
+		            obj.removeAttr("disabled");
+		            clearInterval(interval);
+		            obj.val('获取验证码');
+		            obj.css('backgroundColor', '#f6f6f6');
+		          }
+		          ;
+		        }, 1000);
+		      } else {
+		        $('#regBtn').removeAttr("disabled");
+		        layer.msg(data.info, {
+		          icon: 2
+		        });
+		      }
+		    }, "json");
+		}
+
+		function Update() {
+			var num = $("#num").val();
+			var paypassword = $("#paypassword").val();
+			var mobile_verify = $("#mobile_verify").val();
+			var type = $('#mytx_type option:selected').val();
+			var chkstyle = $("#chkstyle").val();
+    		var email_verify = $("#email_verify").val();
+    		if(!chkstyle){
+		      layer.tips('您选择验证方式！', '#chkstyle', {
+		        tips: 3
+		      });
+		      return false;
+		    }
+			if (type == "" || type == null) {
+				layer.tips('请选择提现地址', '#mytx_type', {
+					tips: 3
+				});
+				return false;
+			}
+			if (chkstyle == 'mobile' && (mobile_verify == "" || mobile_verify == null)) {
+				layer.tips('请输入短信验证码', '#mobile_verify', {
+					tips: 3
+				});
+				return false;
+			}
+			if (chkstyle == 'email' && (email_verify == "" || email_verify == null)) {
+				layer.tips('请输入邮箱验证码', '#email_verify', {
+					tips: 3
+				});
+				return false;
+			}
+			if (num == "" || num == null) {
+				layer.tips('请输入提现金额', '#num', {
+					tips: 3
+				});
+				return false;
+			}
+			var reg = /^\+?[1-9][0-9]*$/;
+			if(!reg.test(num)){
+				layer.tips('提现金额为正整数', '#num', {
+					tips: 3
+				});
+				return false;
+			}
+			if (paypassword == "" || paypassword == null) {
+				layer.tips('请输入交易密码', '#paypassword', {
+					tips: 3
+				});
+				return false;
+			}
+			layer.load(0, {shade: [0.5,'#8F8F8F']});
+			$.post("{:U('Finance/mytxUp')}", {
+				type: type,
+				num: num,
+				paypassword: paypassword,
+				mobile_verify: mobile_verify,
+				token: mytx,
+				chkstyle: chkstyle,
+				email_verify: email_verify
+			}, function (data) {
+				mytx = data.url;
+				setTimeout("closetanchu()",2000);
+				if (data.status == 1) {
+					layer.msg(data.info, {
+						icon: 1
+					});
+					setTimeout("shuaxin()",1000);
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, "json");
+		}
+
+	</script>
+</body>
+</html>

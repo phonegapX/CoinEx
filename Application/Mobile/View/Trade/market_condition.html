@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$market|strtoupper} {$Think.lang.Finance_jyhq}<!-- 交易行情 -->
+        </div>
+        <div class="tadtop">
+            <div class="tadtitle">
+                <div class="tadleft">
+                {$market|strtoupper=###}
+                </div>
+                <div class="tadright" style="line-height: 36px;">
+                    <!-- <span class="price">{$data['new_price']}</span> -->
+                    <if condition="$market_info['change'] eq 0">
+                        <span class="percent red">+{$market_info['change']|round=###,2}%</span>
+                    <elseif condition="$market_info['change'] lt 0"/>
+                        <span class="percent green">{$market_info['change']|round=###,2}%</span>
+                    <else />
+                        <span class="percent red">{$market_info['change']|round=###,2}%</span>
+                    </if>
+                </div>
+            </div>
+            <table class="tadtable">
+                <tr>
+                    <th>{$Think.lang.Finance_topjg}<!-- 最高价 --></th>
+                    <th>{$Think.lang.Finance_downjg}<!-- 最低价 --></th>
+                    <th>{$Think.lang.sTrade_index_cjl}<!-- 成交量 --></th>
+                    <th>{$Think.lang.g_price_new}<!-- 最新价 --></th>
+                </tr>
+                <tr>
+                    <td>{$data['max_price']}</td>
+                    <td>{$data['min_price']}</td>
+                    <td>{$data['volume']}</td>
+                    <!-- <td>{$market_info['cje']}</td> -->
+                    <td>{$data['new_price']}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="apibox" style="padding-bottom: 30px;text-align: center;padding-top: 20px;">
+            <a href="{:U('Trade/kline',array('coin_name'=>$market))}" style="margin: 20px;font-size: 14px;color: white;">
+                {$Think.lang.Finance_djck}<!-- 点击查看 -->{$market|strtoupper=###}{$Think.lang.Zuan_kilne}<!-- 专业版K线图 -->
+            </a>
+        </div>
+        <!--<div class="business">
+            <h4><img src="__PUBLIC__/Mobile/images/tradeicon1.png">买卖盘</h4>
+            <div class="saletable">
+            <div class="saletable_top">
+                <table>
+                    <tr>
+                        <th width="33%">买/卖</th>
+                        <th width="33%">价格</th>
+                        <th width="34%">数量</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="saletable_bot">
+                <table class="green" id="selllist">
+                </table>
+                <table class="red" id="buylist">
+                </table>
+            </div>
+        </div>
+        </div>-->
+        <div class="dealbox">
+            <h4><img src="__PUBLIC__/Mobile/images/tradeicon1.png">{$Think.lang.Finance_newcjjl}<!-- 成交记录 --></h4>
+            <div class="bustitle">
+                <table>
+                    <tr>
+                        <th width="17%">{$Think.lang.Finance_bors}<!-- 买/卖 --></th>
+                        <th width="34%">{$Think.lang.sTrade_index_cjsj}<!-- 成交时间 --></th>
+                        <th width="27%">{$Think.lang.Finance_mcjg2}<!-- 卖出价 --></th>
+                        <th width="22%">{$Think.lang.sTrade_index_cjl}<!-- 成交量 --></th>
+                    </tr>
+                </table>
+            </div>
+            <div class="busbox">
+                <table class="busdts" id="orderlist">
+                    {$orderlist}
+                </table>
+            </div>
+        </div>
+        <include file="Public:footer" />
+    </div>
+    <script type="text/javascript">
+        var market="{$market}";
+		var market_round="{$market_info['round']}";
+		// var market_round_num=7-"{$market_info['round']}";
+        var market_round_num=6;
+		var market_round_total=4;
+		var ling = 0;
+        // 成交记录
+        function getTradelog(){
+            $.getJSON("/Ajax/getTradelog?market="+market+"&t="+Math.random(),function(data){
+                if(data){
+                    if(data['tradelog']){
+                        var list='';
+                        var type='';
+                        var typename='';
+                        for( var i in data['tradelog']){
+                            if(data['tradelog'][i]['type']==1){
+                                //买sTrade_index_buy
+                                list+='<tr><td width="17%"><span class="red">{$Think.lang.sTrade_index_buy}</span></td><td width="34%">'+data['tradelog'][i]['addtime']+'</td><td width="27%"><span class="white">'+data['tradelog'][i]['price'].toFixed(market_round)+'</span></td><td width="22%"><span class="white">'+data['tradelog'][i]['num'].toFixed(market_round_num)+'</span></td></tr>';
+                            }else{
+                                //卖
+                                list+='<tr><td width="17%"><span class="green">{$Think.lang.sTrade_index_sell}</span></td><td width="34%">'+data['tradelog'][i]['addtime']+'</td><td width="27%"><span class="white">'+data['tradelog'][i]['price'].toFixed(market_round)+'</span></td><td width="22%"><span class="white">'+data['tradelog'][i]['num'].toFixed(market_round_num)+'</span></td></tr>';
+                            }
+                        }
+                        $("#orderlist").html(list);
+                    }
+                }
+            });
+
+            // 5秒更新一次
+            setTimeout('getTradelog()',5000);
+        }
+
+
+        // 买卖委托全站
+        function getDepth(){
+
+            $.getJSON("/Ajax/getDepth?market="+market+"&trade_moshi=1&t="+Math.random(),function(data){
+                // 判断有无数据
+                if(data){
+
+                    if(data['depth']){
+                        var list='';
+                        var sellk=data['depth']['sell'].length;
+                        if(data['depth']['sell']){
+                            for(i=data['depth']['sell'].length-1; i>=0; i--){
+                                    //卖
+                                list+='<tr><td width="33%">{$Think.lang.sTrade_index_sell}'+(sellk-i)+'</td><td width="33%">'+data['depth']['sell'][i][0].toFixed(3)+'</td><td width="34%">'+data['depth']['sell'][i][1].toFixed(4)+'</td></tr>';
+                            }
+
+                        }
+
+                        // 卖出委托
+                        $("#selllist").html(list);
+
+
+                        list='';
+                        if(data['depth']['buy']){
+                            for(i=0; i<data['depth']['buy'].length; i++){
+                                //买
+                               list+='<tr><td width="33%">{$Think.lang.sTrade_index_buy}'+(i+1)+'</td><td width="33%">'+data['depth']['buy'][i][0].toFixed(3)+'</td><td width="34%">'+data['depth']['buy'][i][1].toFixed(4)+'</td></tr>';
+                            }
+
+                        }
+                        // 买入委托
+                        $("#buylist").html(list);
+                    }
+
+                }
+            });
+            setTimeout('getDepth()',5000);
+        }
+
+        $(function(){
+            // 执行成交记录函数
+            getTradelog();
+            getDepth();
+        });
+
+    </script>
+</body>
+</html>

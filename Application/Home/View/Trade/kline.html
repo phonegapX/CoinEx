@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+	<script type="text/javascript" src="__PUBLIC__/Home/news/js/jquery-1.11.3.min.js"></script>
+	<style type="text/css">
+html,body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,lengend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,select,textarea{font-family:"微软雅黑","Microsoft YaHei","Heiti SC","黑体",Tahoma,Arial,"Helvetica Neue","Hiragino Sans GB","Simsun","sans-self";font-size:12px;color:#333;overflow-x:hidden;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+address,cite,dfn,em,var{font-style:normal;}
+code,kbd,pre,samp,tt{font-family:"Courier New",Courier,monospace;}
+small{font-size:12px;}
+ul,ol,li{list-style:none;}
+a{text-decoration:none;}
+abbr[title],acronym[title]{border-bottom:1px dotted;cursor:help;}
+q:before,q:after{content:'';}
+legend{color:#000;}
+fieldset,img{border:0 none;height:auto}
+button,input,select,textarea{font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+hr{height:1px;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%;}
+body,html{padding:0;margin:0;}
+	</style>
+</head>
+<body style="height:600px;">
+	<script>
+    // var iframe =document.getElementsByTagName("iframe");
+    //     window.onload=function(){
+    //         for (var i=0;i<iframe.length;i++)
+    //         {
+    //            if(iframe[i].id.match("sosobtc")){
+    //                 iframe[i].style.height="97%";
+    //             }
+    //         }
+
+    //     }
+        var iframe =document.getElementsByTagName("iframe");
+        window.onload=function(){
+            for (var i=0;i<iframe.length;i++)
+            {
+               if(iframe[i]){
+                    iframe[i].getElementsByTagName("html")[0].style.padding="0";
+                    iframe[i].getElementsByTagName("html")[0].style.margin="0";
+                    iframe[i].getElementsByTagName("body")[0].style.padding="0";
+                    iframe[i].getElementsByTagName("body")[0].style.margin="0";
+                }
+            }
+
+        }
+	</script>
+	<script type="text/javascript">
+		var head = document.getElementsByTagName("body")[0] || document.documentElement;
+		var script = document.createElement("script");
+		script.src = "//static2.sosobtc.com/sb.js";
+		var done = false; // 防止onload，onreadystatechange同时执行
+		// 加载完毕后执行，适应所有浏览器
+		script.onload = script.onreadystatechange = function() {
+			if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")){
+			done = true;
+				try {
+					new SOSOBTC.widget({
+						"symbol": "{$kmap}:HUIZ",
+						"default_theme": "dark",
+						"disable_theme_change": true,
+						"container": "kline_container"
+					});
+				} catch(err) {}
+				script.onload = script.onreadystatechange = null;
+			}
+		};
+		head.insertBefore(script,head.firstChild);
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_xnbtx}<!-- 虚拟币提现 -->/<if condition="LANG_SET eq 'en-us'">{$coin_info.js_yw}<else/>{$coin_info.title}</if>({$coin_info.name|strtoupper})
+        </div>
+        <div class="chgbox">
+            <ul>
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6;font-weight: normal;">
+                            {$Think.lang.g_zudata}<!-- 暂无虚拟币提现记录
+ -->
+                        </span>
+                    </div>
+                </li>
+
+            <else />
+                <volist name="list" id="vo">
+                    <li>
+                        <table class="qbtable">
+                            <tr>
+                                <td colspan="3" class="bankid">
+                                    {$vo.addtime|addtime}
+                                    <span style="float: right;">
+                                        <eq name="vo.status" value="1">
+                                            <font color="#059ff5">{$Think.lang.Finance_txcg}<!-- 提现成功 --> </font>
+                                            <else/>
+                                            {$Think.lang.Finance_zzcl}<!-- 正在处理 -->
+                                        </eq>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding-top: 10px;">
+                                    {$Think.lang.g_txjf}<!-- 提现积分 -->：{$vo.coinname|strtoupper}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    {$Think.lang.Finance_jsdz}<!-- 接收地址 -->：{$vo.username}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    {$Think.lang.sFinance_myzc_txsl}<!-- 提现数量 -->：{$vo['num']}
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <button type="button" class="addbankbut" value="" onclick="Update()" id="btn" style="color: #059ff5;"><img src="__PUBLIC__/Mobile/images/addbank.png">{$Think.lang.g_txshenq}</button>
+    </div>
+<include file="Public:footer" />
+<script>
+    function Update() {
+        window.location = '/Finance/myzcadd/coin/{$coin_info.name}';
+    }
+</script>
+</body>
+</html>

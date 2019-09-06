@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+	<style type="text/css">
+	.set_verify{color:white;font-size:13px;}
+	.band_succ{color:#059ff5;font-size:15px;margin-top:10px;}
+	.band_succ a{color:white;}
+	.iptbox1{width:100%;height: 120px;border:1px solid #5A646F;text-align: center;border-radius: 4px;position: relative;text-indent: 0;}
+    .iptbox1 img{height:100px;margin-top: 10px;max-width: 90%;}
+	</style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.User_smrz}
+        </div>
+		<switch name="shiming" >
+			<case value="3">
+			<div class="logbot">
+				<form id="form-nameauth">
+					<div class="band_succ">
+						<em></em>{$Think.lang.User_smrzok}
+						<!--&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/safety.html"><<返回安全设置</a>-->
+					</div>
+					<div class="words" style="margin-top:10px;margin-bottom:20px;">
+						<ul>
+						 <li>{$Think.lang.User_yourinfo}</li>
+						 <li>{$Think.lang.g_name}：{$user.truename}</li>
+						 <li>{$Think.lang.g_zj_type}：{$user.zhengjian}</li>
+						 <li>{$Think.lang.g_zj_no}：{$user.idcard}</li>
+						 <li>{$Think.lang.g_rz_time}：{$user['addtime']|addtime}</li>
+						</ul>
+					</div>
+					<!--
+					<div class="words">
+						<span>{$Think.lang.g_sf_zheng}：</span>
+						<a href="{$user['idcard_zheng']}" target="_blank">
+							<img src="{$user['idcard_zheng']}"/>
+						</a>
+					</div>
+					<div class="words" style="margin-top:20px;">
+						<span>{$Think.lang.g_sf_fan}：</span>
+						<a href="{$user['idcard_fan']}" target="_blank">
+							<img src="{$user['idcard_fan']}"/>
+						</a>
+					</div>
+					<div class="words" style="margin-top:20px;">
+						<span>{$Think.lang.g_sf_shouchi}：</span>
+						<a href="{$user['idcard_shouchi']}" target="_blank">
+							<img src="{$user['idcard_shouchi']}"/>
+						</a>
+					</div>
+					-->
+				</form>
+			</div>
+			</case>
+			<case value="2">
+			<div class="logbot">
+				<form id="form-nameauth">
+					<div class="band_succ">
+						<img src="__PUBLIC__/Mobile/images/success.png" alt="" style="vertical-align: middle;">
+						{$Think.lang.g_tjinfo_waite}
+						<!--&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/safety.html">返回安全设置</a>-->
+					</div>
+					<div class="words" style="margin-top:10px;margin-bottom:20px;padding-left: 24px;">
+						<ul>
+						 <li>{$Think.lang.User_yourinfo}</li>
+						 <li>{$Think.lang.g_name}：{$user.truename}</li>
+						 <li>{$Think.lang.g_zj_type}：{$user.zhengjian}</li>
+						 <li>{$Think.lang.g_zj_no}：{$user.idcard}</li>
+						 <li>{$Think.lang.g_rz_time}：{$user['addtime']|addtime}</li>
+						</ul>
+					</div>
+					<!--
+					<div class="words">
+						<span>{$Think.lang.g_sf_zheng}：</span>
+						<a href="{$user['idcard_zheng']}" target="_blank">
+							<img src="{$user['idcard_zheng']}"/>
+						</a>
+					</div>
+					<div class="words" style="margin-top:20px;">
+						<span>{$Think.lang.g_sf_fan}：</span>
+						<a href="{$user['idcard_fan']}" target="_blank">
+							<img src="{$user['idcard_fan']}"/>
+						</a>
+					</div>
+					<div class="words" style="margin-top:20px;">
+						<span>{$Think.lang.g_sf_shouchi}：</span>
+						<a href="{$user['idcard_shouchi']}" target="_blank">
+							<img src="{$user['idcard_shouchi']}"/>
+						</a>
+					</div>
+					-->
+				</form>
+			</div>
+			</case>
+			<case value="0">
+			<!-- <h1>请填写实名认证信息</h1> -->
+			<div class="logbot" style="margin-top:10px;">
+				<form action="{:U('User/upauth')}" name="shiming" method="post">
+					<input type="text" name="truename" id="truename" class="logipt" placeholder="{$Think.lang.g_real_name}"/>
+
+					<select name="zhengjian" id="zhengjian" class="logipt">
+						<volist name="idcardtype" id="vo">
+							<option value="{$vo[0]}">{$vo[1]}</option>
+						</volist>
+					</select>
+
+					<input type="text" name="idcard" id="idcard" class="logipt" placeholder="{$Think.lang.Login_zjnumber}"/>
+
+					<div class="attention">{$Think.lang.Login_relname3}</div>
+
+					<input type="button" value="{$Think.lang.g_tijao_sm}" class="logbut" onclick="shimingrz();"/>
+				</form>
+			</div>
+			<script type="text/javascript">
+			function shimingrz(){
+				var truename = $("#truename").val();
+				var zhengjian = $("#zhengjian").val();
+				var idcard = $("#idcard").val();
+				if(truename == "" || truename == null){
+					layer.tips('{$Think.lang.g_inpput_real_name}', '#truename', {
+						tips: 3
+					});
+					return false;
+				}
+				if(zhengjian == "" || zhengjian == null){
+					layer.tips('{$Think.lang.g_inpput_zj_type}', '#zhengjian', {
+						tips: 3
+					});
+					return false;
+				}
+				if(idcard == "" || idcard == null){
+					layer.tips('{$Think.lang.g_inpput_sfno}', '#idcard', {
+						tips: 3
+					});
+					return false;
+				}
+				layer.load(0, {shade: [0.5,'#8F8F8F']});
+				document.shiming.submit();
+			}
+			</script>
+			</case>
+			<case value="1">
+			<div class="logbot" style="margin-top:10px;">
+				<form action="{:U('User/upauth2')}" name="idcard" method="post" enctype="multipart/form-data">
+					<if condition="$user.is_agree eq '2'">
+					<div class="band_succ">
+						<em></em>{$Think.lang.g_no_corss_sf}
+					</div>
+					</if>
+					<div class="words">
+						<ul>
+							<li>{$Think.lang.User_yourinfo}</li>
+							<li>{$Think.lang.g_name}：{$user.truename}</li>
+							<li>{$Think.lang.g_zj_type}：{$user.zhengjian}</li>
+							<li>{$Think.lang.g_zj_no}：{$user.idcard}</li>
+							<li class="words">
+								<label style="line-height:40px;">{$Think.lang.g_up_sf_zheng}</label>
+								<div class="iptbox1">
+									<a href="javascript:;">
+									<img src="__PUBLIC__/Home/news/images/sf_t1.png" alt="Image preview">
+										<input type="file" name="idcard_zheng" id="idcard_zheng" style="width:100%;height: 120px;opacity: 0; filter: alpha(opacity=0);position:absolute;top:0px;left:0px;" />
+									</a>
+								</div>
+							</li>
+							<li class="words">
+								<label style="line-height:40px;">{$Think.lang.g_up_sf_fan}</label>
+								<div class="iptbox1">
+									<a href="javascript:;">
+									<img src="__PUBLIC__/Home/news/images/sf_t2.png" alt="Image preview">
+										<input type="file" name="idcard_fan" id="idcard_fan"  style="width:100%;height: 120px;opacity: 0; filter: alpha(opacity=0);position:absolute;top:0px;left:0px;" />
+									</a>
+								</div>
+							</li>
+							<li class="words">
+								<label style="line-height:40px;">{$Think.lang.g_up_sf_hand}</label>
+								<div class="iptbox1">
+									<a href="javascript:;">
+									<img src="__PUBLIC__/Home/news/images/sf_t3.png" alt="Image preview">
+										<input type="file" name="idcard_shouchi" id="idcard_shouchi" style="width:100%;height: 120px;opacity: 0; filter: alpha(opacity=0);position:absolute;top:0px;left:0px;" />
+									</a>
+								</div>
+							</li>
+						</ul>
+				    </div>
+					<p class="attention">{$Think.lang.g_sf_ts}</p>
+
+					<input type="button" class="logbut" value="{$Think.lang.g_tijao_sm}" onclick="idrz();"/>
+				</form>
+			</div>
+			<script type="text/javascript">
+				function idrz(){
+					var idcard_zheng = $("#idcard_zheng").val();
+					var idcard_fan = $("#idcard_fan").val();
+					var idcard_shouchi = $("#idcard_shouchi").val();
+					if(idcard_zheng == "" || idcard_zheng == null){
+						layer.tips('{$Think.lang.g_inpput_sf_zheng}', '#idcard_zheng', {
+							tips: 3
+						});
+						return false;
+					}
+					if(idcard_fan == "" || idcard_fan == null){
+						layer.tips('{$Think.lang.g_inpput_sf_fan}', '#idcard_fan', {
+							tips: 3
+						});
+						return false;
+					}
+					if(idcard_shouchi == "" || idcard_shouchi == null){
+						layer.tips('{$Think.lang.g_inpput_sf_hand}', '#idcard_shouchi', {
+							tips: 3
+						});
+						return false;
+					}
+					layer.load(0, {shade: [0.5,'#8F8F8F']});
+					document.idcard.submit();
+				}
+				$(".a-upload").on("change","input[type='file']",function(){
+					var filePath=$(this).val();
+					if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
+						$(".fileerrorTip").html("").hide();
+						var arr=filePath.split('\\');
+						var fileName=arr[arr.length-1];
+						$(".showFileName").html(fileName);
+					}else{
+						$(".showFileName").html("");
+						$(".fileerrorTip").html("{$Think.lang.g_up_error}").show();
+						return false
+					}
+				});
+				$(".iptbox1").on("change","input[type='file']",function(){
+					var filePath=$(this).val();
+					var objUrl = getObjectURL(this.files[0]) ;
+
+					// alert(objUrl);
+					if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
+						$(".fileerrorTip").html("").hide();
+						var arr=filePath.split('\\');
+						var fileName=arr[arr.length-1];
+						// $(".showFileName").html(fileName);
+						$(this).parent().find("img").attr("src",objUrl);
+
+
+					}else{
+						$(".showFileName").html("");
+						$(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
+						return false
+					}
+				});
+				function getObjectURL(file) {
+    					var url = null;
+    					if (window.createObjectURL != undefined) { // basic
+        					url = window.createObjectURL(file);
+    					} else if (window.URL != undefined) { // mozilla(firefox)
+        					url = window.URL.createObjectURL(file);
+    					} else if (window.webkitURL != undefined) { // webkit or chrome
+        					url = window.webkitURL.createObjectURL(file);
+    					}
+    					return url;
+				}
+			</script>
+			</case>
+			<default />
+		</switch>
+    </div>
+<include file="Public:footer" />
+</body>
+</html>

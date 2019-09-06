@@ -1,0 +1,45 @@
+<include file="Public:header_new" />
+	<div class="usernewout">
+        <p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+        <div class="usncont">
+        	<!-- 左侧导航 -->
+            <include file="Finance:left" />
+            <!-- 右侧内容 -->
+            <div class="usnc_right">
+                <h1>财务中心</h1>
+                <div class="botinfo">
+                    <table>
+                        <tr>
+                            <th width="210px">币种</th>
+                            <th width="130px">可用余额</th>
+                            <th width="110px">冻结委托</th>
+                            <th width="130px">总计</th>
+                        </tr>
+                        <volist name="coinlist" id="vo">
+	                        <tr>
+	                            <td>
+	                                <img src="{$vo['img']}" align="left">
+	                                <span class="ft12">{$vo['title']}</span>
+	                            </td>
+	                            <td>{$vo['xnb']}<br/>￥{$vo['xnb_rmb']}<br/>${$vo['xnb_usd']}</td>
+								<td>{$vo['xnbd']}<br/>￥{$vo['xnbd_rmb']}<br/>${$vo['xnbd_usd']}</td>
+								<td>{$vo['xnbz']}<br/>￥{$vo['xnbz_rmb']}<br/>${$vo['xnbz_usd']}</td>
+	                        </tr>
+                        </volist>
+                    </table>
+                </div>
+            </div>
+            <script>
+                window.onload = function(){
+                    var Lheight = $(".usnc_left").outerHeight();
+                    var Rheight = $(".usnc_right").outerHeight();
+                    var Tall = Lheight > Rheight ? Lheight:Rheight
+                    $(".usnc_left").outerHeight(Tall);
+                    $(".usnc_right").outerHeight(Tall);
+                }
+                $('#finance_box').addClass('on');
+            </script>
+        </div>
+    </div>
+</div>
+<include file="Public:footer_new" />

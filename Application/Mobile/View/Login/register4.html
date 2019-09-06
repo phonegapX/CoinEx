@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Login_regsucc}
+        </div>
+        <div class="logbot">
+            <p class="successicon"><img src="__PUBLIC__/Mobile/images/successicon.png"></p>
+            <h3>{$Think.lang.Login_happysuccess}</h3>
+            <div class="infors infors_top">
+                <table class="infor_table">
+                    <tr>
+                        <td class="tdleft">{$Think.lang.Fenhong_uname}</td>
+                        <td class="tdright">{$user.username}</td>
+                    </tr>
+                    <!--<tr>
+                        <td class="tdleft">手机号码</td>
+                        <td class="tdright">{$user.mobile}</td>
+                    </tr>-->
+                   <!--  <tr>
+                        <td class="tdleft">{$Think.lang.g_dz_yx}</td>
+                        <td class="tdright">{$user.email}</td>
+                    </tr> -->
+                </table>
+            </div>
+			<!-- <div class="infors" style="text-align: left;margin-bottom: 10px;color:red;">
+            {$Think.lang.Login_wxts}
+            </div> -->
+            <a class="gotrade" href="/User/safety.html">{$Think.lang.Login_wszl}</a>
+			<!--<div class="infors" style="text-align: left;margin-bottom: 10px;">您也可以</div>
+			<a class="gotrade" href="/Finance/myczlog.html">去充值</a>-->
+        </div>
+    </div>
+</body>
+</html>

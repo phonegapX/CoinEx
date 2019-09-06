@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+    <if condition="($mycz['type'] eq 'guitai') OR ($mycz['type'] eq 'bank') ">
+        <div class="log_title">
+            <span class="back"><a href="{:U('Finance/myczlog')}"></a></span>
+            银行网银/柜台转账 
+        </div>
+        <div class="chgntb">
+            <div class="chgntb_top">
+                <img src="__PUBLIC__/Mobile/images/notice.png">
+                <p>请通过网银或柜台向一下账户转账</p>
+            </div>
+            <div class="chgntb_bot">
+                <table>
+                    <tr>
+                        <td class="tdleft">官方账号</td>
+                        <td class="tdright">{$myczType.username}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户名称</td>
+                        <td class="tdright">{$myczType.truename}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户地址</td>
+                        <td class="tdright">{$myczType.kaihu}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">充值金额</td>
+                        <td class="tdright"><span class="red">{$mycz.num}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">订单编号</td>
+                        <td class="tdright"><span class="red">{$mycz.tradeno}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">状态</td>
+                        <td class="tdright">（<eq name="mycz.status" value="0">
+            未付款
+            <a onclick="myczHuikuan({$mycz['id']})" href="javascript:void(0)" style="    color: #2674FF!important;">已汇款</a>
+        </eq>
+                                    <eq name="mycz.status" value="1">
+                                        充值成功
+                                    </eq>
+                                    <eq name="mycz.status" value="2">
+                                        人工到账
+                                    </eq>
+                                    <eq name="mycz.status" value="3">
+                                        处理中
+                                    </eq>）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <elseif condition="$mycz['type'] eq 'alipay'"/>
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            支付宝转账 
+        </div>
+        <div class="chgntb">
+            <div class="chgntb_top">
+                <img src="__PUBLIC__/Mobile/images/notice.png">
+                <p>请使用支付宝转账至以下账号</p>
+            </div>
+            <div class="chgntb_bot">
+                <table>
+                    <tr>
+                        <td class="tdleft">官方账号</td>
+                        <td class="tdright">{$myczType.username}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户名称</td>
+                        <td class="tdright">{$myczType.truename}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户地址</td>
+                        <td class="tdright">{$myczType.kaihu}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">充值金额</td>
+                        <td class="tdright"><span class="red">{$mycz.num}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">订单编号</td>
+                        <td class="tdright"><span class="red">{$mycz.tradeno}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">状态</td>
+                        <td class="tdright">（<eq name="mycz.status" value="0">
+            未付款
+            <a onclick="myczHuikuan({$mycz['id']})" href="javascript:void(0)" style="    color: #2674FF!important;">已汇款</a>
+        </eq>
+                                    <eq name="mycz.status" value="1">
+                                        充值成功
+                                    </eq>
+                                    <eq name="mycz.status" value="2">
+                                        人工到账
+                                    </eq>
+                                    <eq name="mycz.status" value="3">
+                                        处理中
+                                    </eq>）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <else />
+         <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            支付宝转账 
+        </div>
+        <div class="chgntb">
+            <div class="chgntb_top">
+                <img src="__PUBLIC__/Mobile/images/notice.png">
+                <p>请使用支付宝转账至以下账号</p>
+            </div>
+            <div class="chgntb_bot">
+                <table>
+                    <tr>
+                        <td class="tdleft">官方账号</td>
+                        <td class="tdright">{$myczType.username}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户名称</td>
+                        <td class="tdright">{$myczType.truename}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">开户地址</td>
+                        <td class="tdright">{$myczType.kaihu}</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">充值金额</td>
+                        <td class="tdright"><span class="red">{$mycz.num}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">订单编号</td>
+                        <td class="tdright"><span class="red">{$mycz.tradeno}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">状态</td>
+                        <td class="tdright">（<eq name="mycz.status" value="0">
+            未付款
+            <a onclick="myczHuikuan({$mycz['id']})" href="javascript:void(0)" style="    color: #2674FF!important;">已汇款</a>
+        </eq>
+                                    <eq name="mycz.status" value="1">
+                                        充值成功
+                                    </eq>
+                                    <eq name="mycz.status" value="2">
+                                        人工到账
+                                    </eq>
+                                    <eq name="mycz.status" value="3">
+                                        处理中
+                                    </eq>）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        </if>
+        <include file="Public:footer" />
+    </div>
+    <script>
+        $("#status-selectTest").change(function () {
+            var status = $("#status-selectTest option:selected").val();
+            window.location = '/Finance/mycz/status/' + status + '/.html';
+        });
+
+
+        function myczHuikuan(id) {
+            $.post("{:U('Finance/myczHuikuan')}", {id: id}, function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.info, {icon: 1});
+                    window.location.reload();
+                } else {
+                    layer.msg(data.info, {icon: 2});
+                }
+            }, "json");
+        }
+
+        function myczChakan(id) {
+
+                // layer.open({
+                //     title: '人民币充值',
+                //     type: 2,
+                //     area: ['650px', '500px'],
+                //     content: ["{:U('Pay/mycz')}?id=" + id, 'no']
+                // });
+                window.location ="{:U('Pay/mycz')}?id=" + id;
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<style type="text/css">
+    .layui-layer-btn a.layui-layer-btn0{background: #e75600;}
+    .layui-layer-btn a.layui-layer-btn1{background: #ccc;}
+    .layui-layer-setwin .layui-layer-close1{width: 25px;height: 25px;background:url(__PUBLIC__/Home/news/images/closebut.png) center no-repeat!important;background-size: 16px!important; }
+    .layui-layer-setwin{right: 5px;top: 5px;}
+</style>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            银行卡管理
+        </div>
+        <div class="chgbox">
+            <ul>
+            <empty name="UserBank">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            暂无银行卡记录
+                        </span>
+                    </div>
+                </li>
+            <else />
+              <volist name="UserBank" id="vo">
+                  <li>
+                      <table class="banktable" style="margin:0;">
+                          <tr>
+                              <td colspan="3" class="bankid">
+                                {$vo.bank}
+                                <b>{$vo.bankcard}</b>
+                                <a class="cancel" href="javascript:void(0)" onclick="UpdateB({$vo['id']})" style="color:#ff0000;float: right;">删除</a>
+                              </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">
+                              开户姓名：{$truename}
+                              开户省份：{$vo.bankprov}
+                              开户城市：{$vo.bankcity}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">
+                              开户支行：{$vo.bankaddr}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">
+                              添加时间：{$vo.addtime|addtime}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3">
+                              备注名称：{$vo.name}
+                            </td>
+                          </tr>
+                          <!-- <tr>
+                              <th>备注名称</th>
+                              <th>开户银行</th>
+                              <th>开户省份</th>
+                          </tr>
+                          <tr>
+                              <td>{$vo.name}</td>
+                              <td>{$vo.bank}</td>
+                              <td>{$vo.bankprov}</td>
+                          </tr>
+                          <tr>
+                              <th>开户城市</th>
+                              <th>开户支行</th>
+                              <th>开户姓名</th>
+                          </tr>
+                          <tr>
+                              <td>{$vo.bankcity}</td>
+                              <td>{$vo.bankaddr}</td>
+                              <td>{$truename}</td>
+                          </tr>
+                          <tr>
+                              <th>银行卡号</th>
+                              <th>添加时间</th>
+                              <th>操    作</th>
+                          </tr>
+                          <tr>
+                              <td>{$vo.bankcard}</td>
+                              <td>{$vo.addtime|addtime}</td>
+                              <td><a class="cancel" href="javascript:void(0)" onclick="UpdateB({$vo['id']})" style="color:#ff0000;">删除</a></td>
+                          </tr> -->
+                      </table>
+                  </li>
+              </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <span class="addbankbut">
+            <a href="{:U('User/bankadd')}"><img src="__PUBLIC__/Mobile/images/addbank.png">添加银行卡</a>
+        </span>
+        <script>
+
+
+
+ //$("#city_1").citySelect({nodata:"none",required:false});
+
+ $('#dialogBoxShadow').height($(document).height());
+ function closeAddress(){
+  $("#withdrawCnyAddress").hide();
+  $("#dialogBoxShadow").hide();
+ }
+ function showA(){
+  $("#withdrawCnyAddress").show();
+  $("#dialogBoxShadow").show();
+ }
+
+ function Update(){
+  var name=$('#bank_name').val();
+  var bank=$('#bank_bank option:selected').val();
+  var bankprov=$('#bank_bankprov option:selected').val();
+  var bankcity=$('#bank_bankcity option:selected').val();
+  var bankaddr=$('#bank_bankaddr').val();
+  var bankcard=$('#bank_bankcard').val();
+  var paypassword=$('#bank_paypassword').val();
+  if(name==""||name==null){
+   layer.tips('请输入备注名称','#bank_name',{tips:3});
+   return false;
+  }
+  if(bankaddr==""||bankaddr==null){
+   layer.tips('请输入开户支行','#bank_bankaddr',{tips:3});
+   return false;
+  }
+  if(bankcard==""||bankcard==null){
+   layer.tips('请输入银行账号','#bank_bankcard',{tips:3});
+   return false;
+  }
+  if(paypassword==""||paypassword==null){
+   layer.tips('请输入交易密码','#bank_paypassword',{tips:3});
+   return false;
+  }
+
+
+  $.post("{:U('User/upbank')}",{type:1,name:name,bank:bank,bankprov:bankprov,bankcity:bankcity,bankaddr:bankaddr,bankcard:bankcard,paypassword:paypassword},function(data){
+   if(data.status==1){
+    layer.msg(data.info,{icon:1});
+    window.location="{:U('User/bank')}";
+   }else{
+    layer.msg(data.info,{icon:2});
+    if(data.url){
+     window.location=data.url;
+    }
+   }
+  },"json");
+ }
+
+ function UpdateB(id){
+  layer.config({
+   extend: 'extend/layer.ext.js'
+  });
+  layer.ready(function () {
+   //默认prompt
+   layer.prompt({
+    title: '输入交易密码，并确认',
+    formType: 1},function(val){
+    if (val) {
+     //需要执行的方法
+     $.post("{:U('User/delbank')}",{type:2,id:id,paypassword:val},function(data){
+      if(data.status==1){
+       layer.msg(data.info,{icon:1});
+       window.location="{:U('User/bank')}";
+      }else{
+       layer.msg(data.info,{icon:2});
+       if(data.url){
+        window.location=data.url;
+       }
+      }
+     },"json");
+
+
+    };
+   });
+
+  });
+
+
+ }
+
+</script>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

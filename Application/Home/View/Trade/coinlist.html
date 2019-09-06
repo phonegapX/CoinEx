@@ -1,0 +1,266 @@
+<include file="Public:header_new"/>
+<style type="text/css">
+.trustbox{width:100%;height:auto;overflow:hidden;min-height:494px;background:url(__PUBLIC__/Home/news/images/intrustbg.jpg) top center no-repeat;}
+.trustbox .truinner{width:1200px;height:auto;overflow:hidden;margin:0 auto;margin-top:85px;}
+.trustbox .truinner h1{font-size:36px;color:#fff;text-align:center;}
+.trustbox .truinner .trubot{margin-top:85px;}
+.trustbox .truinner .trubot li{float:left;width:240px;height:auto;padding:0 30px;text-align:center;}
+.trustbox .truinner .trubot li .topimg{width:100%;height:67px;text-align:center;}
+.trustbox .truinner .trubot li h2{color:#fff;margin-top:15px;}
+.trustbox .truinner .trubot li .desc{margin-top:15px;text-align:center;font-size:14px;color:#fff;line-height:24px;}
+.trustbox .truinner .trubot li:hover .topimg img{transform:rotateY(360deg);transition:all 0.9s;}
+.inbanner{width:100%;height:360px;background:url(__PUBLIC__/Home/news/images/banner2.jpg) top center no-repeat;}
+.trustbox_in{width:100%;height:auto;overflow:hidden;}
+.trustbox_in .truinner{width:1200px;height:auto;overflow:hidden;margin:0 auto;margin-bottom:50px;}
+.trustbox_in .truinner h1{font-size:20px;color:#333;text-align:center;}
+.trustbox_in .truinner .trubot{margin-top:60px;}
+.trustbox_in .truinner .trubot li{float:left;width:240px;height:auto;padding:0 30px;text-align:center;}
+.trustbox_in .truinner .trubot li .topimg{width:100%;height:67px;text-align:center;}
+.trustbox_in .truinner .trubot li h2{color:#444;margin-top:15px;font-size:18px;font-weight:normal;}
+.trustbox_in .truinner .trubot li .desc{margin-top:15px;text-align:center;font-size:14px;color:#999;line-height:24px;}
+.trustbox_in .truinner .trubot li:hover .topimg img{transform:rotateY(360deg);transition:all 0.9s;}
+</style>
+        <div class="inbanner">
+        </div>
+		<div class="coinbox">
+            <div class="cbhd">
+                <ul>
+                    <li>
+                        <img src="__PUBLIC__/Home/news/images/bicon1.png" class="img1">
+                        <img src="__PUBLIC__/Home/news/images/bicon12.png" class="img2">
+                        虚拟币
+                    </li>
+                    <li>
+                        <img src="__PUBLIC__/Home/news/images/bicon2.png" class="img1">
+                        <img src="__PUBLIC__/Home/news/images/bicon22.png" class="img2">
+                        资产包
+                    </li>
+                </ul>
+            </div>
+            <div class="cbbd">
+                <ul>
+                    <li>
+                        <div class="tbox borbot">
+                            <table class="titletable">
+                                <tr>
+                                    <td class="wd180" style="text-align: left;">币种名称</td>
+                                    <td class="wd140">
+                                        最新成交价
+                                    </td>
+                                    <td class="wd120">
+                                        买一价
+                                    </td>
+                                    <td class="wd120">
+                                        卖一价
+                                    </td>
+                                    <td class="wd120">
+                                        成交量
+                                    </td>
+                                    <td class="wd120">
+                                        成交额
+                                    </td>
+                                    <td class="wd120">
+                                        日涨跌
+                                    </td>
+                                    <td class="wd180">价格趋势（3日）</td>
+                                    <td class="wd100">操作</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <volist name="co" id="vo">
+                            <div class="tbox">
+                                <table class="listtable">
+                                    <tr>
+                                        <td class="wd180" style="text-align: left;height:45px;">
+                                            <img src="{$vo[9]}" width="20" height="20">
+                                            <a style="color: #666;font-weight: 900;" href="/Trade/index/market/{$vo[8]}" >
+                                                {$vo[0]}
+                                            </a>
+                                        </td>
+                                        <td class="wd140"><span class="yellow">{$vo[1]}</span></td>
+                                        <td class="wd120">{$vo[2]}</td>
+                                        <td class="wd120">{$vo[3]}</td>
+                                        <td class="wd120">{$vo[6]}</td>
+                                        <td class="wd120">{$vo[4]}</td>
+                                        <td class="wd120">{$vo[7]}%</td>
+                                        <td class="wd180" id="{$vo[8]}_plot"></td>
+                                        <td class="wd100"><a class="yellow" href="/Trade/index/market/{$vo[8]}/">去交易</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </volist>
+                    </li>
+                    <li>
+                        <div class="tbox borbot">
+                            <table class="titletable">
+                                <tr>
+                                    <td class="wd180" style="text-align: left;">币种名称</td>
+                                    <td class="wd140">
+                                        最新成交价
+                                    </td>
+                                    <td class="wd120">
+                                        买一价
+                                    </td>
+                                    <td class="wd120">
+                                        卖一价
+                                    </td>
+                                    <td class="wd120">
+                                        成交量
+                                    </td>
+                                    <td class="wd120">
+                                        成交额
+                                    </td>
+                                    <td class="wd120">
+                                        日涨跌
+                                    </td>
+                                    <td class="wd180">价格趋势（3日）</td>
+                                    <td class="wd100">操作</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <volist name="rgb" id="vo">
+                            <div class="tbox">
+                                <table class="listtable">
+                                    <tr>
+                                        <td class="wd180" style="text-align: left;height:45px;">
+                                            <img src="{$vo[9]}" width="20" height="20">
+                                            <a style="color: #666;font-weight: 900;" href="/Trade/index/market/{$vo[8]}" >
+                                                {$vo[0]}
+                                            </a>
+                                        </td>
+                                        <td class="wd140"><span class="yellow">{$vo[1]}</span></td>
+                                        <td class="wd120">{$vo[2]}</td>
+                                        <td class="wd120">{$vo[3]}</td>
+                                        <td class="wd120">{$vo[6]}</td>
+                                        <td class="wd120">{$vo[4]}</td>
+                                        <td class="wd120">{$vo[7]}%</td>
+                                        <td class="wd180" id="{$vo[8]}_plot"></td>
+                                        <td class="wd100"><a class="yellow" href="/Trade/index/market/{$vo[8]}/">去交易</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </volist>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="trustbox_in">
+            <div class="truinner">
+                <h1>安全可信赖的数字资产交易平台</h1>
+                <ul class="trubot">
+                    <li>
+                        <div class="topimg">
+                            <img src="__PUBLIC__/Home/news/images/tradein_icon1.png">
+                        </div>
+                        <h2>安全</h2>
+                        <p class="desc">
+                            银行级用户数据加密、动态身份验证，多级风险识别控制，保障交易安全
+                        </p>
+                    </li>
+                    <li>
+                        <div class="topimg">
+                            <img src="__PUBLIC__/Home/news/images/tradein_icon2.png">
+                        </div>
+                        <h2>专业</h2>
+                        <p class="desc">
+                            钱包多层加密，离线存储于银行保险柜，资金第三方托管，确保安全
+                        </p>
+                    </li>
+                    <li>
+                        <div class="topimg">
+                            <img src="__PUBLIC__/Home/news/images/tradein_icon3.png">
+                        </div>
+                        <h2>服务</h2>
+                        <p class="desc">
+                            专业的客服团队，400电话和24小时在线QQ，VIP一对一专业服务
+                        </p>
+                    </li>
+                    <li>
+                        <div class="topimg">
+                            <img src="__PUBLIC__/Home/news/images/tradein_icon4.png">
+                        </div>
+                        <h2>快捷</h2>
+                        <p class="desc">
+                            充值即时、提现迅速，每秒万单的高性能交易引擎，保证一切快捷方便
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+	<script type="text/javascript">
+		jQuery(".coinbox").slide({mainCell:".cbbd ul",titCell:".cbhd ul li",effect:"fold"});
+
+		$(document).ready(function(){
+			trends();
+		});
+
+		function trends() {
+			$.getJSON('/Ajax/trends?t=' + rd(), function (d) {
+				trends = d;
+				allcoin();
+			});
+		}
+		
+		function allcoin_callback(priceTmp) {
+			for (var i in priceTmp) {
+				var c = priceTmp[i][8];
+				if (typeof (trends[c]) != 'undefined' && typeof (trends[c]['data']) != 'undefined' && trends[c]['data'].length > 0) {
+					$.plot($("#" + c + "_plot"), [
+						{
+							shadowSize: 0,
+							data: trends[c]['data']
+						}
+					], {
+						grid: {borderWidth: 0},
+						xaxis: {
+							mode: "time",
+							ticks: false
+						},
+						yaxis: {
+							tickDecimals: 0,
+							ticks: false
+						},
+						colors: ['#f99f83']
+					});
+				}
+			}
+		}
+
+		function allcoin(cb) {
+			$.get('/Ajax/allcoin?t=' + rd(), cb ? cb : function (d) {
+				ALLCOIN = d;
+				var t = 0;
+				var img = '';
+				priceTmp = [];
+				//把json转换为二维数组 进行渲染
+				for (var x in d) {
+					if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+						rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+						rise1 = rise1.toFixed(2);
+					} else {
+						rise1 = 0;
+					}
+					img = d[x].pop();
+					d[x].push(rise1);
+					d[x].push(x);
+					d[x].push(img);
+					priceTmp.push(d[x]);
+				}
+				allcoin_callback(priceTmp);
+			}, 'json');
+		}
+
+		function rd() {
+			return Math.random();
+		}
+		
+		$(".cbhd ul li").mouseover(function(){
+			$.getJSON('/Ajax/trends?t=' + rd(), function (d) {
+				trends = d;
+				allcoin();
+			});
+		});
+	</script>
+<include file="Public:footer_new"/>

@@ -1,0 +1,289 @@
+<include file="Public:header_new"/>
+<div class="usernewout">
+<style type="text/css">
+	.dv_info p{font-size: 14px!important;color:#7B8A9D;}
+	.mbphone_btn dl{padding-left:0px;}
+	.dv_title{font-size: 14px;color:#7B8A9D;padding-left: 0px;margin:0;width: 100%;}
+	.dv_content{font-size: 14px;color: #7B8A9D;padding-left:53px;margin:0;width:877px;}
+	.mbphone_btn dt{font-size: 14px;color: #7B8A9D;}
+	.dv_content p{font-size: 14px;color:#7B8A9D;}
+	.dv_info{padding-left: 0px;width: 100%;}
+</style>
+<div class="usncont">
+    <!--左侧菜单-->
+    <include file="User:left"/>
+	<!--左侧菜单-->
+	<!--上方导航-->
+	<include file="User:nav"/>
+	<!--上方导航-->
+    <div class="usnc_right" style="padding:0 20px;width:950px;padding-bottom: 50px;">
+        <h1>{$Think.lang.g_gugeyz}</h1>
+        <form id="form-cnyin">
+            <div class="urcont">
+                <eq name="is_ga" value="0">
+                <form id="form-gaa" class="assets_content w900 right bg_w">
+                    <div class="pb29">
+                        <div class="dv_info">
+                            <p>{$Think.lang.g_gugepp}</p>
+                        </div>
+                        <div class="dv_title">
+                            <!-- <em class="dv_num_1"></em> --> {$Think.lang.g_guge_one}
+                        </div>
+                        <div class="dv_content" style="border-left: none;">
+                            <div class="mbphone_btn" id="mbphone_btn">
+                                <dl>
+                                    <dt>{$Think.lang.g_guge_one_phone}</dt>
+                                    <dd>
+                                        <a target="_blank"
+                                           href="http://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">{$Think.lang.g_guge_dcck}</a>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>{$Think.lang.g_guge_one_andrond}</dt>
+                                    <dd>
+                                        <a target="_blank" href="http://shouji.baidu.com/software/22417419.html">{$Think.lang.g_guge_dcxz}</a>
+                                    </dd>
+                                </dl>
+                                <!-- <dl>
+                                    <dt>Nokia手机：不支持扫描二维码，可手动输入密钥</dt>
+                                    <dd>
+                                        <a target="_blank" href="http://code.google.com/p/lwuitgauthj2me/">点此下载</a>
+                                    </dd>
+                                </dl> -->
+                            </div>
+                        </div>
+                        <div class="dv_title">
+                            <!-- <em class="dv_num_2"></em -->{$Think.lang.g_guge_two}
+                        </div>
+                        <div class="dv_content" style="border-left: none;">
+                            <p>{$Think.lang.g_guge_two_p1}</p>
+
+                            <div class="dv_ewm" id="qrcode"></div>
+                            <p>
+                                {$Think.lang.g_guge_two_p2}<span style="font-weight: 900;color: #99a6bf;">{$Asecret}</span></p>
+                            <!-- <p><img src="__PUBLIC__/Mobile/images/gugeyanzheng.png" width="50%"></p> -->
+                        </div>
+                        <div class="dv_title">
+                            <!-- <em class="dv_num_3"></em -->{$Think.lang.g_guge_three}
+                        </div>
+                        <div class="dv_content" style="border-left: none;">
+                            <p>{$Think.lang.g_guge_three_p1}<span style="font-weight: 900;color: #99a6bf;">{$Asecret}</span>{$Think.lang.g_guge_three_p11}
+                            </p>
+
+                            <p>{$Think.lang.g_guge_three_p2}</p>
+
+                            <div class="dv_input">
+                                <input type="hidden" name="secret" value="{$Asecret}" >
+                                {$Think.lang.g_guge_three_p22}：<input id="ga" type="text" name="ga"style="background: #21202d;color:#99a6bf;border:1px solid #21202d;"/>
+                                <!-- <div class="dv_ts">
+                                    <em></em>{$Think.lang.g_guge_three_p222}
+                                </div> -->
+                            </div>
+                            <div class="dv_radio">
+                                {$Think.lang.g_guge_three_p22d}
+                                <label for="ga-login">
+                                    <input type="checkbox" id="ga-login" name="login" checked="1"> {$Think.lang.g_guge_three_p22dd}</label>
+                                <label for="ga-transfer" style="display:none"><input type="checkbox" id="ga-transfer" checked="1"
+                                                                name="transfer"> {$Think.lang.g_guge_three_p22d_zijin}</label>
+                            </div>
+                        </div>
+                        <div class="dv_title">
+                            <!-- <em class="dv_num_4"></em> -->
+                            <div class="dv_submit">
+                                <input type="button" onclick="goole_verify()" value="{$Think.lang.g_guge_three_yzqy}" style="margin-left: 52px;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.qrcode.min.js"></script>
+                <script>
+                    $('#qrcode').qrcode({
+                        render: "table", //table方式
+                        size: 200,
+                        text: "{$qrCodeUrl}" //任意内容
+                    }); //任意字符串
+
+                    function goole_verify() {
+                        var ga = $('#ga').val();
+                        var ga_login = $('#ga-login').is(':checked') ? 1 : 0;
+                        var ga_transfer = $('#ga-transfer').is(':checked') ? 1 : 0;
+                        var ga = $('#ga').val();
+                        if (!ga) {
+                            layer.tips('{$Think.lang.g_guge_put_yzm}', '#ga', {
+                                tips: [
+                                    1,
+                                    '#0FA6D8'
+                                ]
+                            });
+                            return;
+                        }
+                        $.post("{:U('user/ga')}", {
+                            ga: ga,
+                            ga_login: ga_login,
+                            ga_transfer: ga_transfer,
+                            type: 'add'
+                        }, function (ret) {
+                            if (ret.status) {
+                                layer.msg('{$Think.lang.g_guge_success}...', {icon: 16});
+                                setTimeout('flash()', 3000);
+                            } else {
+                                layer.msg(ret.info);
+                            }
+                        }, 'json');
+                    }
+                </script>
+                <else/>
+                <form id="form-ga" class="assets_content w900 right bg_w">
+                    <div class="rech_bd safe_rech_bd">
+                        <ul>
+                            <li>
+                                <div class="rechmid">
+                                    <h4 class="yanzheng"> {$Think.lang.g_guge_three_p22d}</h4>
+                                    <div class="rechipt_box">
+                                        <div class="iptbox">
+                                            <span for="ga-login" style="text-align: left;vertical-align: middle;font-size: 14px;color: #666;line-height: 40px;">
+                                                <input type="checkbox" id="ga-login" name="login"
+                                                <eq name="ga_login" value="1" style="line-height: 40px;vertical-align: middle;margin-top: -2px;">checked="1"</eq>
+                                                >
+                                                {$Think.lang.g_guge_three_p22dd}
+                                            </span>
+                                            <span style="margin-left:10px;font-size: 14px;color: #999;vertical-align: middle;">{$Think.lang.g_guge_dl_xssc}</span>
+                                        </div>
+                                    </div>
+                                    <div class="rechipt_box">
+                                        <div class="iptbox" style="width:400px;">
+                                            <input id="ga" placeholder="{$Think.lang.g_guge_input_sc}" class="rechipt" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="rechipt_box">
+                                        <div class="iptbox">
+                                            <input value="保存" type="button" class="rechbut" onclick="google_set()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rechmid">
+                                    <h4 class="yanzheng" style="margin-bottom: 20px;">{$Think.lang.g_guge_open_or_clorss}</h4>
+                                    <div class="rechipt_box">
+                                        <div class="iptbox" style="width:400px;">
+                                            <input id="ga_delete" class="rechipt" name="ga_delete" placeholder="{$Think.lang.g_guge_input_sc}" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="rechipt_box">
+                                        <div class="iptbox">
+                                            <a onclick="ga_cancel()" class="rechbut" style="display: block;line-height:50px;text-align: center;">{$Think.lang.g_guge_cancle_sc}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+                <script>
+                    function google_set() {
+                        var ga = $('#ga').val();
+                        var ga_login = $('#ga-login').is(':checked') ? 1 : 0;
+                        var ga_transfer = $('#ga-transfer').is(':checked') ? 1 : 0;
+                        var ga = $('#ga').val();
+                        if (!ga) {
+                            layer.tips('{$Think.lang.g_guge_put_yzm}', '#ga', {
+                                tips: [
+                                    1,
+                                    '#0FA6D8'
+                                ]
+                            });
+                            return;
+                        }
+                        $.post("{:U('user/ga')}", {
+                            ga: ga,
+                            ga_login: ga_login,
+                            ga_transfer: ga_transfer,
+                            type: 'updat'
+                        }, function (ret) {
+                            if (ret.status) {
+                                layer.msg('{$Think.lang.g_guge_success}...', {icon: 16});
+                                setTimeout('flash()', 3000);
+                            } else {
+                                layer.msg(ret.info);
+                            }
+                        }, 'json');
+                    }
+
+                    function ga_cancel() {
+                        var ga = $('#ga_delete').val();
+                        var ga = $('#ga_delete').val();
+                        if (!ga) {
+                            layer.tips('{$Think.lang.g_guge_put_yzm}', '#ga_delete', {
+                                tips: [
+                                    1,
+                                    '#0FA6D8'
+                                ]
+                            });
+                            return;
+                        }
+                        $.post("{:U('user/ga')}", {
+                            ga: ga,
+                            type: 'delet'
+                        }, function (ret) {
+                            if (ret.status) {
+                                layer.msg('{$Think.lang.g_guge_success}...', {icon: 16});
+                                setTimeout('flash()', 3000);
+                            } else {
+                                layer.msg(ret.info);
+                            }
+                        }, 'json');
+                    }
+                </script>
+            </eq>
+            </div>
+        </form>
+    </div>
+    <!--右侧内容-->
+
+</div>
+</div>
+<script type="text/javascript">
+    $('input').focus(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({'box-shadow': '0px 0px 3px #1583fb', 'border': '1px solid #1583fb', 'color': '#99A6BF'});
+        if (t.val() == t.attr('placeholder'))
+            t.val('');
+    });
+    $('input').blur(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({'box-shadow': 'none', 'border': '1px solid #e1e1e1', 'color': '#99A6BF'});
+        if (t.attr('type') != 'password' && !t.val())
+            t.val(t.attr('placeholder'));
+    });
+
+    function Update() {
+        $.post("{:U('User/uppassword')}", {
+            oldpassword: $('#oldpassword').val(),
+            newpassword: $('#newpassword').val(),
+            repassword: $('#repassword').val()
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('User/password')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+</script>
+
+<script>
+    //菜单高亮
+    $('#user_index').addClass('on');
+    $('#user_box').addClass('on');
+    function flash() {
+
+        window.location = "{:U('user/ga')}"
+    }
+</script>
+
+<include file="Public:footer_new"/>

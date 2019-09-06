@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta content="width=device-width, initial-scale=0.1, maximum-scale=1.0, user-scalable=1" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no,email=no,address=no">
+    <title>
+	<if condition="LANG_SET == 'en-us'">
+		{:C('en_web_title')}
+	<else/>
+		{:C('web_title')}
+	</if>
+	</title>
+    <link rel="shortcut icon" href="__PUBLIC__/images/favor.ico" type="image/x-icon" />
+    <if condition="LANG_SET == 'en-us'">
+		<meta name="Keywords" content="{:C('en_web_keywords')}">
+	<else />
+		<meta name="Keywords" content="{:C('web_keywords')}">
+	</if>
+	<if condition="LANG_SET == 'en-us'">
+		<meta name="Description" content="{:C('en_web_description')}">
+	<else/>
+		<meta name="Description" content="{:C('web_description')}">
+	</if>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/dfc.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/news/style/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/news/style/style.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/news/style/fb.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/news/style/index.css">
+    <script type="text/javascript" src="__PUBLIC__/Home/news/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/news/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.cookies.2.2.0.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.flot.js"></script>
+    <style type="text/css">
+        .deal_list {
+                position: absolute;
+                left: -128px;
+                background: #fff;
+                z-index: 999999;
+                border-bottom: 2px solid #f6554b;
+                padding-bottom: 10px;
+            }
+        #menu_list_json img{vertical-align: middle;}
+        .deal_list dl {
+                width:360px;
+                margin: 0 auto;
+            }
+        .deal_list dd {
+                width: 150px;
+                padding-left: 10px;
+                height: 40px;
+                line-height: 40px;
+                float: left;
+                font-size: 14px;
+                color: #666;
+                margin:10px 10px 0 10px;
+            }
+        .deal_list dd:hover{background: #f6554b;}
+        .deal_list dd:hover a{color: #fff;}
+        .nocontent {
+                height: 34px;
+                width:80px;
+                position: absolute;
+                left: 0;
+                top: -34px;
+            }
+        .deal_list dd a {
+                float: left;
+                font-size: 12px;
+            }
+        .hdmenu ul li{font-size:16px;}
+        .hdmenu ul li a{display: block;height: 100%;position: relative;}
+        .logo{float:left;width:200px;height:60px;line-height:60px;}
+        .logo img{vertical-align:middle;}
+        .deal_list_pic_cny img{width:15px;height:15px;}
+        .hdmenu{float:left;width:360px;height:60px;text-align:center;}
+        .inhright{width:400px;height: 60px;line-height: 60px;float:right;}
+        .zc_new{display: inline-block;width:90px;height: 32px;border:2px solid #059FF5;border-radius: 4px;color:#059FF5;line-height: 32px;text-align: center;font-size:16px;}
+        .zc_new:hover{background:#059FF5;color:#fff;}
+        .new_line{width:100%;height:6px;background:#135F91;}
+        .orange1{color: #99A6BF;}
+        #lange li{height: 40px;line-height: 40px;padding-left:10px;}
+		.chooselan{display: inline-block;line-height: 60px; margin-left:105px;cursor:pointer;}
+		.logchooselan{height:60px;line-height: 60px;cursor:pointer;}
+		.logchooselan img{display:block;float:left;width:20px;margin-right:5px;padding-top:20px;}
+		.logchooselan span{width:50px;display:block;color:#99A6BF;font-size:12px;float:left;}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="otheader" style="height:60px;">
+            <div class="header" style="height:60px;">
+                <div class="logo">
+                    <a href="/">
+                        <img src="{$C['web_logo']}" style="height:55px;" />
+                    </a>
+                </div>
+                <div class="hdmenu">
+                    <ul>
+                        <li id="index_box"><a href="/">{$Think.lang.Fenhong_index} </a></li>
+                        <li id="trade_box">
+                            <a href="{:U('Trade/index')}"><span>{$Think.lang.g_trade_center} </span></a>
+                        </li>
+                        <volist name="daohang" id="vo">
+                            <li id="{$vo['name']}_box">
+								<a href="/{$vo['url']}">
+									<if condition="LANG_SET eq 'en-us'">
+										{$vo['title_en']}
+									<else/>
+										{$vo['title']}
+									</if>
+								</a>
+							</li>
+                        </volist>
+                    </ul>
+                </div>
+                           <!-- 登录注册 -->
+                    <div class="inhright">
+                        <div class="right orange1" id="login">
+                            <gt name="Think.session.userId" value="0">
+                                <dl class="mywallet" style="z-index:999;">
+                                    <dt id="user-finance">
+                                    <div class="mywallet_name clear">
+                                        <a href="/user/">{$Think.session.userName}</a><i></i>
+                                    </div>
+                                    <div class="mywallet_list" style="display:none;">
+                                        <div class="clear">
+                                            <h3 style="color:#7B8A9D;font-size:12px;vertical-align: middle;height: 40px;line-height: 40px;"><img src="__PUBLIC__/Home/images/images/qbb.png" alt="" style="width:15px;margin-right: 5px;vertical-align: middle;">{$Think.lang.Fenhong_wdzc} </h3>
+                                            <table width="380">
+                                                <tr style="height: 40px;line-height: 40px;background:#2d2c3d;">
+                                                    <th style="width: 120px;text-align: left;text-indent:12px;">{$Think.lang.Fenhong_bizhong}</th>
+                                                    <th style="width: 130px;text-align: left;">{$Think.lang.Finance_kyye}</th>
+                                                    <th style="width: 130px;text-align: left;">{$Think.lang.Fenhong_wtdj}</th>
+                                                </tr>
+                                                <volist name="coin_top" id="ct">
+                                                <tr style="height: 40px;line-height: 40px;">
+                                                    <td style="vertical-align: middle;text-indent:10px;"><img src="{$ct[0]}" style="width:20px;height:20px;vertical-align: middle;margin-right: 5px;" />{$ct[1]}：</td>
+                                                    <td>{$ct[2]}<!-- <br/>/￥{$ct[3]}<br/>/${$ct[4]} --></td>
+                                                    <td>{$ct[5]}<!-- <br/>/￥{$ct[6]}<br/>/${$ct[7]} --></td>
+                                                </tr>
+                                                </volist>
+                                            </table>
+                                        </div>
+                                        <!-- <div class="mywallet_btn_box">
+                                            <a href="/finance/mycz.html">充值</a><a href="/finance/mytx.html">提现</a><a href="/finance/myzr.html">转入</a><a href="/finance/myzc.html">转出</a><a href="/finance/mywt.html">委托管理</a><a href="/finance/mycj.html">成交查询</a>
+                                        </div> -->
+                                    </div>
+                                    </dt>
+                                    <dd>
+                                        ID：<span>{$Think.session.userId}</span>
+                                    </dd>
+                                    <dd>
+                                        <a href="{:U('Login/loginout')}">{$Think.lang.Finance_getout} </a>
+                                    </dd>
+									<dd style="width:80px;height:60px;position:relative;">
+										<if condition="LANG_SET == 'en-us'">
+											<div class="logchooselan">
+												<img src="__PUBLIC__/Home/images/images/enen.png" />
+												<span>English</span>
+											</div>
+										<else />
+											<div class="logchooselan">
+												<img src="__PUBLIC__/Home/images/images/cncn.png" />
+												<span>中国</span>
+											</div>
+										</if>
+										<div id="loglanges" style="float:right;display:none;margin-right: 4px;">
+											<ul id="lange" style="position:relative ;top:-10px;z-index:5555;width:100px;padding:5px 0;background:url(__PUBLIC__/Home/images/images/impression2.svg) no-repeat;">
+												<li><a href="?l=zh-cn">
+													<img src="__PUBLIC__/Home/images/images/cncn.png" alt="" style="vertical-align: middle;width:20px;">
+													<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">中国</span></a>
+												</li>
+												<li><a href="?l=en-us"><img src="__PUBLIC__/Home/images/images/enen.png" alt="" style="vertical-align: middle;width:20px;">
+													<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">English</span></a>
+												</li>
+											</ul>
+										</div>
+									</dd>
+                                </dl>
+                                <else/>
+                                <div class="inhright">
+                                    <span>
+                                        <a href="{:U('Login/index')}" style="color:#ebebeb;display:inline-block;width:90px;line-height:60px;font-size:16px;text-align: center;">{$Think.lang.Finance_login} </a>
+                                    </span>
+                                    <span><a href="{:U('Login/register')}" class="zc_new">{$Think.lang.Finance_reg} </a></span>
+                                    <if condition="LANG_SET == 'en-us'">
+										<span class="chooselan">
+                                            <img src="__PUBLIC__/Home/images/images/enen.png" alt="" style="vertical-align: middle;width:20px;margin-right:5px;">
+                                            <span style="vertical-align: middle;color:#99A6BF;font-size:12px;">English</span>
+										</span>
+                                    <else />
+                                        <span class="chooselan">
+                                            <img src="__PUBLIC__/Home/images/images/cncn.png" alt="" style="vertical-align: middle;width:20px;margin-right:5px;">
+                                            <span style="vertical-align: middle;color:#99A6BF;font-size:12px;">中国</span>
+										</span>
+                                    </if>
+                                    <div id="langes" style="float:right;display:none;margin-right: 26px;">
+										<ul id="lange" style="position:relative ;top:-10px;z-index:5555;width:100px;padding:5px 0;background:url(__PUBLIC__/Home/images/images/impression2.svg) no-repeat;">
+											<li><a href="?l=zh-cn">
+												<img src="__PUBLIC__/Home/images/images/cncn.png" alt="" style="vertical-align: middle;width:20px;">
+												<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">中国</span></a>
+											</li>
+											<li><a href="?l=en-us"><img src="__PUBLIC__/Home/images/images/enen.png" alt="" style="vertical-align: middle;width:20px;">
+												<span style="vertical-align: middle;color:#99A6BF;font-size:12px;">English</span></a>
+											</li>
+										</ul>
+                                    </div>
+                                </div>
+                            </gt>
+                        </div>
+                    </div>
+                   <!--  登录注册结束 -->
+            </div>
+        </div>
+        <div class="new_line"></div>
+        <script>
+            //新改
+            $('#trade_box').mouseover(function() {
+                $(".deal_list").show();
+            });
+            $(".hdmenu ul").mouseleave(function(){
+                $(".deal_list").hide();
+            });
+            $('.deal_list').hover(function () {
+                $('.deal_list').show()
+            });
+            $('#user-finance').hover(function () {
+                $('.mywallet_list').show();
+            }, function () {
+                $('.mywallet_list').hide()
+            });
+            $(".chooselan").click(function(){
+				$("#langes").toggle();
+			});
+			$(".logchooselan").click(function(){
+				$("#loglanges").toggle();
+			});
+        </script>

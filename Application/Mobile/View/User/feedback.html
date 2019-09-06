@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            提交工单
+        </div>
+        <div class="logbot">
+			<form action="{:U('User/subfeedback')}" name="gongdan" method="post" enctype="multipart/form-data">
+				<input type="text" class="logipt" id="title" name="title" value="" placeholder="标题，50字以内" maxlength="50" />
+				<p class="attention">只能输入中英文数字和空格，标点符号请用中文标点符号</p>
+				<select name="subject" id="subject" class="logipt">
+					<option value="">请选择提问类型</option>
+					<option value="用户注册">用户注册</option>
+					<option value="虚拟币充值">虚拟币充值</option>
+					<option value="虚拟币提现">虚拟币提现</option>
+					<option value="虚拟币交易">虚拟币交易</option>
+					<option value="绑定安全措施">绑定安全措施</option>
+					<option value="修改账号资料">修改账号资料</option>
+					<option value="被盗找回">被盗找回</option>
+					<option value="其它">其它</option>
+				</select>
+
+				<textarea rows="8" style="resize:none;overflow:hidden;outline:none;border:0;width:94%;height:80px;font-size:13px;color:#999;background:#080814 none repeat scroll 0 0;margin-top:20px;" id="content" name="content" placeholder="问题描述，内容请控制在200字以内"></textarea>
+				<p class="attention">只能输入中英文数字和空格，标点符号请用中文标点符号</p>
+
+				<input type="text" class="logipt" id="txid" name="txid" value="" placeholder="如遇到虚拟币充值提现问题，需提交出现问题的TxID" />
+				
+				<div class="words" style="height:40px;">
+					<label style="width:45%;float:left;line-height:40px;">图片附件一</label>
+					<div class="iptbox" style="width:55%;height:40px;float:left;">
+						<a href="javascript:;" class="file">
+							<input type="file" id="attachone" name="attachone" style="height:30px;padding:5px 10px 5px 0;"/>
+						</a>
+					</div>
+				</div>
+				<div class="words" style="height:40px;">
+					<label style="width:45%;float:left;line-height:40px;">图片附件二</label>
+					<div class="iptbox" style="width:55%;height:40px;float:left;">
+						<a href="javascript:;" class="file">
+							<input type="file" id="attachtwo" name="attachtwo" style="height:30px;padding:5px 10px 5px 0;"/>
+						</a>
+					</div>
+				</div>
+				<p class="attention">图片分辨率需小于1920像素宽度，体积小于2M</p>
+				<input type="button" class="logbut" value="提交工单" title="提交工单"  id="btn-up" onclick="Update()" />
+			</form>
+		</div>
+	</div>
+<script type="text/javascript">
+function Update() {
+	var title = $("#title").val();
+	var content = $("#content").val();
+	var subject = $("#subject").val();
+	if (title == "" || title == null) {
+		layer.tips('请输入标题', '#title', {tips: 3});
+		return false;
+	}
+	if (content == "" || content == null) {
+		layer.tips('请输入描述', '#content', {tips: 3});
+		return false;
+	}
+	if (subject == "" || subject == null) {
+		layer.tips('请输入提问类型', '#subject', {tips: 3});
+		return false;
+	}
+	layer.load(0, {shade: [0.5,'#8F8F8F']});
+	document.gongdan.submit();
+}
+</script>
+<include file="Public:footer" />
+</body>
+</html>

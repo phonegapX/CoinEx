@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+	<style type="text/css">
+	.set_verify{color:white;font-size:13px;}
+	.band_succ{color:white;font-size:15px;margin-top:10px;}
+	.band_succ a{color:white;}
+	.addreply{width:94%;height:300px;margin-top:20px;border:none;}
+	.addreply .arcontent{resize:none;overflow:hidden;outline:none;border:0;width:94%;height:80px;font-size:13px;color:#999;background:#080814 none repeat scroll 0 0;}
+	.addreply .rechbut{background: #e75600 none repeat scroll 0 0;border: medium none;color: #fff;cursor: pointer;font-size: 14px;width:100px;height:30px;margin-top:10px;outline: medium none;border-radius:3px;}
+	.feedbackreply{width:100%;min-height:20px;margin-top:20px;}
+	.feedbackreply .frkefu .title{text-align: right;}
+	.feedbackreply .frkefu .title,.feedbackreply .fruser .title{width:55px;float:left;line-height:20px;font-size:12px;}
+	.feedbackreply .fruser .title{text-align:left;}
+	.feedbackreply .frkefu .content{border:1px solid #ddd;padding:10px;border-radius:5px;width:70%;float:left;line-height:20px;font-size:12px;background:white;}
+	.feedbackreply .fruser .content{padding:10px;border-radius:5px;width:70%;float:left;line-height:20px;font-size:12px;background:#eee;color:#666;}
+	.feedbackreply .frkefu .tangle{float:left;z-index:99;position:relative;right:3px;margin-top:3px;}
+	.feedbackreply .fruser .tangle{float:left;z-index:99;margin-top:3px;}
+	</style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="/User/feedbacklist.html"></a></span>
+            工单详情
+        </div>
+		
+		<div class="words">
+			<ul>
+				<li>问题编号：{$feedback_record['recordno']}</li>
+				<li>问题状态：{$feedback_record['status']}</li>
+				<li>问题类型：{$feedback_record['subject']}</li>
+				<li>提交时间：{$feedback_record['addtime']|date="Y-m-d H:i:s",###}</li>
+				<li>更新时间：{$feedback_record['freshtime']|date="Y-m-d H:i:s",###}</li>
+				<li>图片附件</li>
+				<li>
+					<if condition="!empty($feedback_record['attachone'])">
+						<a href="{$feedback_record['attachone']}" target="_blank" style="color:#e55600;">图片附件一</a>
+					</if>
+					<if condition="!empty($feedback_record['attachtwo'])">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$feedback_record['attachtwo']}" target="_blank" style="color:#e55600;">图片附件二</a>
+					</if>
+				</tr>
+				<li>标题：</li>
+				<li>{$feedback_record['title']}</li>
+				<li>问题描述：</li>
+				<li>{$feedback_record['content']}</li>
+			</ul>
+		</div>
+		<notempty name="feedback_reply">
+			<div class="feedbackreply">
+				<volist name="feedback_reply" id="vo">
+					<if condition="$vo['username'] == 'admin'">
+						<div class="frkefu" style="float:right;">
+							<div class="content">{$vo['content']}</div>
+							<div class="tangle"><img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/duihuaer2.png" width="15px" height="15px" /></div>
+							<div class="title">客服回复</div>
+						</div>
+						<div style="height:10px;clear:both;"></div>
+					<else />
+						<div class="fruser">
+							<div class="title">我的提问</div>
+							<div class="tangle"><img src="http://tebtc.oss-ap-southeast-1.aliyuncs.com/upload/duihua.png" width="15px" height="15px" /></div>
+							<div class="content">{$vo['content']}</div>
+						</div>
+						<div style="height:10px;clear:both;"></div>
+					</if>
+				</volist>
+			</div>
+		</notempty>
+		<div class="addreply">
+			<form action="{:U('User/addreply')}" name="addreply" method="post">
+				<textarea placeholder="追加提问" name="content" id="content" class="arcontent"></textarea>
+				<input type="hidden" name="fid" value="{$feedback_record['id']}" />
+				<input type="button" class="rechbut" value="追加提问" onclick="doreply();" />
+			</form>
+		</div>
+	</div>
+<script type="text/javascript">
+function doreply(){
+	var content = $("#content").val();
+	if(content==''||content==null){
+		layer.msg("请填写回复内容", {icon: 1});
+		return false;
+	}
+	document.addreply.submit();
+}
+</script>
+
+</body>
+</html>

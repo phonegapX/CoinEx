@@ -1,0 +1,28 @@
+/*---------------------------------------------头部CSS-------------------------------------------------*/
+.mywallet{display:inline-block;*display:inline;*zoom:1;font-size:12px;_width:300px;}
+.mywallet dt{float:left;line-height:60px;position:relative;z-index:110;}
+.mywallet_name{padding:0 11px;position:relative;z-index:120;}
+.mywallet dt:hover .mywallet_name{background:#ffffff;}
+.mywallet_list{position:absolute;right:0;top:60px;background:#161723;border-radius:4px;border:1px solid rgba(21,21,31,0.90);padding:9px 14px 8px;width:380px;display:none;}
+.mywallet_list .clear{width:100%;height:auto;overflow:hidden;clear:both;}
+.mywallet_list ul{float:left;width:270px;}
+.mywallet_list h4{font-weight:normal;margin-bottom:4px;height:30px;line-height:30px;font-size:14px;color:#fff;width:100%;text-align:left!important;}
+.mywallet_list li{height:30px;line-height:30px;font-size:12px;}
+.mywallet_list li em,.price_today_ul em,#profit_list em{float:left;width:26px;height:19px;margin-top:11px;}
+.mywallet_list li strong{float:left;font-weight:normal;color:#333333;margin-left:4px;}
+.mywallet_list span{float:left;}
+.balance_list li a span{color:#669900;}
+.freeze_list li a span{color:#e55600;}
+.mywallet dt a{color:#99A6BF;float:left;font-size:14px;}
+.mywallet dt a:hover strong{color:#e55600;}
+.mywallet dt i{height:3px;margin-top:27px;margin-left:6px;width:6px;overflow:hidden;background:url(../images/icon.png) no-repeat left -181px;float:left;webkit-transition:0.3s ease all;transition:0.3s ease all;-o-transition:0.3s ease all;-moz-transition:0.3s ease all;-ms-transition:0.3s ease all;transform:rotateZ(0deg);-webkit-transform:rotateZ(0deg);-moz-transform:rotateZ(0deg);-ms-transform:rotateZ(0deg);-o-transform:rotateZ(0deg);display:inline;}
+.mywallet dt:hover i{transform:rotateZ(180deg);-webkit-transform:rotateZ(180deg);-moz-transform:rotateZ(180deg);-ms-transform:rotateZ(180deg);-o-transform:rotateZ(180deg);}
+.mywallet dd{float:left;padding:0 6px 0 5px;line-height:60px;color:#99A6BF;font-size:14px;}
+.mywallet dd span,.mywallet dd a{color:#99A6BF;font-size:14px;}
+.mywallet_btn_box{border-top:1px dotted #888888;padding-top:15px;width:100%;}
+.mywallet_btn_box a{float:left;width:80px;height:25px;border:1px solid #e55600;margin-right:10px;margin-bottom:10px;color:#e55600;background:#ffffff;line-height:25px;font-size:14px;text-align:center;border-radius:3px;webkit-transition:0.3s ease all;transition:0.3s ease all;-o-transition:0.3s ease all;-moz-transition:0.3s ease all;-ms-transition:0.3s ease all;}
+.mywallet_btn_box a:hover{color:#ffffff;background:#e55600;text-decoration:none;}
+.qqkefu:hover{background:url(../images/qqkefu.png) no-repeat 0px -33px;margin-top:4px;}
+.qqkefu{display:inline-block;width:135px;height:30px;background:url(../images/qqkefu.png) no-repeat 0px 0px;margin-top:4px;}
+.iphone{display:inline-block;width:130px;height:30px;font-size:20px;font-family:tahoma,Microsoft YaHei,Arial,Helvetica,sans-serif;color:#e55600;}
+.zhuce{background:url(../images/zhuce.png) no-repeat 6px 6px;display:inline-block;padding-left:29px;background-size:35%;}

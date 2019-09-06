@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            {$Think.lang.User_grzx}
+        </div>
+        <div class="useifor">
+            UID：{$user.id}<br/>
+            {$Think.lang.Finance_zhanghao}：{$user.username}<br/>
+            {$Think.lang.User_name}：{$user.truename}
+            <br/>
+            {$Think.lang.g_langes}：
+            <if condition="LANG_SET == 'en-us'">
+                <a class="useifor" href="?l=zh-cn" style="padding:0;background: transparent;margin-right: 10px;">中文</a><a class="useifor" href="?l=en-us" style="padding:0;background: transparent;color:#059ff5;"><font> English</font></a>
+            <else />
+                <a class="useifor" href="?l=zh-cn" style="padding:0;background: transparent;margin-right: 10px;color:#059ff5;"><font>中文</font></a><a class="useifor" href="?l=en-us" style="padding:0;background: transparent;">English</a>
+            </if>
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('Finance/index')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon1.png"></span>
+                         {$Think.lang.User_ckzc}
+                         <!--<span class="price">{$becc['zj']|NumToStr}</span>-->
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('User/safety')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon2.png"></span>
+                         {$Think.lang.g_safe_set}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('Finance/myzr_coin_list')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon7.png"></span>
+                         {$Think.lang.sPublic_left_xnbcz}
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('Finance/myzc_coin_list')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon8.png"></span>
+                         {$Think.lang.sPublic_left_xnbtx}
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('User/qianbao_coin_list')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon13.png"></span>
+                         {$Think.lang.User_qbdzgl}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('Finance/mywt_coin_list')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon9.png"></span>
+                         {$Think.lang.User_wtgl}
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('Finance/mycj_coin_list')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon10.png"></span>
+                         {$Think.lang.User_cjjl}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+		<div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('Finance/mytj')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/tjyh.png"></span>
+                         {$Think.lang.g_tui_user}
+                    </a>
+                </li>
+				<li>
+                    <a href="{:U('Finance/mywd')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/wdtj.png"></span>
+                         {$Think.lang.Finance_wdtj}
+                    </a>
+                </li>
+				<li>
+                    <a href="{:U('Finance/myjp')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/wdjl.png"></span>
+                         {$Think.lang.User_wdjl}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!--<div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('Article/about')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon11.png"></span>
+                         关于平台
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+
+        <div class="usermenu">
+            <ul>
+				<!--<li>
+                    <a href="{:U('User/feedbacklist')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon11.png"></span>
+                        我的工单
+                    </a>
+                </li>-->
+                <li>
+                    <a href="{:U('Login/loginout')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon12.png"></span>
+                        {$Think.lang.User_tcdl}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

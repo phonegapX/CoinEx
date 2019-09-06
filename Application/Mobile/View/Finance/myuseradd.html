@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/cityselect.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            会员互转
+        </div>
+        <div class="logbot">
+            <form>
+
+                <style type="text/css">
+                    .gtctable{width: 96%;margin:0 auto;border-collapse: collapse;margin-top:15px;}
+                    .gtctable tr td{border:1px solid rgba(255,255,255, .3);font-size:16px;color: #fff;padding:8px 5px;}
+                    .gtctable tr td img{vertical-align: middle;}
+                </style>
+
+                <!-- 币种 账户信息 -->
+                <table class="gtctable">
+                    <tr>
+                        <td valign="middle">
+                            <img src="/upload/coin/{$coin_info['img']}" alt="" style="width: 22px; margin-right: 5px;"/> {$coin_info['title']}({$coin|strtoupper})
+                        </td>
+                        <td>
+                            可用{$user_coin[$coin]|Num}
+                        </td>
+                    </tr>
+                </table>
+
+
+                <!-- 转入用户名 -->
+                <input type="text" placeholder="转入用户名" class="logipt" name="myzc_addr" id="myzc_addr">
+                <p id="myzc_addr-msg" style="display: none;font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;" data-explain="请输入转入用户名<em></em>">请输入转入用户名<em></em></p>
+
+
+                <!-- 转出数量 -->
+                <input type="text" placeholder="转出数量" class="logipt" name="nums"  id="nums">
+                <p id="nums-msg" style="display: none;font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;" data-explain="请输入转出数量<em></em>">请输入转出数量<em></em></p>
+
+
+                <!-- 手机验证码 -->
+                <div class="yzmbox">
+                    <input type="text" placeholder="验证码" class="logipt yzmipt"  id="mobile_verify" >
+                    <input type="button" value="获取验证码" class="phonebut" id="regBtn"  value="获取验证码" onclick="SendCode()" style="margin-top:15px;background:#ff9900;color:#fff;">
+                <p id="repassword-msg" style="font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;">
+                            接受短信的手机{$user_info.mobile}<em></em>
+                </p>
+
+
+
+                <!-- 交易密码 -->
+                <input  name="name" id="paypassword" type="password" class="logipt" placeholder="交易密码">
+                <a href="{:U('Login/findpaypwd')}" class="reg_floatr" style="color:#ff8800;font-size: 14px;line-height: 20px;">忘记密码?</a>
+                <p id="paypassword-msg" style="display: none;font-size:14px;line-height:24px;color:#ff8800;padding-left:10px;" data-explain="请输入交易密码<em></em>">请输入交易密码<em></em></p>
+
+
+
+                <!-- 提交操作 -->
+                <input type="button" class="logbut" value="提交转出" name="index_submit" id="loginSubmin" onclick="Update()">
+
+
+            </form>
+        </div>
+    </div>
+    <include file="Public:footer" />
+<script type="text/javascript">
+	var mmyzcu = "{$mmyzcu_token}";
+	
+    //输入框消息
+    function formMsg(o, status, msg){
+        $('#'+o+'-msg').attr('class', 'form_explain_'+(status?'pass':'error')).html((typeof msg == 'undefined'? '': msg)+'<em></em>').show();
+        return true;
+    }
+
+    function SendCode() {
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $('#regBtn').attr("disabled", "disabled");
+        $.post("{:U('Verify/myzc')}", {}, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#999B9C');
+                    obj.val(wait + '秒再次发送');
+                    wait--;
+                    if (wait < 0) {
+                        clearInterval(interval);
+                        obj.val('获取验证码');
+                        obj.css('backgroundColor', '#ff8800');
+                    }
+                    ;
+                }, 1000);
+            }else {
+                //刷新验证码
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+     function Update() {
+        var coin ='{$coin}';
+        var addr = $('#myzc_addr').val();
+        var num = $("#nums").val();
+        var mobile_verify = $("#mobile_verify").val();
+        var paypassword = $("#paypassword").val();
+
+        if (addr == "" || addr == null) {
+            formMsg('myzc_addr', 0, '请输入用户名');
+            return false;
+        }
+
+        if (mobile_verify == "" || mobile_verify == null) {
+            formMsg('mobile_verify', 0, '请输入短信验证码');
+            return false;
+        }
+        
+        if (num == "" || num == null) {
+            // layer.tips('请输入转出数量', '#nums', {tips: 3});
+            formMsg('nums', 0, '请输入转出数量');
+            return false;
+        }
+
+        if (paypassword == "" || paypassword == null) {
+            // layer.tips('请输入交易密码', '#paypassword', {tips: 3});
+            formMsg('paypassword', 0, '请输入交易密码');
+            return false;
+        }
+        layer.load(2);
+        $.post("{:U('Finance/upmyzc_user')}", {
+            coin: coin,
+            addr: addr,
+            num: num,
+            paypassword: paypassword,
+            mobile_verify: mobile_verify,
+			mtoken: mmyzcu
+        }, function (data) {
+			mmyzcu = data.url;
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Finance/myzc_user')}?coin=" + coin;
+            } else {
+                layer.msg(data.info, {icon: 2});
+            }
+        }, "json");
+
+    }
+
+</script>
+</body>
+</html>

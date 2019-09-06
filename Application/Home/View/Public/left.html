@@ -1,0 +1,54 @@
+<div class="deala_left">
+	<h1><img src="__PUBLIC__/Home/images/images/cash_commodity.png" alt="" style="vertical-align: middle;margin-right: 5px;">{$Think.lang.sPublic_left_bbdh}</h1>
+	<div class="market_list">
+		<ul>
+			<volist name="market_list" id="vo">
+				<if condition="$vo['rmb'] eq 'btc'">
+				<li <if condition="$vo['name'] eq $xnb.'_'.$rmb">class="selected"</if>>
+					<a href="/Trade/index/market/{$vo['name']}">{$vo['name']|convmarket}</a>
+				</li>
+				</if>
+			</volist>
+				<li style="width:100%;height:1px;margin:0px auto;padding:0px;background-color:#384157;overflow:hidden;">
+				</li>
+			<volist name="market_list" id="vo">
+				<if condition="$vo['rmb'] eq 'eth'">
+				<li <if condition="$vo['name'] eq $xnb.'_'.$rmb">class="selected"</if>>
+					<a href="/Trade/index/market/{$vo['name']}">{$vo['name']|convmarket}</a>
+				</li>
+				</if>
+			</volist>
+			<volist name="market_list" id="vo">
+				<if condition="($vo['rmb'] neq 'eth') and ($vo['rmb'] neq 'btc')">
+				<li <if condition="$vo['name'] eq $xnb.'_'.$rmb">class="selected"</if>>
+					<a href="/Trade/index/market/{$vo['name']}">{$vo['name']|convmarket}</a>
+				</li>
+				</if>
+			</volist>
+		</ul>
+	</div>
+	<h1><img src="__PUBLIC__/Home/images/images/operation .png" alt="" style="vertical-align: middle;margin-right: 5px;">{$Think.lang.sPublic_left_cz}</h1>
+	<div class="operate_list">
+		<ul>
+			<li <if condition="strstr($_SERVER['REQUEST_URI'],'myzr')">class="selected"</if>><a href="/finance/myzr.html">{$Think.lang.sPublic_left_xnbcz}</a></li>
+			<li <if condition="strstr($_SERVER['REQUEST_URI'],'myzc')">class="selected"</if>><a href="/finance/myzc.html">{$Think.lang.sPublic_left_xnbtx}</a></li>
+			<li <if condition="strstr($_SERVER['REQUEST_URI'],'mycj')">class="selected"</if>><a href="/finance/mycj.html">{$Think.lang.sPublic_left_zjls}</a></li>
+			<li <if condition="strstr($_SERVER['REQUEST_URI'],'mywt')">class="selected"</if>><a href="/finance/mywt.html">{$Think.lang.sPublic_left_lsdd}</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+$(window).scroll(function(){
+	if($(window).scrollTop()>80){
+		$('.deala_left').css({
+			'position':'fixed',
+			'top':'10px'
+		});
+	}else{
+		$('.deala_left').css({
+			'position':'static',
+			'top':'none'
+		});
+	}
+});
+</script>

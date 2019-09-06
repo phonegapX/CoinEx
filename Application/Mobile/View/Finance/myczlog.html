@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            充值记录
+        </div>
+        <span class="addbankbut">
+            <a href="{:U('Finance/mycz')}"><img src="__PUBLIC__/Mobile/images/addbank.png">充值</a>
+        </span>
+        <div class="chgbox">
+            <ul>
+
+
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            暂无充值记录
+                        </span>
+                    </div>
+                </li>
+            <else />
+                <volist name="list" id="vo">
+                    <li>
+                        <div class="rechargetop">
+                            {$vo.addtime|date='Y-m-d H:i:s',###}
+                            <span class="state wait" style="float: right;">
+                                <eq name="vo.status" value="0">
+                                    未付款
+                                    <a onclick="myczHuikuan({$vo['id']})" href="javascript:void(0)" style="    color: #2674FF!important;">已汇款</a>
+                                </eq>
+                                <eq name="vo.status" value="1">
+                                    充值成功
+                                </eq>
+                                <eq name="vo.status" value="2">
+                                    人工到账
+                                </eq>
+                                <eq name="vo.status" value="3">
+                                    处理中
+                                </eq>
+                                <eq name="vo.status" value="4">
+                                    已过期
+                                </eq></span>
+                        </div>
+                        <table class="chglist_bot">
+                            <tr>
+                                <th>充值订单</th>
+                                <th>充值金额</th>
+                                <th>到账金额</th>
+                                <th rowspan="2" width="10%">
+                                    <a onclick="myczChakan({$vo['id']})" href="javascript:void(0)"><img src="__PUBLIC__/Mobile/images/rightarrow.png"></a>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>{$vo.tradeno}</td>
+                                <td>¥{$vo['num']|default="0.00"}</td>
+                                <td>¥{$vo['mum']|default="0.00"}</td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <script>
+            $("#status-selectTest").change(function () {
+                var status = $("#status-selectTest option:selected").val();
+                window.location = '/Finance/mycz/status/' + status + '/.html';
+            });
+
+
+            function myczHuikuan(id) {
+                $.post("{:U('Finance/myczHuikuan')}", {id: id}, function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.info, {icon: 1});
+                        window.location.reload();
+                    } else {
+                        layer.msg(data.info, {icon: 2});
+                    }
+                }, "json");
+            }
+
+            function myczChakan(id) {
+
+                    // layer.open({
+                    //     title: '人民币充值',
+                    //     type: 2,
+                    //     area: ['650px', '500px'],
+                    //     content: ["{:U('Pay/mycz')}?id=" + id, 'no']
+                    // });
+                    window.location ="{:U('Pay/mycz')}?id=" + id;
+
+            }
+        </script>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

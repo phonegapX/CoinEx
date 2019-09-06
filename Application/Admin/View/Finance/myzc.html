@@ -1,0 +1,240 @@
+<include file="Public:header"/>
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h">
+            <span class="h1-title">虚拟币转出</span>
+        </div>
+
+        <div class="cf">
+            <div class="fl">
+                <button class="btn btn-warning" onClick="location.href='{:U('Finance/myzr')}'">初始化搜索</button>
+				<button class="btn btn-success " onclick="recover_zc();">恢复自动转出队列</button>
+				<button class="btn btn-success " onclick="chk_zdzc();">查看自动转出队列状态</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="btn ajax-post confirm btn-warning " id="submit">批量转出</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="confirm btn-success " href="{:U('Finance/myzcBatchLog')}" target="_blank">批量转出错误日志</a>
+            </div>
+
+            <div class="search-form fr cf" style="padding-top: 43px;float: none !important;">
+                <div class="sleft">
+                    <form name="formSearch" id="formSearch" method="get" name="form1">
+
+
+                        <select style="width: 110px; float: left; margin-right: 10px;" name="time_type" class="form-control">
+                            <option value="addtime"
+                            <eq name="Think.get.time_type" value="addtime">selected</eq>
+                            >申请时间</option>
+                            <option value="endtimes"
+                            <eq name="Think.get.time_type" value="endtimes">selected</eq>
+                            >审核时间</option>
+                        </select>
+
+                        <!-- 时间筛选 -->
+                        <script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="starttime" value="{:I('get.starttime')}" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="endtime" value="{:I('get.endtime')}" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+
+
+                        <!-- 转出数值范围 -->
+                        <input type="text" name="num_start" class="search-input form-control" value="{$Think.get.num_start}" placeholder="转出数量起" style="width: 100px; float: left; margin-right: 2px;">
+                        <b style="float: left; margin-right: 2px;">-</b>
+                        <input type="text" name="num_stop" class="search-input form-control" value="{$Think.get.num_stop}" placeholder="转出数量至" style="width: 100px; float: left; margin-right: 10px;">
+
+
+                        <select style="width: 130px; float: left; margin-right: 10px;" name="coinname" class="form-control">
+                            <option value=""
+                            <empty name="Think.get.coinname">selected</empty>
+                            >交易币种</option>
+                            <volist name="C['coin']" id="vo">
+                                <option value="{$vo['name']}"
+                                <eq name="vo['name']" value="$Think.get.coinname">selected</eq>
+                                >{$vo['title']}</option>
+                            </volist>
+                        </select>
+                        <select style=" width: 100px; float: left; margin-right: 10px;" name="field" class="form-control">
+                            <option value="username"
+                            <eq name="Think.get.field" value="username">selected</eq>
+                            >用户名</option>
+							<option value="zcaddr"
+                            <eq name="Think.get.field" value="zcaddr">selected</eq>
+                            >转出地址</option>
+							<option value="txid"
+                            <eq name="Think.get.field" value="txid">selected</eq>
+                            >交易ID</option>
+                        </select>
+                        <input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+                        <a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+                    </form>
+                    <script>
+                        //搜索功能
+                        $(function () {
+                            $('#search').click(function () {
+                                $('#formSearch').submit();
+                            });
+                        });
+                        //回车搜索
+                        $(".search-input").keyup(function (e) {
+                            if (e.keyCode === 13) {
+                                $("#search").click();
+                                return false;
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table table-striped">
+			<form id="form" action="{:U('Finance/myzcBatch')}" method="post" class="form-horizontal">
+				<table class="">
+					<thead>
+					<tr>
+						<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+						<th class="">ID</th>
+						<th class="">用户名</th>
+						<th class="">币种</th>
+						<th width="">申请时间</th>
+						<th width="">审核时间</th>
+						<th width="">转出地址</th>
+						<th width="">转出数量</th>
+						<th class="">手续费</th>
+						<th width="">状态</th>
+						<th width="">操作</th>
+						<th>交易ID</th>
+					</tr>
+					</thead>
+					<tbody>
+					<notempty name="list">
+						<volist name="list" id="vo">
+							<tr>
+								<td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}"/></td>
+								<td>{$vo.id}</td>
+								<td>{$vo['usernamea']} </td>
+								<td>{$vo.coinname}</td>
+								<td>
+									<empty name="vo['addtime']">
+											---
+									<else />
+										{$vo.addtime|addtime}
+									</empty>
+								</td>
+								<td>
+									<empty name="vo['endtime']">
+											---
+									<else />
+										{$vo.endtime|addtime}
+									</empty>
+								</td>
+								<td>{$vo.username}</td>
+
+								<empty name="vo['num']*1">
+										<td style="color: yellowgreen">({$vo['num']*1})手续费</td>
+									<else />
+										<td>{$vo['num']*1}</td>
+								</empty>
+
+								<empty name="vo['num']*1">
+									<td style="color: yellowgreen">入账:{$vo['fee']*1}</td>
+									<else />
+									<td>{$vo['fee']*1}</td>
+								</empty>
+
+								<td>
+									<eq name="vo.status" value="0">等待处理
+									</eq>
+
+									<eq name="vo.status" value="1">成功
+
+									</eq>
+								</td>
+								<td>
+									<eq name="vo.status" value="1">
+										<else/>
+										<empty name="vo['num']*1">
+											不用操作
+											<else />
+											<input type="button" class="ajax-get btn btn-primary btn-xs" value="确认转出" onclick="Upzc('{$vo['id']}');"/>
+										</empty>
+									</eq>
+								</td>
+								<td><a href="javascript:;" onclick="showid('{$vo['txid']}');">点击查看</a></td>
+							</tr>
+						</volist>
+						<else/>
+						<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+					</notempty>
+					</tbody>
+				</table>
+			</form>
+            <div class="page">
+                <div>{$page}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	function showid(id){
+		layer.open({
+			type:1,
+			skin:'layui-layer-rim', //加上边框
+			area:['800px','100px'], //宽高
+			title:'交易ID', //不显示标题
+			closeBtn: 0,
+			shadeClose: true,
+			content:id
+		});
+	}
+	function shuaxin(){
+		window.location.href=window.location.href;
+	}
+	function Upzc(id) {
+		var zcid = parseInt(id);
+		if (zcid == "" || zcid == null || zcid <=0) {
+			layer.alert('参数错误！');
+			return false;
+		}
+
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+		$.post("{:U('Finance/myzcQueren')}", {
+			id: zcid
+		}, function (data) {
+			setTimeout("closetanchu()",2000);
+			if (data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+				setTimeout("shuaxin()",1000);
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+			}
+		}, "json");
+	}
+	function closetanchu(){
+		layer.closeAll('loading');
+	}
+	function recover_zc(){
+		window.location.href = "{:U('Tools/recoverzc')}";
+	}
+	function chk_zdzc(){
+		window.location.href = "{:U('Tools/chkzdzc')}";
+	}
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+    <script type="text/javascript" charset="utf-8">
+        //导航高亮
+        highlight_subnav("{:U('Finance/myzc')}");
+    </script>
+</block>

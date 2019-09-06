@@ -1,0 +1,87 @@
+<include file="Public:header_new"/>
+        <style type="text/css">
+            .dnwlist li{border-bottom: 1px solid #f6f6f6;line-height: 50px;padding-left: 17px;background: url(__PUBLIC__/Home/news/images/graysquare2.png) left center no-repeat;font-size: 15px;}
+            .dnwlist li a{color: #059ff5;}
+            .dnwlist li .time{float: right;font-size: 14px;color: #ccc;}
+            .dnwlist li:hover a{color: #ff9900;}
+            .dnwlist li:hover{background: url(__PUBLIC__/Home/news/images/yellowgray2.png) left center no-repeat;}
+        </style>
+        <div class="newmain">
+            <div class="nwmleft">
+                <h2 style="width: 183px;height: 34px;font-size: 24px;text-indent: 20px;margin-top:20px;">{$Article_first_info.title}</h2>
+                <ul class="dnwlist">
+                  <volist name="article_list" id="vo">
+                    <li style="margin-left: 20px;margin-top:20px;margin-right:20px">
+                        <a href="{:U('Article/detail','id='.$vo['id'])}">{$vo.title|msubstr=0,44,'utf-8'}</a>
+                        <span class="time">{$vo.addtime|addtime}</span>
+                    </li>
+                  </volist>
+                </ul>
+                <div class="pages" style="margin-top:30px;">{$page}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="nwmright">
+                <h3>{$Think.lang.g_help_center} </h3>
+                <ul class="nwmenu">
+                <volist name="ArticleTypeList" id="vo">
+                <if condition="($vo['childnum'] eq '0')">
+                    <li class="topmenu semenu rightico_{$vo.id}" id="article_{$vo.id}">
+                        <a href="{:U('Article/index',array('id'=>$vo['id']))}">
+                            {$vo.title}
+                        </a>
+                    </li>
+                    <div class="botmenu" style="display: none;">
+                        <ul>
+                        <volist name="vo['child']" id="f">
+                            <li><a href="#">{$f.title}</a></li>
+                        </volist>
+                        </ul>
+                    </div>
+                <else/>
+                    <li class="topmenu semenu semenu1" id="article_{$vo.id}">
+                            <!-- <img src="__PUBLIC__/Home/news/images/closemenu.png" class="img1">
+                            <img src="__PUBLIC__/Home/news/images/openmenu.png" class="img2">
+                            <img src="__PUBLIC__/Home/news/images/closemenu2.png" class="img3"> -->
+                            {$vo.title}
+                    </li>
+                    <div class="botmenu" style="display: none;">
+                        <ul>
+                        <volist name="vo['child']" id="f">
+                            <li id="article_{$f.id}"><a href="{:U('Article/index',array('id'=>$f['id']))}">{$f.title}</a></li>
+                        </volist>
+                        </ul>
+                    </div>
+                </if>
+                </volist>
+                </ul>
+            </div>
+            <script>
+                   $(".semenu").click(function() {
+                        if($(this).next(".botmenu").css("display")=="none"){
+                             $(this).siblings('.botmenu').slideUp();
+                             $(this).next(".botmenu").slideDown();
+                             $(this).siblings('.topmenu').removeClass("on");
+                             $(this).addClass('on');
+                        }else{
+                            $(this).next(".botmenu").slideUp();
+                            $(this).removeClass('on');
+                        }
+                    });
+     //               window.onload=function(){
+     //                    $("#article_25 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg4.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg42.png" class="img2">');
+     //                    $("#article_26 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg2.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg22.png" class="img2">');
+     //                    $("#article_27 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg3.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg32.png" class="img2">');
+     //                    $("#article_30 a").prepend('<img src="__PUBLIC__/Home/news/images/helpimg1.png" class="img1"><img src="__PUBLIC__/Home/news/images/helpimg12.png" class="img2">');
+     //                    $("#article_31 a").prepend('<img src="__PUBLIC__/Home/news/images/{$vo.img1}" class="img1"><img src="__PUBLIC__/Home/news/images/{$vo.img11}" class="img2">');
+     //                    $("#article_32 a").prepend('<img src="__PUBLIC__/Home/news/images/new.png" class="img1"><img src="__PUBLIC__/Home/news/images/new2.png" class="img2">');
+					// 	$("#article_34 a").prepend('<img src="__PUBLIC__/Home/news/images/download.png" class="img1"><img src="__PUBLIC__/Home/news/images/download2.png" class="img2">');
+					// }
+            </script>
+        </div>
+        <script>
+          var idss = {$idss};
+          //菜单高亮
+          $('#article_'+idss).addClass('on');
+        </script>
+
+<include file="Public:footer_new"/>

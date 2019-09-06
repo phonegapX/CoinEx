@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.g_safe_set}
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+				<empty name="user['truename']">
+                    <a href="{:U('User/nameauth')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon1.png"></span>
+                         {$Think.lang.g_shimingrz}
+                         <span class="price red">{$Think.lang.Fenhong_wrz}</span>
+                    </a>
+				<else />
+					<a href="{:U('User/nameauth')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon1.png"></span>
+                        {$Think.lang.g_shimingrz}
+                         <span class="price" style="color:#059ff5">{$Think.lang.Fenhong_yrz}</span>
+                    </a>
+				</empty>
+                </li>
+                <!--<li>
+				<empty name="user['mobile']">
+                    <a href="{:U('User/mobile')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon2.png"></span>
+                         手机绑定
+                         <span class="price red">未绑定</span>
+                    </a>
+				<else />
+					<a href="{:U('User/mobile')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon2.png"></span>
+                         手机绑定
+                         <span class="price green">已绑定</span>
+                    </a>
+				</empty>
+                </li>-->
+				<li>
+				<empty name="user['email']">
+                    <a href="{:U('User/email')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon5.png"></span>
+                         {$Think.lang.g_yx_bind}
+                         <span class="price red">{$Think.lang.g_no_bind}</span>
+                    </a>
+				<else />
+					<a href="{:U('User/email')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon5.png"></span>
+                        {$Think.lang.g_yx_bind}
+                         <span class="price" style="color:#059ff5">{$Think.lang.g_has_bind}</span>
+                    </a>
+				</empty>
+                </li>
+                <li>
+				<empty name="user['ga']">
+                    <a href="{:U('User/ga')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon7.png"></span>
+                         {$Think.lang.g_gugeyz}
+                         <span class="price red">{$Think.lang.User_weiyz}</span>
+                    </a>
+				<else />
+					<a href="{:U('User/ga')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon7.png"></span>
+                        {$Think.lang.g_gugeyz}
+                         <span class="price" style="color:#059ff5">{$Think.lang.User_yyz}</span>
+                    </a>
+				</empty>
+                </li>
+				<!--<li>
+				<empty name="user['mibao_answer']">
+                    <a href="{:U('User/mibao')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon6.png"></span>
+                         {$Think.lang.User_mibaowt}
+                         <span class="price red">{$Think.lang.User_weiyz}</span>
+                    </a>
+				<else />
+					<a href="{:U('User/mibao')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon6.png"></span>
+                        {$Think.lang.User_mibaowt}
+                         <span class="price green">{$Think.lang.User_yyz}</span>
+                    </a>
+				</empty>
+                </li>-->
+            </ul>
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('User/password')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon3.png"></span>
+                         {$Think.lang.User_chedlmm}
+                         <span class="price gray">{$Think.lang.User_xiugai}</span>
+                    </a>
+                </li>
+                <li>
+				<empty name="user['paypassword']">
+                    <a href="{:U('User/paypassword')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon4.png"></span>
+                         {$Think.lang.Login_szjymm}
+                         <span class="price gray">{$Think.lang.User_shezhi}</span>
+                    </a>
+				<else />
+					<a href="{:U('User/paypassword')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/saftyicon4.png"></span>
+                         {$Think.lang.User_chejymm}
+                         <span class="price gray">{$Think.lang.User_xiugai}</span>
+                    </a>
+				</empty>
+                </li>
+            </ul>
+        </div>
+        <div class="usermenu">
+            <ul>
+                <li>
+                    <a href="{:U('User/log')}">
+                        <span class="imgbox"><img src="__PUBLIC__/Mobile/images/usericon10.png"></span>
+                         {$Think.lang.User_loginrz}
+                         <span class="price gray">{$Think.lang.g_view}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <span class="layout">
+            <a href="{:U('Login/loginout')}">{$Think.lang.User_aqtc}</a>
+        </span>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

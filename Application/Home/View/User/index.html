@@ -1,0 +1,107 @@
+  <include file="Public:header_new"/>
+<style>
+  .dlmm{width: 100%;height:150px;background: #2D2C3C;margin-bottom: 10px;}
+  .dlmm h3{font-size: 14px;color: #99A6BF;line-height: 36px;font-weight:normal;vertical-align: middle;text-indent: 10px;border-bottom: 1px dashed #384157;}
+  .dlmm h3 img{vertical-align: middle;width:25px;}
+  .dlmm_container .ct{height: 40px;line-height:40px;margin-top:30px;text-align: center;color:#7B8A9D;font-size: 14px;}
+  .dlmm_container .ct a{float: right;line-height: 36px;background:#135F91;margin-right: 100px;text-align: center;color: #EBEBEB;font-size: 14px;width:196px;}
+  .usernewout .usncont .usnc_right{background: none;}
+</style>
+<div class="usernewout">
+	<div class="usncont">
+		<!--左侧菜单-->
+		<include file="User:left"/>
+		<!--左侧菜单-->
+		<!--上方导航-->
+		<include file="User:nav"/>
+		<!--上方导航-->
+		<div class="usnc_right">
+			<div class="dlmm">
+				<h3><img src="__PUBLIC__/Home/images/images/ys1.png" alt="">{$Think.lang.Fenhong_indexn}</h3>
+				<div class="dlmm_container">
+					<p class="ct">{$Think.lang.g_login_needpwd} <a href="/user/password.html">{$Think.lang.g_modify_loginpwd}</a></p>
+				</div>
+			</div>
+			<div class="dlmm">
+				<h3><img src="__PUBLIC__/Home/images/images/ys1.png" alt="">{$Think.lang.g_jiaoyimm}</h3>
+				<div class="dlmm_container">
+					<p class="ct">
+						{$Think.lang.g_trade_needpwd}
+						<empty name="user['paypassword']">
+							<a href="/user/paypassword.html">{$Think.lang.g_set_tradepwd} </a>
+						<else />
+							<a href="/user/paypassword.html">{$Think.lang.g_modify_tradepwd} </a>
+						</empty>
+					</p>
+				 </div>
+			</div>
+			<div class="dlmm">
+				 <h3><img src="__PUBLIC__/Home/images/images/smrz.png" alt="" style="width:28px;">{$Think.lang.g_shimingrz}</h3>
+				 <div class="dlmm_container">
+					<p class="ct">
+						<if condition="$user.is_agree eq 2">
+						{$Think.lang.g_smrz_no_cross}<a href="/user/nameauth.html">{$Think.lang.g_view} </a>
+						<elseif condition="$user.is_agree eq 1" />
+						{$Think.lang.g_has_shimingrz} <a href="/user/nameauth.html">{$Think.lang.g_view} </a>
+						<elseif condition="$user.is_agree eq 0 and $user.idcard_zheng eq null" />
+						{$Think.lang.g_no_shimingrz} <a href="/user/nameauth.html">{$Think.lang.g_go_shimingrz}</a>
+						<else />
+						{$Think.lang.g_smrz_shz}<a href="/user/nameauth.html">{$Think.lang.g_view} </a>
+						</if>
+						<!-- <empty name="user['idcard']">
+							{$Think.lang.g_no_shimingrz}  <a href="/user/nameauth.html">{$Think.lang.g_go_shimingrz}</a>
+						<else />
+							{$Think.lang.g_has_shimingrz} <a href="/user/nameauth.html">{$Think.lang.g_view} </a>
+						</empty> -->
+						&nbsp;&nbsp;|&nbsp;&nbsp;{$Think.lang.g_must_rztx}
+					</p>
+				 </div>
+			</div>
+			<div class="dlmm">
+				 <h3><img src="__PUBLIC__/Home/images/images/gg1.png" alt="">{$Think.lang.g_gugerz}</h3>
+				 <div class="dlmm_container">
+					<p class="ct">
+
+					<empty name="user['ga']">
+						{$Think.lang.g_no_gugerz} <a href="/user/ga.html">{$Think.lang.g_go_bind}</a>
+					<else />
+						{$Think.lang.g_has_gugerz} <a href="/user/ga.html">{$Think.lang.g_view} </a>
+					</empty>
+					&nbsp;&nbsp;|&nbsp;&nbsp;{$Think.lang.g_gugerz_ts}
+					</p>
+				 </div>
+			</div>
+			<div class="dlmm">
+				<h3><img src="__PUBLIC__/Home/images/images/yxrz.png" alt=""  style="width:27px;">{$Think.lang.g_youxiangrz}</h3>
+				<div class="dlmm_container">
+					<p class="ct">
+						<empty name="user['email']">
+							{$Think.lang.g_no_bind} <a href="/user/email.html">{$Think.lang.g_go_bind}</a>
+						<else />
+							{$Think.lang.g_has_bind} <a href="/user/email.html">{$Think.lang.g_view} </a>
+						</empty>
+						&nbsp;&nbsp;|&nbsp;&nbsp;{$Think.lang.g_bind_ts}
+					</p>
+				</div>
+			</div>
+			<!-- <div class="dlmm">
+				<h3><img src="__PUBLIC__/Home/images/images/aq.png" alt="">{$Think.lang.g_mbquestion}</h3>
+				<div class="dlmm_container">
+					<p class="ct">
+						<empty name="user['mibao_question']">
+							{$Think.lang.g_no_set}  <a href="/user/mibao.html">{$Think.lang.g_go_set} </a>
+						<else />
+							{$Think.lang.g_has_set} <a href="/user/mibao.html">{$Think.lang.g_view} </a>
+						</empty>
+						&nbsp;&nbsp;|&nbsp;&nbsp;{$Think.lang.g_mibao_ts}
+					</p>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//菜单高亮
+	$('#user_index').addClass('on');
+</script>
+<include file="Public:footer_new"/>

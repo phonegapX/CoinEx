@@ -1,0 +1,138 @@
+<include file="Public:header_new" />
+<div class="outlogbox">
+    <div class="logbox">
+		<div class="regtop">
+			<ul>
+				<li>
+					<span class="topnumb">1</span>
+					<p>{$Think.lang.Login_register} </p>
+				</li>
+				<li class="on">
+					<span class="topnumb">2</span>
+					<p>{$Think.lang.Login_szjymm} </p>
+				</li>
+				<li>
+					<span class="topnumb">3</span>
+					<p>{$Think.lang.g_shimingrz} </p>
+				</li>
+				<li>
+					<span class="topnumb"><img src="__PUBLIC__/Home/news/images/check.png"></span>
+					<p>{$Think.lang.reg_suc} </p>
+				</li>
+			</ul>
+		</div>
+		<div class="inbox">
+				<div class="boxrow">
+					<label>{$Think.lang.Bazaar_jypw} </label>
+					<div class="rightbox">
+						<input type="password" id="paypassword" value="" class="iptbox" placeholder="{$Think.lang.User_sixbyte} " onblur="if(this.value == '')this.placeholder='{$Think.lang.User_sixbyte} ';" onclick="if(this.placeholder == '{$Think.lang.User_sixbyte} ')this.placeholder='';" onkeyup="chkpwd();" />
+					</div>
+					<div id="paypassword-msg" style="display: none;" class="form_explain" data-explain="{$Think.lang.User_mmgs2} <em></em>">{$Think.lang.User_mmgs2} <em></em></div>
+				</div>
+				<div class="boxrow">
+					<label>{$Think.lang.Login_cfjymm} </label>
+					<div class="rightbox">
+						<input type="password" id="repaypassword" value="" class="iptbox" placeholder="{$Think.lang.User_sixbyte} " onblur="if(this.value == '')this.placeholder='{$Think.lang.User_sixbyte} ';" onclick="if(this.placeholder == '{$Think.lang.User_sixbyte} ')this.placeholder='';" onkeyup="chkrepwd();" />
+					</div>
+					<div id="paypassword-msg" class="form_explain" style="display: none;" data-explain="{$Think.lang.User_mmgs2} <em></em>">{$Think.lang.User_mmgs2} <em></em></div>
+				</div>
+				<br/>
+				<div class="boxrow">
+					<div class="rightbox nolabel">
+						<input type="button" class="iptbut" value="{$Think.lang.Login_next} " onclick="Update();"/>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('input').focus(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+			t.css({'box-shadow':'0px 0px 3px #1583fb','border':'1px solid #1583fb','color':'#333' });
+		if(t.val()==t.attr('placeholder'))
+			t.val('');
+	});
+	$('input').blur(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+			t.css({'box-shadow':'none','border':'1px solid #e1e1e1','color':'#333' });
+		if(t.attr('type')!='password'&&!t.val())
+			t.val(t.attr('placeholder'));
+	});
+	$('.reg_input_box input').each(function(i,d){
+		$(d).focus(function(){
+			var oRegMsg=$('#'+$(this).attr('id')+'-msg');
+			oRegMsg.attr('class')=='form_explain_error'?oRegMsg.attr('class','form_explain').html(oRegMsg.attr('data-explain')).show():oRegMsg.show();
+		})
+		$(d).blur(function(){
+			var oRegMsg=$('#'+$(this).attr('id')+'-msg');
+			$(this).parent().find('.form_explain').hide();
+		})
+	})
+	var mbTest_username=/^(?![^a-zA-Z]+$)(?!\D+$).{5,15}$/;
+	var mbTest_password=/^[a-zA-Z0-9_]{5,15}$/;
+	//输入框消息
+	function formMsg(o, status, msg){
+		$('#'+o+'-msg').attr('class', 'form_explain_'+(status?'pass':'error')).html((typeof msg == 'undefined'? '': msg)+'<em></em>').show();
+		return true;
+	}
+
+	function Update(){
+		var paypassword=$("#paypassword").val();
+		var repaypassword=$("#repaypassword").val();
+
+		if(paypassword==""||paypassword==null){
+			layer.tips('{$Think.lang.Bazaar_srjypw} ','#paypassword',{tips:3});
+			return false;
+		}
+		if(repaypassword==""||repaypassword==null){
+			layer.tips('{$Think.lang.Login_srqrmm} ','#repaypassword',{tips:3});
+			return false;
+		}
+		if(paypassword!=repaypassword){
+			layer.tips('{$Think.lang.two_code_diff} ','#repaypassword',{tips:3});
+			return false;
+		}
+
+		$.post("{:U('Login/upregister2')}",{paypassword:paypassword,repaypassword:repaypassword},function(data){
+			if(data.status){
+				layer.msg(data.info,{icon:1});
+				window.location.href='/Login/register3';
+			}else{
+				layer.msg(data.info,{icon:2});
+				if(data.url){
+					window.location.href=data.url;
+				}
+			}
+		},"json");
+	}
+	function chkpwd(){
+		var paypassword = $("#paypassword").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(paypassword)) {
+			layer.tips('{$Think.lang.Finance_mmjc} ','#paypassword',{tips:3});
+			var result = paypassword.substring(0,paypassword.length-1);
+			$("#paypassword").val(result);
+		}
+	}
+	function chkrepwd(){
+		var repaypassword = $("#repaypassword").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(repaypassword)) {
+			layer.tips('{$Think.lang.Finance_mmjc}','#repaypassword',{tips:3});
+			var result = repaypassword.substring(0,repaypassword.length-1);
+			$("#repaypassword").val(result);
+		}
+	}
+	$("#repaypassword").blur(function(){
+		var paypassword = $("#paypassword").val();
+		var repaypassword = $("#repaypassword").val();
+		if(paypassword != repaypassword){
+			layer.tips('{$Think.lang.User_lcmmbyz} ','#repaypassword',{tips:3});
+		}
+	});
+</script>
+<include file="Public:footer_new" />

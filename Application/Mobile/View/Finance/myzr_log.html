@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_xnbcz2}<!-- 虚拟币充值记录 -->/<if condition="LANG_SET eq 'en-us'">{$coin_info.js_yw}<else/>{$coin_info.title}</if>({$coin_info.name|strtoupper=###})
+        </div>
+
+        <div class="chgbox">
+            <ul>
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            {$Think.lang.g_zwxnbczhl}
+                        </span>
+                    </div>
+                </li>
+
+            <else />
+                <volist name="list" id="vo">
+                    <li>
+                        <table class="jfcz_table">
+                            <tr>
+                                <td colspan="3" class="bankid">
+                                    {$vo.addtime|date='Y-m-d',###}
+                                    <span style="float: right;">
+                                        <eq name="vo.status" value="1">
+                                            <font color="#059ff5">{$Think.lang.Finance_czcg} </font>
+                                            <else/>
+                                            <font color="red">{$Think.lang.Finance_xnbcz1}<!-- 等待处理 --><br/>{$vo.status|abs}{$Think.lang.Finance_xnbcz3}<!-- 个确认 --></font>
+                                        </eq>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding-top: 10px;">
+                                    {$Think.lang.g_czjf}<!-- 充值币种 -->：{$vo.coinname|strtoupper=###}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    {$Think.lang.Finance_czsl}<!-- 充值数量 -->：{$vo['mum']}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding-bottom: 10px;">{$Think.lang.sFinance_myzr_czdz}<!-- 充值地址 -->：{$vo.username}</td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+    </div>
+<include file="Public:footer" />
+<script>
+    function bianhua(){
+        $("#check").show();
+        $("#button").hide();
+    }
+    function bianhua1(){
+        $("#button").show();
+        $("#check").hide();
+    }
+</script>
+</body>
+</html>

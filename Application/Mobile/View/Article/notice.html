@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+<body class="graybg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            <if condition="LANG_SET eq 'en-us'">{$Article_first_info.title_en}<else/>{$Article_first_info.title}</if>
+        </div>
+        <ul class="nwlist">
+            <volist name="list" id="vo">
+            <if condition="LANG_SET eq 'en-us'">
+                <li>
+                <div class="nwl_top">
+                    <img src="__PUBLIC__/Mobile/images/coin.png">
+                    <div class="rightext">
+                        <a href="{:U('Article/notice_detail',array('id'=>$vo['id']))}">
+                            <h3>{$vo.title_en|msubstr=0,30}</h3>
+                        </a>
+                        <p class="time">{$vo.addtime|date="Y-m-d H:i:s",###}</p>
+                    </div>
+                </div>
+                <div class="nwl_bot">
+                    <div class="desc">
+                        <a href="{:U('Article/notice_detail',array('id'=>$vo['id']))}">
+                            {$vo.content_en|msubstr=0,50}
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <else />
+
+            <li>
+                <div class="nwl_top">
+                    <img src="__PUBLIC__/Mobile/images/coin.png">
+                    <div class="rightext">
+                        <a href="{:U('Article/notice_detail',array('id'=>$vo['id']))}">
+                            <h3>{$vo.title|msubstr=0,19}</h3>
+                        </a>
+                        <p class="time">{$vo.addtime|date="Y-m-d H:i:s",###}</p>
+                    </div>
+                </div>
+                <div class="nwl_bot">
+                    <div class="desc">
+                        <a href="{:U('Article/notice_detail',array('id'=>$vo['id']))}">
+                            {$vo.content|msubstr=0,50}
+                        </a>
+                    </div>
+                </div>
+            </li>
+            </if>
+            </volist>
+            
+        </ul>
+        <div class="pages" style="color: black;">{$page}</div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

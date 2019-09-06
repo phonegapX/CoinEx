@@ -1,0 +1,144 @@
+<include file="Public:header_new"/>
+<div class="usernewout">
+<p class="titlenotice"><a  style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p>
+<div class="usncont">
+  <!--左侧菜单-->
+  <include file="User:left" />
+  <!--右侧内容-->
+  <!-- <div class="assets_content w900 right bg_w">
+   <div class="safe_center clear" style="padding-left: 0px; border-bottom: 2px solid #e55600;">
+    <h1 style="margin-top: 0px; margin-bottom: 15px; line-height: 15px;">交易密码输入设置</h1>
+   </div>
+
+      <notempty name="prompt_text">
+                    <div class="mytips">
+                        <h6 style="color: #ff8000;">温馨提示</h6>
+                        {$prompt_text}
+                    </div>
+                </notempty>
+        <br>
+
+   <form id="tpwdsettinga" class="set_verify">
+    <ul class="tpwd">
+     <li><label for="only"><input type="radio" value="1" name="tpwdsetting"
+      <eq name="user['tpwdsetting']" value="1">checked="checked"</eq> > 每次登录只输入一次交易密码 </label></li>
+     <li><label for="every"><input type="radio" value="2" name="tpwdsetting"
+      <eq name="user['tpwdsetting']" value="2">checked="checked"</eq> > 每笔交易都输入交易密码</label></li>
+     <li><label for="none"><input id="tpwdsetting" type="radio" value="3" name="tpwdsetting"
+      <eq name="user['tpwdsetting']" value="3">checked="checked"</eq> > 每次交易都不需要输入交易密码</label></li>
+     <li><input type="password" id="paypassword" placeholder="请输入交易密码" class="text" /></li>
+    </ul>
+    <div class="save_verify">
+     <input type="button" value="保存" onclick="Update()" />
+    </div>
+   </form>
+  </div> -->
+
+
+  	<!--右侧内容-->
+	<div class="usnc_right">
+	  	<h1>交易密码输入设置</h1>
+	  	<div class="rech_top">
+	      	<div class="rech_box">
+	          	<div class="rech_bd safe_rech_bd">
+	              	<ul>
+	                  	<li>
+	                      	<div class="rechmid">
+	                          	<form id="tpwdsettinga" class="set_verify" style="padding-left: 0px!important;">
+                                    <style type="text/css">
+                                        .tpwd li{color: #666;}
+                                    </style>
+								    <ul class="tpwd">
+								    	<li>
+								     		<label for="only">
+								     			<input type="radio" value="1" name="tpwdsetting"
+								      				<eq name="user['tpwdsetting']" value="1">checked="checked"</eq> > 每次登录只输入一次交易密码
+								      		</label>
+								      	</li>
+								     	<li>
+								     		<label for="every">
+								     			<input type="radio" value="2" name="tpwdsetting"
+								      				<eq name="user['tpwdsetting']" value="2">checked="checked"</eq> > 每笔交易都输入交易密码
+								      		</label>
+								      	</li>
+								     	<li>
+								     		<label for="none">
+								     			<input id="tpwdsetting" type="radio" value="3" name="tpwdsetting"
+								      				<eq name="user['tpwdsetting']" value="3">checked="checked"</eq> > 每次交易都不需要输入交易密码
+								      		</label>
+								      	</li>
+								     	<li>
+                                            <div class="rechipt_box">
+                                                <div class="iptbox">
+                                                    <input type="password" id="paypassword" placeholder="请输入交易密码" class="text rechipt" style="padding:0px;width: 358px;" />
+                                                </div>
+                                            </div>
+								     	</li>
+								    </ul>
+								    <div class="rechipt_box">
+		                              	<div class="iptbox">
+		                                  	<input type="button" class="rechbut" value="保存" onclick="Update()" style="margin-top: 20px;" />
+		                              	</div>
+		                          	</div>
+								</form>
+	                      	</div>
+	                  	</li>
+	              	</ul>
+	          	</div>
+	      	</div>
+	  	</div>
+	</div>
+
+
+
+</div>
+</div>
+<br>
+<br>
+<script>
+	$('input').focus(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+			t.css({'box-shadow' : '0px 0px 3px #1583fb','border' : '1px solid #1583fb','color' : '#333' });
+		if(t.val()==t.attr('placeholder'))
+			t.val('');
+	});
+	$('input').blur(function(){
+		var t=$(this);
+		if(t.attr('type')=='text'||t.attr('type')=='password')
+			t.css({'box-shadow' : 'none','border' : '1px solid #e1e1e1','color' : '#333' });
+		if(t.attr('type')!='password'&&!t.val())
+			t.val(t.attr('placeholder'));
+	});
+
+	function Update(){
+		var paypassword=$("#paypassword").val();
+		var tpwdsetting=$("input[name='tpwdsetting']:checked").val();
+		if(paypassword==""||paypassword==null){
+			layer.tips('请输入交易密码','#paypassword',{tips : 3 });
+			return false;
+		}
+		if(tpwdsetting==""||tpwdsetting==null){
+			layer.tips('请输入选择一个','#tpwdsetting',{tips : 3 });
+			return false;
+		}
+
+		$.post("{:U('User/uptpwdsetting')}",{paypassword : paypassword,tpwdsetting : tpwdsetting },function(data){
+			if(data.status==1){
+				layer.msg(data.info,{icon : 1 });
+				window.location="{:U('User/tpwdset')}";
+			}else{
+				layer.msg(data.info,{icon : 2 });
+				if(data.url){
+					window.location=data.url;
+				}
+			}
+		},"json");
+	}
+</script>
+<script>
+    //菜单高亮
+    $('#user_tpwdset').addClass('on');
+    $('#user_box').addClass('on');
+</script>
+<include file="Public:footer_new" />

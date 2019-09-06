@@ -1,0 +1,197 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="__PUBLIC__/Home/news/js/jquery.min.js"></script>
+	<link href="__PUBLIC__/Home/news/style/base.css" rel="stylesheet" />
+    <style type="text/css">
+		.chart_navi{width:1200px;height:40px;margin:0 auto;line-height: 40px;}
+		.chart_navi ul li{width:80px;height:40px;float:right;margin-right:15px;position:relative;}
+		.chart_navi ul li a{color:#ccc;display:block;line-height:40px;text-indent:30px;}
+		.chart_navi ul li a img{position:absolute;left:0;top:8px;width:24px;height:24px;}
+		.chart_main{width:1140px;height:470px;border:1px solid #323141;margin:0 auto;}
+		.chart_body{width:759px;height:470px;float:left;border-right: 1px solid #323141;}
+		.chart_body table{width:759px;height:20px;line-height:20px;margin-top:10px;}
+		.chart_body table td{color:#ADB8CC;font-size:12px;text-align:left;padding:5px;}
+		.chart_chart{width:730px;height:400px;}
+		.chart_wt{width:380px;height:445px;float:left;}
+		.chart_wt h3{line-height:48px;color:#666;font-size:16px;vertical-align:middle;}
+		.chart_wt h3 img{vertical-align:middle;margin:0 10px 0 10px;width:24px;}
+		.chart_wt table{width:380px;table-layout:fixed;word-break:break-all;}
+		.chart_wt table tr th{background:transparent;font-size:14px;color:#7b8a9d;line-height:40px;text-align:center;font-weight: normal;}
+		.chart_wt table tr td{font-size:12px;line-height:18px;padding:6px 0;text-align:center;}
+		.chart_wt table tr.buy td{color:#d33734;}
+		.chart_wt table tr.sell td{color:#2dab6a;}
+		.middle_new_price{color:#ADB8CC;}
+    </style>
+    <title>{$market}</title>
+</head>
+<body style="height:100%;background-color: #21202D">
+    <div class="chart_navi">
+		<ul style="height: 40px;margin-right: 15px;">
+		<volist name="market_list" id="vo">
+			<li <if condition="$vo['name'] eq $market">class="selected"</if>>
+				<a href="/Index/charts.html?market={$vo['name']}">
+					<img src="{$vo['img']}" />{$vo['name']|convmarket}
+				</a>
+			</li>
+		</volist>
+		</ul>
+    </div>
+
+    <div class="chart_main">
+		<div class="chart_body">
+			<table>
+				<tbody>
+					<tr>
+						<td rowspan="2" style="text-indent: 22px;">{$market|convmarket}</td>
+                        <td>
+                            {$Think.lang.sTrade_index_zgj}{$Think.lang.sTrade_index_cnmh}<span id="max_price_btc" style="color:#D33734"></span><span style="color:#D33734"> </span><!-- <span id="max_price_rmb" style="color:#D33734"></span><span style="color:#D33734">￥/ </span><span id="max_price_usd" style="color:#D33734"></span></span><span style="color:#D33734">$</span> -->
+                        </td>
+                        <td>
+                            {$Think.lang.sTrade_index_zdj}{$Think.lang.sTrade_index_cnmh}<span id="min_price_btc" style="color:#157A34"></span><span style="color:#157A34"> </span><!-- <span id="min_price_rmb" style="color:#157A34"></span><span style="color:#157A34">￥/ </span><span id="min_price_usd" style="color:#157A34"></span><span style="color:#157A34">$ </span> -->
+                        </td>
+					</tr>
+                    <tr>
+                        <td>
+                            {$Think.lang.g_price_new}{$Think.lang.sTrade_index_cnmh}<span id="new_price_btc" style="color:rgb(153, 171, 191)"></span><span style="color:rgb(153, 171, 191)"> </span><!-- <span id="new_price_rmb" style="color:rgb(153, 171, 191)"></span><span style="color:rgb(153, 171, 191)">￥/ </span><span id="new_price_usd" style="color:rgb(153, 171, 191)"></span><span style="color:rgb(153, 171, 191)">$ </span> -->
+                        </td>
+                        <td>
+                            {$Think.lang.sTrade_index_cjl}{$Think.lang.sTrade_index_cnmh}<span id="market_volume" style="color:#44C0FF;">{$market_volume}</span>
+                        </td>
+                    </tr>
+				</tbody>
+				<!-- <tbody>
+					<tr>
+						<td>
+							最高价：<span id="max_price_btc"></span>B/<span id="max_price_rmb"></span>￥/<span id="max_price_usd"></span>$
+						</td>
+						<td>
+							最低价：<span id="min_price_btc"></span>B/<span id="min_price_rmb"></span>￥/<span id="min_price_usd"></span>$
+						</td>
+						<td>
+							成交量：<span id="market_volume">{$market_volume}</span>
+						</td>
+					</tr>
+				</tbody> -->
+			</table>
+			<div class="chart_chart">
+				<img id="chart_graph" data="/Index/graph.html?market={$market}" src="/Index/graph.html?market={$market}" />
+			</div>
+		</div>
+		<div class="chart_wt">
+			<table id="trade_moshi_1">
+			  <thead>
+				<tr>
+					<th width="120px">{$Think.lang.sTrade_index_jg}</th>
+					<th width="120px">{$Think.lang.sTrade_index_sl}</th>
+					<th>{$Think.lang.Finance_zongji}</th>
+				</tr>
+			  </thead>
+			  <tbody id="selllist"></tbody>
+			  <tbody>
+				<tr>
+					<td colspan=3 class="middle_new_price" style="border-top:1px solid #384157;border-bottom:1px solid #384157;">
+						{$Think.lang.g_price_new}{$Think.lang.sTrade_index_cnmh}<span id="middle_new_price_btc"></span><!-- B/<span id="middle_new_price_rmb"></span>￥/<span id="middle_new_price_usd"></span>$ -->
+					</td>
+				</tr>
+			  </tbody>
+			  <tbody id="buylist"></tbody>
+			</table>
+		</div>
+	</div>
+
+    <script type="text/javascript">
+	var market="{$market}";
+    var market_round="{$C['market'][$market]['round']}";
+    var market_round_num=6;//8-"{$C['market'][$market]['round']}";
+	var market_round_total=6;//4;
+	var trade_moshi=1;
+    var getDepth_tlme=null;
+	var ling = 0;
+	function getJsonTop() {
+        $.getJSON("/Ajax/getJsonTop?market={$market}&t=" + Math.random(), function (data) {
+            if (data) {
+                if (data['info']['new_price']) {
+                    //$("#market_new_price").html((data['info']['new_price'].toFixed(market_round)));
+					//$("#middle_new_price").html((data['info']['new_price'].toFixed(market_round)));
+					$("#new_price_btc").html((data['info']['new_price']*data['info']['cjamount_btc']).toFixed(market_round));
+					$("#new_price_rmb").html((data['info']['new_price']*data['info']['cjamount_rmb']).toFixed(market_round));
+					$("#new_price_usd").html((data['info']['new_price']*data['info']['cjamount_usd']).toFixed(market_round));
+					$("#middle_new_price_btc").html((data['info']['new_price']*data['info']['cjamount_btc']).toFixed(market_round));
+					$("#middle_new_price_rmb").html((data['info']['new_price']*data['info']['cjamount_rmb']).toFixed(market_round));
+					$("#middle_new_price_usd").html((data['info']['new_price']*data['info']['cjamount_usd']).toFixed(market_round));
+                }
+                if (data['info']['buy_price']) {
+                    $("#market_buy_price").html(data['info']['buy_price'].toFixed(market_round));
+                }
+                if (data['info']['sell_price']) {
+                    $("#market_sell_price").html(data['info']['sell_price'].toFixed(market_round));
+                }
+                if (data['info']['max_price']) {
+                    //$("#market_max_price").html(data['info']['max_price'].toFixed(market_round));
+					$("#max_price_btc").html((data['info']['max_price']*data['info']['cjamount_btc']).toFixed(market_round));
+					$("#max_price_rmb").html((data['info']['max_price']*data['info']['cjamount_rmb']).toFixed(market_round));
+					$("#max_price_usd").html((data['info']['max_price']*data['info']['cjamount_usd']).toFixed(market_round));
+                }
+                if (data['info']['min_price']) {
+                    //$("#market_min_price").html(data['info']['min_price'].toFixed(market_round));
+					$("#min_price_btc").html((data['info']['min_price']*data['info']['cjamount_btc']).toFixed(market_round));
+					$("#min_price_rmb").html((data['info']['min_price']*data['info']['cjamount_rmb']).toFixed(market_round));
+					$("#min_price_usd").html((data['info']['min_price']*data['info']['cjamount_usd']).toFixed(market_round));
+                }
+                if (data['info']['volume']) {
+					data['info']['volume'] = data['info']['volume'];
+                    $("#market_volume").html(data['info']['volume']);
+                }
+            }
+        });
+        setTimeout('getJsonTop()', 5000);
+      }
+		function getDepth(){
+          $.getJSON("/Ajax/getDepthcharts?market="+market+"&trade_moshi="+trade_moshi+"&t="+Math.random(),function(data){
+            if(data){
+              if(data['depth']){
+                var list='';
+                var sellk=data['depth']['sell'].length;
+                if(data['depth']['sell']){
+                  for(i=0; i<data['depth']['sell'].length; i++){
+                    list+='<tr class="sell" onclick="autotrust(this,\'sell\',1)"><td>'+(data['depth']['sell'][i][0]).toFixed(market_round)+'</td><td>'+(data['depth']['sell'][i][1]).toFixed(market_round_num)+'</td><td>'+(data['depth']['sell'][i][0]*data['depth']['sell'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                  }
+                }
+                $("#selllist").html(list);
+                list='';
+                if(data['depth']['buy']){
+                  for(i=0; i<data['depth']['buy'].length; i++){
+                    list+='<tr class="buy" onclick="autotrust(this,\'buy\',1)"><td>'+(data['depth']['buy'][i][0]).toFixed(market_round)+'</td><td>'+(data['depth']['buy'][i][1]).toFixed(market_round_num)+'</td><td>'+(data['depth']['buy'][i][0]*data['depth']['buy'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                  }
+                }
+                $("#buylist").html(list);
+              }
+            }
+          });
+          clearInterval(getDepth_tlme);
+
+          var wait=second=5;
+          getDepth_tlme=setInterval(function(){
+            wait--;
+            if(wait<0){
+              clearInterval(getDepth_tlme);
+              getDepth();
+              wait=second;
+            }
+          },1000);
+      }
+	  function updateGraph(){
+		var curtime = new Date().getTime();
+		var imgdata = $("#chart_graph").attr("data");
+		$("#chart_graph").attr("src",imgdata+"&curtime="+curtime);
+		setTimeout('updateGraph()', 60000);
+	  }
+	  $(function(){
+		getJsonTop();
+        getDepth();
+		setTimeout('updateGraph()', 60000);
+      });
+    </script>
+</body>
+</html>

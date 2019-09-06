@@ -1,0 +1,1202 @@
+<include file="Public:header_new" />
+<style type="text/css">
+	.hdmenu ul li a{display: block;height: 100%;position: relative;z-index: 10;}
+	.inputprice {
+		color: #999;
+		font-size: 12px;
+		overflow: hidden;
+		position: relative;
+	}
+	.priceinput {
+		border: 1px solid #7B8A9D;
+		border-radius: 3px;
+		box-sizing: border-box;
+		color:#99A6BF;
+		font-size: 16px;
+		height: 40px;
+		line-height: 40px;
+		padding: 0 10px;
+		width: 100%;
+		margin-top:10px;
+		margin-bottom:10px;
+		outline: medium none;
+        background-color: rgba(33,32,45,0.40);
+
+	}
+	.priceinput::-webkit-input-placeholder{
+    color: #99a6bf;
+    }
+    .priceinput:-moz-placeholder{
+    color: #99a6bf;
+    }
+    .priceinput::-moz-placeholder{
+    color: #99a6bf;
+    }
+    .priceinput:-ms-input-placeholder{
+    color: #99a6bf;
+}
+	.inputprice font{
+		display: block;
+		height: 24px;
+		line-height: 26px;
+		min-width: 80px;
+		position: absolute;
+		right: 10px;
+		top: 18px;
+		font-size:12px;
+		color:#99a6bf;
+		margin:0;
+		padding:0;
+	}
+	.inputprice b{
+		border-bottom: 1px dotted #e55600;
+		cursor: pointer;
+		color: #e55600;
+		font-size:12px;
+		line-height:26px;
+	}
+	.clearfix:before,.clearfix:after {
+		content:"";
+		display:table;
+	}
+	.clearfix:after {
+		clear:both;
+	}
+	.clearfix {
+		clear:both;
+		*zoom:1;
+	}
+	.show {
+		display:block!important;
+	}
+	.box {
+		width:380px;
+		background-color: #21202D;
+		float: left;
+	}
+	.ul_list {
+		width:100%;
+		height:40px;
+		background-color: #15151F;
+	}
+	.ul_list li {
+		float:left;
+		width:95px;
+		line-height:40px;
+		text-align:center;
+		box-sizing:border-box;
+		cursor:pointer;
+		font-size:16px;
+		color:#99A6BF;
+
+	}
+	.ul_list li .span1{display: inline-block;width: 13px;height: 13px;background:url(__PUBLIC__/Home/images/images/weixuanzhong2.png) no-repeat;background-size:100%;margin-right: 5px;}
+	.ul_list li.active .span1{
+		background:url(__PUBLIC__/Home/images/images/xuanzhongl.png) no-repeat;background-size:100%;
+	}
+	.div_box {
+		padding:20px;
+		height: 315px;
+	}
+	.div_box .div_list {
+		display:none;
+	}
+    .dealbot .dealb_right table tr th{padding-left:0;}
+    .dealbot .dealb_right table tr td{padding-left: 3px;}
+</style>
+	<div class="dealbot">
+		<!--左侧导航开始-->
+		<include file="Public:left" />
+		<!--左侧导航结束-->
+
+		<div class="dealb_left">
+			<!--K线开始-->
+			<div class="tradespecialty">
+				<div class="tradesp">
+
+					<iframe style="border-style: none;" border="0" width="100%" height="480" id="market_chart" src="/Trade/specialty?market={$market}"></iframe>
+				</div>
+			</div>
+			<!--K线结束-->
+
+			<div style="clear:both;"></div>
+
+			<!--各种价格开始-->
+			<div class="dealtop">
+				<div class="td" style="padding-left: 10px;">
+					<img src="{$market_img}" style="height:23px"/>
+				</div>
+				<div class="td">
+
+					<p style="color:#99A6BF;font-size: 14px;">
+					  <span>{$market|chongzu}</span>
+					</p>
+					<!-- <p class="title">当前价</p> -->
+				</div>
+				<div class="td" style="padding-left: 5px;">
+
+					<p style="color:#99A6BF;font-size: 14px;">
+                    {$Think.lang.sTrade_index_dqj}
+					  <span id="market_new_price">{$market_new_price}</span>
+					</p>
+					<!-- <p class="title">当前价</p> -->
+				</div>
+				<div class="td">
+					<p style="color:#99A6BF;font-size: 14px;">
+                    {$Think.lang.sTrade_index_zgj}
+					  <span id="market_max_price">{$market_max_price}</span>
+					</p>
+					<!-- <p class="title">最高价</p> -->
+				</div>
+				<div class="td">
+					<p style="color:#99A6BF;font-size: 14px;">
+                    {$Think.lang.sTrade_index_zdj}
+					  <span id="market_min_price">{$market_min_price}</span>
+					</p>
+					<!-- <p class="title">最低价</p> -->
+				</div>
+				<div class="td">
+					<p style="color:#99A6BF;font-size: 14px;">
+                    {$Think.lang.sTrade_index_cjl}
+					  <span class="little"></span>
+					  <span id="market_volume">{$market_volume} {$xnb|strtoupper}</span>
+					</p>
+					<!-- <p class="title">成交量</p> -->
+				</div>
+				<div class="td">
+					<p style="color:#99A6BF;font-size: 14px;">
+                    {$Think.lang.sTrade_index_cje}
+					  <span id="cjamount_btc">{$cjamount_btc} {$rmb|strtoupper}</span>
+					 <!--  <span id="cjamount_usd">{$cjamount_usd}$</span>&nbsp;&nbsp;&nbsp;
+					  <span id="cjamount_rmb">{$cjamount_rmb}￥</span> -->
+					</p>
+					<!-- <p class="title">成交额</p> -->
+				</div>
+				<div class="td" >
+					<!-- 日涨跌 -->
+					<p style="color:#99A6BF;font-size: 14px;">
+					{$Think.lang.Finance_rzd}:
+									<if condition="$market_change gt 0">
+                                        +{$market_change|round=###,2}%
+                                    <elseif condition="$market_change lt 0"/>
+                                        <span class="green">{$market_change|round=###,2}%
+                                    <else />
+                                        {$market_change|round=###,2}%
+                                    </if>
+					</p>
+				</div>
+			</div>
+			<!--各种价格结束-->
+
+			<div style="clear:both;"></div>
+
+			<!--我的账户余额开始-->
+			<div class="nav_right" style="display:none">
+				<table style="width:290px;float:right;">
+					<tr>
+						<td>{$Think.lang.sTrade_index_jjhb}</td>
+						<td><input type="radio" onclick="cjjcoin('btc')" <if condition="$jjcoin eq 'btc'">checked</if> style="vertical-align:middle;"/> B</td>
+						<!-- <td><input type="radio" onclick="cjjcoin('rmb')" <if condition="$jjcoin eq 'rmb'">checked</if> style="vertical-align:middle;"/> ￥</td>
+						<td><input type="radio" onclick="cjjcoin('usd')" <if condition="$jjcoin eq 'usd'">checked</if> style="vertical-align:middle;"/> $</td> -->
+					</tr>
+				</table>
+			</div>
+			<!--我的账户余额结束-->
+
+			<div style="clear:both;"></div>
+
+			<!--买卖输入框开始-->
+                        <!-- tab开始 -->
+            <div style="float: left;width:702px;">
+            <div class="box">
+    <ul class="ul_list clearfix">
+        <li class="active"><span class="span1"></span>{$Think.lang.sTrade_index_mr}</li>
+        <li><span class="span1"></span>{$Think.lang.sTrade_index_mc}</li>
+    </ul>
+    <div class="div_box">
+        <div class="div_list" style="display:block;">
+            <div class="buy_box">
+				<div class="iptbox inputprice">
+					<input onkeyup="buyforb();" id="buy_price" name="price" placeholder="{$Think.lang.sTrade_index_mrjg} {$xnb|strtoupper}/{$rmb|strtoupper}" type="text" class="priceinput" />
+
+					<font onclick="$('#buy_price').val($('#buy_best_price').html())">{$Think.lang.sTrade_index_zjmrj}&nbsp;<b style="color:#d33734;border-bottom: 1px dotted #d33734;" id="buy_best_price">{$market_sell_price}</b></font>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="iptbox inputprice">
+					<input type="text" id="buy_num" name="num" class="priceinput" onkeyup="buyforbi();fanbar();" placeholder="{$Think.lang.sTrade_index_mrsl}" />
+					<font onclick="buymaxcal();">{$Think.lang.sTrade_index_zdkmr}&nbsp;<b style="color:#d33734;border-bottom: 1px dotted #d33734;" id="buy_max"></b></font>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="iptbox">
+					<label style="color:#99A6BF;float:left;width:80px;line-height: 25px;text-align: right;">{$Think.lang.sTrade_index_mrbl}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+					<div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+						<ul class="roll">
+							<li>
+								<div class="scale_panel">
+									<div class="scale" id="bar">
+										<div class="greenbar"></div>
+										<span id="btn"></span>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<span id="title" class="fright">0</span>
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="iptbox">
+					<label style="color:#99A6BF;float:left;width:80px;line-height: 25px;text-align: right;">{$Think.lang.sTrade_index_jye}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+					<div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+						<span id="buy_mum_btc"></span><!-- BTC/<span id="buy_mum_usd"></span>$/<span id="buy_mum_rmb"></span>￥ -->
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="iptbox">
+					<label style="color:#99A6BF;float:left;width:80px;line-height: 25px;text-align: right;">{$Think.lang.sTrade_index_sxf}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+					<div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+						{:C('market')[$market]['fee_buy']}%
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="iptbox">
+					<label style="color:#99A6BF;float:left;line-height: 25px;text-align: right;width:80px;margin-top:17px;">{$Think.lang.sTrade_index_jymm}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+					<div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+						<if condition="!empty($user['id']) && empty($user['paypassword'])">
+							<a style="border: 1px solid #7B8A9D;border-radius: 3px;display: inline-block;font-size: 16px;height: 40px;line-height: 40px;padding: 0 10px;width: 100%;margin-top: 10px;outline: medium none;background-color: rgba(33,32,45,0.40);color:#99a6bf;width:233px;text-align: left;" href="/User/paypassword.html">{$Think.lang.sTrade_index_qxszjymm}!</a>
+						<else/>
+							<input id="buy_paypassword" name="pwtrade" type="password" class="rightipt pasipt full" style="border: 1px solid #7B8A9D;border-radius: 3px;box-sizing: border-box;color: #99A6BF;font-size: 16px;height: 40px;line-height: 40px;padding: 0 10px;width: 100%;margin-top: 10px;outline: medium none;background-color: rgba(33,32,45,0.40);" />
+							<span ><a href="/user/paypassword"><font color="#99A6BF">{$Think.lang.Finance_wjmm}</font></a></span>
+						</if>
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<if condition="!empty($user) && shiming($user['id']) gt 10">
+					<div class="xiansm"><a href="/User/nameauth.html">{$Think.lang.sTrade_index_qxsmrzcnjy}</a></div>
+				<else />
+					<input type="button" value="{$Think.lang.sTrade_index_mr}" id="buybutton" class="buybut" onclick="tradeadd_buy();" style="border-radius: 3px;box-sizing: border-box;color: #fff;font-size: 16px;
+height: 40px;line-height: 40px;margin-top: 10px;margin-bottom: 10px;outline:none;background-color: #d33734;width:100%;border:none;cursor:pointer;text-align: center;"/>
+				</if>
+			</div>
+        </div>
+        <div class="div_list">
+            <div class="buy_box sell_box">
+                    <div class="iptbox inputprice">
+                        <input onkeyup="sellforb();" type="text" id="sell_price" name="price" placeholder="{$Think.lang.sTrade_index_mcjg} {$rmb|strtoupper}/{$xnb|strtoupper}" class="priceinput" />
+                        <font onclick="$('#sell_price').val($('#sell_best_price').html())">{$Think.lang.sTrade_index_zjmj}&nbsp;<b style="color:#2dab6a;border-bottom: 1px dotted #2dab6a;" id="sell_best_price">{$market_sell_price}</b></font>
+                    </div>
+					<div style="clear:both;"></div>
+                    <div class="iptbox inputprice">
+                        <input type="text" id="sell_num" name="num" class="priceinput" onkeyup="sellforbi();fanbar2();" placeholder="{$Think.lang.sTrade_index_mcsl}" />
+                        <font onclick="sellmaxcal();">{$Think.lang.sTrade_index_zdkm}&nbsp;<b style="color:#2dab6a;border-bottom: 1px dotted #2dab6a;" id="sell_max"></b></font>
+                    </div>
+					<div style="clear:both;"></div>
+                    <div class="iptbox">
+                        <label style="color:#99A6BF;float:left;line-height: 25px;text-align: right;width:80px;">{$Think.lang.sTrade_index_mcbl}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+                        <div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+                            <ul class="roll">
+                                <li>
+                                    <div class="scale_panel">
+                                        <div class="scale" id="bar2">
+                                            <div class="greenbar"></div>
+                                            <span id="btn2"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <span id="title2" class="fright">0</span>
+                        </div>
+                    </div>
+					<div style="clear:both;"></div>
+                    <div class="iptbox">
+                        <label style="color:#99A6BF;float:left;line-height: 25px;text-align: right;width:80px;">{$Think.lang.sTrade_index_jye}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+                        <div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+							<span id="sell_mum_btc"></span><!-- BTC/<span id="sell_mum_usd"></span>$/<span id="sell_mum_rmb"></span>￥ -->
+                        </div>
+                    </div>
+					<div style="clear:both;"></div>
+                    <div class="iptbox">
+                        <label style="color:#99A6BF;float:left;line-height: 25px;text-align: right;width:80px;">{$Think.lang.sTrade_index_sxf}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+                        <div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+                          {:C('market')[$market]['fee_sell']}%
+                        </div>
+                    </div>
+					<div style="clear:both;"></div>
+                    <div class="iptbox">
+                        <label style="color:#99A6BF;float:left;line-height: 25px;text-align: right;width:80px;margin-top:17px;">{$Think.lang.sTrade_index_jymm}{$Think.lang.sTrade_index_cnmh}&nbsp;</label>
+                        <div class="rightbox full" style="float: right;width:255px;line-height: 25px;text-align: right;color:#99A6BF;">
+                            <if condition="!empty($user['id']) && empty($user['paypassword'])">
+								<a style="border: 1px solid #7B8A9D;border-radius: 3px;display: inline-block;font-size: 16px;height: 40px;line-height: 40px;padding: 0 10px;width: 100%;margin-top: 10px;outline: medium none;background-color: rgba(33,32,45,0.40);color:#99a6bf;width:233px;text-align: left;" href="/User/paypassword.html">{$Think.lang.sTrade_index_qxszjymm}!</a>
+							<else />
+								<input id="sell_paypassword" name="pwtrade" type="password" class="rightipt pasipt full"  style="border: 1px solid #7B8A9D;border-radius: 3px;box-sizing: border-box;color: #99A6BF;font-size: 16px;height: 40px;line-height: 40px;padding: 0 10px;width: 100%;margin-top: 10px;outline: medium none;background-color:rgba(33,32,45,0.40)" />
+								<span ><a href="/user/paypassword"><font color="#99A6BF">{$Think.lang.Finance_wjmm}</font></a></span>
+							</if>
+                        </div>
+                    </div>
+					<div style="clear:both;"></div>
+                    <if condition="!empty($user) && shiming($user['id']) gt 10">
+                        <div class="xiansm"><a href="/User/nameauth.html">{$Think.lang.sTrade_index_qxsmrzcnjy}</a></div>
+                    <else />
+                        <input type="button" value="{$Think.lang.sTrade_index_mc}" class="sellbut" onclick="tradeadd_sell();" id= "sellerbutton"  style="border-radius: 3px;box-sizing: border-box;color: #fff;font-size: 16px;
+    height: 40px;line-height: 40px;margin-top: 10px;margin-bottom: 10px;outline:none;background-color:#2dab6a;width:100%;border:none;cursor:pointer;text-align: center;"/>
+                    </if>
+                </div>
+        </div>
+    </div>
+</div>
+			<!-- 全站委托信息开始 -->
+			<div class="dealb_right">
+				<table id="trade_moshi_1">
+				  <thead style="background: #15151f;">
+					<tr>
+						<th width="50px">{$Think.lang.sTrade_index_mm}</th>
+						<th width="90px">{$Think.lang.sTrade_index_jg}{$symbol}</th>
+						<th width="70px">{$Think.lang.sTrade_index_sl}</th>
+						<th>{$Think.lang.sTrade_index_zh}{$symbol}</th>
+					</tr>
+				  </thead>
+				  <tbody id="selllist">{$selllist}</tbody>
+				  <!-- <tbody>
+					<tr><td colspan="4" style="height:1px;background-color:#384175;color:#384175;padding:0;line-height:1px;"></td></tr>
+				  </tbody> -->
+				  <tbody id="buylist">{$buylist}</tbody>
+				</table>
+			</div>
+			<!-- 全站委托信息结束 -->
+
+			<!-- 最新成交记录========S -->
+			<!-- <div class="deal_record">
+				<table id="orderlist">{$orderlist}</table>
+			</div> -->
+			<!-- 最新成交记录========E -->
+
+			<div style="clear:both;"></div>
+            <div style='float: left;width:702px;'>
+			<table cellspacing="0" cellpadding="10px" style="width:100%;float:left;height: 36px;line-height: 36px;background: #06263B;color:#99a6bf;font-size: 14px;">
+				<tr>
+					<td class="nav_right_td" style="text-indent: 22px;">
+						{$Think.lang.sTrade_index_ky}
+						<!-- <if condition="LANG_SET eq 'en-us'">
+							{$C['coin'][$xnb]['js_yw']}
+						<else/>
+							{$C['coin'][$xnb]['title']}
+							{$C['coin'][$xnb]['name']|strtoupper=###}
+						</if> -->
+						{$C['coin'][$xnb]['name']|strtoupper=###}
+						<span id="my_xnb"></span>
+					</td>
+
+					<td class="nav_right_td">
+						{$Think.lang.sTrade_index_dj}
+						<!-- <if condition="LANG_SET eq 'en-us'">
+							{$C['coin'][$xnb]['js_yw']}
+						<else/>
+							{$C['coin'][$xnb]['title']}
+							{$C['coin'][$xnb]['name']|strtoupper=###}
+						</if> -->
+						{$C['coin'][$xnb]['name']|strtoupper=###}
+						<span id="my_xnbd"></span>
+					</td>
+
+					<td class="nav_right_td">
+						{$Think.lang.sTrade_index_ky}
+						<!-- <if condition="LANG_SET eq 'en-us'">
+							{$C['coin'][$rmb]['js_yw']}
+						<else/>
+							{$C['coin'][$rmb]['title']}
+
+						</if> -->
+						{$C['coin'][$rmb]['name']|strtoupper=###}
+						<span id="my_rmb"></span>
+					</td>
+					<td class="nav_right_td">
+						{$Think.lang.sTrade_index_dj}
+						<!-- <if condition="LANG_SET eq 'en-us'">
+							{$C['coin'][$rmb]['js_yw']}
+						<else/>
+							{$C['coin'][$rmb]['title']}
+
+						</if> -->
+						{$C['coin'][$rmb]['name']|strtoupper=###}
+						<span id="my_rmbd"></span>
+					</td>
+
+				</tr>
+			</table>
+
+			<!-- 我的委托信息========S -->
+			<if condition="!empty($user)">
+			<div class="deal_record" style="width:100%;height: 432px;background:#2D2C3C;">
+				<h3 style="background-color: #21202d;color:#99A6BF;font-size:14px;text-indent: 22px;height: 40px;line-height: 40px;">{$Think.lang.sTrade_index_wdwt}</h3>
+				<table id="entrustlist" style="width:100%;">
+					<tr>
+						<th width="120px" style="color:#7B8A9D;border-bottom: 1px solid #21202D;text-align: left;text-indent: 22px;">{$Think.lang.sTrade_index_wtsj}</th>
+						<th width="80px" style="color:#7B8A9D;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_mm}</th>
+						<th width="100px" style="color:#15151f;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtjg}{$symbol}</th>
+						<th width="100px" style="color:#7B8A9D;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtsl}</th>
+						<th width="100px" style="color:#15151f;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_ycj}</th>
+						<th width="100px" style="color:#7B8A9D;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtze}{$symbol}</th>
+						<th width="80" style="color:#7B8A9D;border-bottom: 1px solid #21202D;">{$Think.lang.sPublic_left_cz}</th>
+					</tr>
+				</table>
+			</div>
+			</if>
+			<!-- 我的委托信息========E -->
+            </div>
+		</div>
+        <div class="deal_record" style="float: right;">
+                <table id="orderlist">{$orderlist}</table>
+            </div>
+	   </div>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/Home/news/js/bar.js"></script>
+    <script type="text/javascript">
+      var market="{$market}";
+      var market_round="{$C['market'][$market]['round']}";
+      var market_round_num=8-"{$C['market'][$market]['round']}";
+      // var market_round_num=6;
+	  var market_round_total=6;
+	  var rmb = "{$rmb}";
+	  var jjcoin = "{$jjcoin}";
+	  var ling = 0;
+      var userid="{$Think.session.userId}";
+      var trade_moshi=1;
+      var getDepth_tlme=null;
+	  var buycoin = "{$buycoin_token}";
+	  var sellcoin = "{$sellcoin_token}";
+	  var cancel = "{$cancel_token}";
+	  var fee_buy = "{:C('market')[$market]['fee_buy']}";
+
+	  ffconf = [[],[],[100, 0.01],[1000, 0.001],[10000, 0.0001],[100000, 0.00001],[1000000, 0.000001]];
+	  function formatfloat(f, size, add){
+		f = parseFloat(f);
+		var ff = Math.floor(f * ffconf[size][0]) / ffconf[size][0];
+		if(add && f > ff) ff += ffconf[size][1];
+			return isNaN(ff)? 0: ff;
+	  }
+
+      // 买入操作
+      function tradeadd_buy(){
+        var price=parseFloat($('#buy_price').val());
+        var num=parseFloat($('#buy_num').val());
+        var paypassword=$('#buy_paypassword').val();
+        var reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        if(price==""||price==null||!reg.test(price)){
+          layer.tips('{$Think.lang.sTrade_index_jyjgbxdy}0','#buy_price',{tips : 3 });
+          return false;
+        }
+        if(num==""||num==null||!reg.test(num)){
+          layer.tips('{$Think.lang.sTrade_index_jyslbxdy}0','#buy_num',{tips : 3 });
+          return false;
+        }
+
+        //加载层-风格3
+        layer.load(2);
+
+        $.post("{:U('Trade/upTrade')}",{price : $('#buy_price').val(),num : $('#buy_num').val(),paypassword : $('#buy_paypassword').val(),market : market,type : 1,token : buycoin },function(data){
+		  buycoin = data.url;
+          layer.closeAll('loading');
+          if(data.status==1){
+            setTimeout("regainprice()",2000);
+            layer.msg(data.info,{icon : 1 });
+          }else{
+            layer.msg(data.info,{icon : 2 });
+          }
+        },'json');
+      }
+
+      // 卖出操作
+      function tradeadd_sell(){
+        var price=parseFloat($('#sell_price').val());
+        var num=parseFloat($('#sell_num').val());
+        var paypassword=$('#sell_paypassword').val();
+        var reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        if(price==""||price==null||!reg.test(price)){
+          layer.tips('{$Think.lang.sTrade_index_jyjgbxdy}0','#sell_price',{tips : 3 });
+          return false;
+        }
+        if(num==""||num==null||!reg.test(num)){
+          layer.tips('{$Think.lang.sTrade_index_jyslbxdy}0','#sell_num',{tips : 3 });
+          return false;
+        }
+        layer.load(2);
+        $.post("{:U('Trade/upTrade')}",{price : $('#sell_price').val(),num : $('#sell_num').val(),paypassword : $('#sell_paypassword').val(),market : market,type : 2, token:sellcoin },function(data){
+		  sellcoin = data.url;
+          layer.closeAll('loading');
+          if(data.status==1){
+            setTimeout("regainprice()",2000);
+            layer.msg(data.info,{icon : 1 });
+          }else{
+            layer.msg(data.info,{icon : 2 });
+          }
+        },'json');
+      }
+
+	  function regainprice(){
+		$.getJSON("/Ajax/getprice?market={$market}&t=" + Math.random(), function (data) {
+			$('#buy_price').val('');
+			$('#sell_price').val('');
+			$("#buy_num").val('');
+			$("#title").html(0);
+			$("#buy_max").html("---");
+			fanbar();
+			$("#sell_num").val('');
+			$("#title2").html(0);
+			fanbar2();
+		});
+	  }
+
+      // 我的财产 我的委托
+      function getEntrustAndUsercoin(){
+        $.getJSON("/Ajax/getEntrustAndUsercoin?market="+market+"&jjcoin="+jjcoin+"&t="+Math.random(),function(data){
+          if(data){
+			var list = '<tr><th width="120px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;text-align:left;text-indent:22px;">{$Think.lang.sTrade_index_wtsj}</th><th width="80px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_mm}</th><th width="100px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtjg}{$symbol}</th><th width="100px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtsl}</th><th width="100px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_ycj}</th><th width="100px" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sTrade_index_wtze}{$symbol}</th><th width="80" style="color:#7b8a9d;border-bottom: 1px solid #21202D;">{$Think.lang.sPublic_left_cz}</th></tr>';
+            if(data['entrust']){
+              var cont=data['entrust'].length;
+              // 委托信息
+              for(i=0; i<data['entrust'].length; i++){
+                if(data['entrust'][i]['type']==1){
+                  list+='<tr style="color:#99a6bf;" onclick="autotrust(this,\'buy\',2)"><td style="padding-left:22px;text-align:left;">'+data['entrust'][i]['addtime']+'</td><td>{$Think.lang.sTrade_index_buy}</td><td>'+(data['entrust'][i]['price']).toFixed(market_round)+'</td><td>'+(data['entrust'][i]['num']).toFixed(market_round_num)+'</td><td>'+(data['entrust'][i]['deal']).toFixed(market_round_num)+'</td><td>'+(data['entrust'][i]['price']*data['entrust'][i]['num']).toFixed(market_round_total)+'</td><td><a style="color: #059FF5;display:inline-block;padding:0px 3px;border-radius:4px;border:1px solid  #059FF5;text-align:center;width:40px;" class="cancelaa" id="'+data['entrust'][i]['id']+'" onclick="cancelaa(\''+data['entrust'][i]['id']+'\')" href="javascript:void(0);">{$Think.lang.sTrade_index_cx}</a></td></tr>';
+                }else{
+                  list+='<tr style="color:#99a6bf;" onclick="autotrust(this,\'sell\',2)"><td style="padding-left:22px;text-align:left;">'+data['entrust'][i]['addtime']+'</td><td>{$Think.lang.sTrade_index_sell}</td><td>'+(data['entrust'][i]['price']).toFixed(market_round)+'</td><td>'+(data['entrust'][i]['num']).toFixed(market_round_num)+'</td><td>'+(data['entrust'][i]['deal']).toFixed(market_round_num)+'</td><td>'+(data['entrust'][i]['price']*data['entrust'][i]['num']).toFixed(market_round_total)+'</td><td><a style="color: #059ff5;display:inline-block;padding:0px 3px;border-radius:4px;border:1px solid #059ff5;text-align:center;width:40px;" class="cancelaa" id="'+data['entrust'][i]['id']+'" onclick="cancelaa(\''+data['entrust'][i]['id']+'\')" href="javascript:void(0);">{$Think.lang.sTrade_index_cx}</a></td></tr>';
+                }
+              }
+              if(cont==10){
+                list+='<tr><td style="text_align:center;" colspan="7"><a href="/Finance/mywt/market'+market+'" style="color: #059ff5;font-size:14px;">{$Think.lang.sTrade_index_gdwtxx}</a>&nbsp;&nbsp;</td></tr>';
+              }
+            }
+			$('#entrustlist').html(list);
+
+            if(data['usercoin']){
+              if(data['usercoin'][rmb]){
+                $("#my_rmb").html(data['usercoin'][rmb]);
+				if($('#buy_price').val()>0){
+					var buymax = data['usercoin'][rmb]/($('#buy_price').val()*(1+(fee_buy/100)));
+					var bmax = formatfloat(buymax,market_round_num,0);
+                    $("#buy_max").html(bmax);
+                }else{
+                    $("#buy_max").html('---');
+                }
+              }else{
+                $("#my_rmb").html(ling.toFixed(2));
+              }
+
+              if(data['usercoin'][rmb+'d']){
+                $("#my_rmbd").html(data['usercoin'][rmb+'d']);
+              }else{
+                $("#my_rmbd").html(ling.toFixed(2));
+              }
+
+              if(data['usercoin']['xnb']){
+                $("#my_xnb").html((data['usercoin']['xnb']));
+				var sellmax = formatfloat(data['usercoin']['xnb'],market_round_num-1,0);
+                $("#sell_max").html(sellmax);
+              }else{
+                $("#my_xnb").html(ling.toFixed(market_round_num));
+              }
+
+              if(data['usercoin']['xnbd']){
+                $("#my_xnbd").html(data['usercoin']['xnbd']);
+              }else{
+                $("#my_xnbd").html(ling.toFixed(market_round_num));
+              }
+              if(data['time_state']==0){
+                $("#buybutton").show();
+                $("#buybutton").attr("onclick","tradeadd_buy();");
+                $("#sellerbutton").show();
+                $("#sellerbutton").attr("onclick","tradeadd_sell();");
+              }else{
+                $("#buybutton").show();
+                $("#buybutton").val('{$Think.lang.sTrade_index_bpqj}');
+                $("#buybutton").css("background","#ccc");
+                $("#buybutton").attr("onclick","tradaedd_buy();");
+                $("#sellerbutton").show();
+                $("#sellerbutton").val('{$Think.lang.sTrade_index_bpqj}');
+                $("#sellerbutton").css("background","#ccc");
+                $("#sellerbutton").attr("onclick","tradadedd_sell();");
+              }
+            }
+          }
+        });
+        setTimeout('getEntrustAndUsercoin()',5000);
+      }
+
+      function tradaedd_buy(){
+
+      }
+      function tradadedd_sell(){
+
+      }
+		function closetanchu(){
+			layer.closeAll('loading');
+		}
+      //撤销
+        function cancelaa(id){
+		  layer.load(0, {shade: [0.5,'#8F8F8F']});
+          $.post("{:U('Trade/chexiao')}",{id : id, token: cancel },function(data){
+		    cancel = data.url;
+			setTimeout("closetanchu()",4000);
+            if(data.status==1){
+				getEntrustAndUsercoin();
+				setTimeout("regainprice()",2000);
+              layer.msg(data.info,{icon : 1 });
+            }else{
+              layer.msg(data.info,{icon : 2 });
+            }
+          });
+        }
+
+	  function getJsonTop() {
+        $.getJSON("/Ajax/getJsonTop?market={$market}&t=" + Math.random(), function (data) {
+
+        	console.log(data)
+
+            if (data) {
+                if (data['info']['new_price']) {
+                    $("#market_new_price").html((data['info']['new_price'].toFixed(market_round)));
+                }
+                if (data['info']['buy_price']) {
+                    $("#market_buy_price").html(data['info']['buy_price'].toFixed(market_round));
+                    $("#sell_best_price").html(data['info']['buy_price'].toFixed(market_round));
+                }
+                if (data['info']['sell_price']) {
+                    $("#market_sell_price").html(data['info']['sell_price'].toFixed(market_round));
+                    $("#buy_best_price").html(data['info']['sell_price'].toFixed(market_round));
+                }
+                if (data['info']['max_price']) {
+                    $("#market_max_price").html(data['info']['max_price'].toFixed(market_round));
+                }
+                if (data['info']['min_price']) {
+                    $("#market_min_price").html(data['info']['min_price'].toFixed(market_round));
+                }
+                if (data['info']['volume']) {
+					data['info']['volume'] = Number(data['info']['volume']).toFixed( market_round_num);
+
+					// data['info']['volume'] = data['info']['volume'];
+                    $("#market_volume").html(data['info']['volume']);
+                }
+                if (data['info']['change']) {
+                    $("#market_change").html(data['info']['change'] + "%");
+                }
+				if (data['info']['cjamount_btc']) {
+					$("#cjamount_btc").html(data['info']['cjamount_btc']+"B");
+				}
+				if (data['info']['cjamount_usd']) {
+					$("#cjamount_usd").html(data['info']['cjamount_usd']+"$");
+				}
+				if (data['info']['cjamount_rmb']) {
+					$("#cjamount_rmb").html(data['info']['cjamount_rmb']+"￥");
+				}
+            }
+        });
+        setTimeout('getJsonTop()', 5000);
+      }
+
+	  // 最新交易记录
+      function getTradelog(){
+        $.getJSON("/Ajax/getTradelog?market="+market+"&jjcoin="+jjcoin+"&t="+Math.random(),function(data){
+          if(data){
+            if(data['tradelog']){
+              var list='';
+              var type='';
+              var typename='';
+
+              list = '<tr style="background:#15151f;"><th width="110px">{$Think.lang.sTrade_index_cjsj}</th><th width="90px">{$Think.lang.sTrade_index_cjjg}{$symbol}</th><th>{$Think.lang.sTrade_index_cjze}{$symbol}</th></tr>';
+
+              for( var i in data['tradelog']){
+                if(data['tradelog'][i]['type']==1){
+                  list+='<tr class="buy" onclick="autotrust(this,\'buy\',2)"><td>'+data['tradelog'][i]['addtime']+'</td><td>'+(data['tradelog'][i]['price']).toFixed(market_round)+'</td><td>'+(data['tradelog'][i]['mum']).toFixed(market_round_total)+'</td></tr>';
+                }else{
+                  list+='<tr class="sell" onclick="autotrust(this,\'sell\',2)"><td>'+data['tradelog'][i]['addtime']+'</td><td>'+(data['tradelog'][i]['price']).toFixed(market_round)+'</td><td>'+(data['tradelog'][i]['mum']).toFixed(market_round_total)+'</td></tr>';
+                }
+              }
+              $("#orderlist").html(list);
+            }
+          }
+        });
+        setTimeout('getTradelog()',5000);
+      }
+
+	   // 买卖网站委托信息
+      function getDepth(){
+          $.getJSON("/Ajax/getDepth?market="+market+"&jjcoin="+jjcoin+"&trade_moshi="+trade_moshi+"&t="+Math.random(),function(data){
+            if(data){
+              if(data['depth']){
+                var list='';
+                var sellk=data['depth']['sell'].length;
+                if(data['depth']['sell']){
+                  for(i=0; i<data['depth']['sell'].length; i++){
+                    list+='<tr class="sell" onclick="autotrust(this,\'sell\',1)"><td>{$Think.lang.sTrade_index_sell}('+(sellk-i)+')</td><td>'+(data['depth']['sell'][i][0]).toFixed(market_round)+'</td><td>'+(data['depth']['sell'][i][1]).toFixed(market_round_num)+'</td><td>'+(data['depth']['sell'][i][0]*data['depth']['sell'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                  }
+                }
+                $("#selllist").html(list);
+                list='';
+                if(data['depth']['buy']){
+                  for(i=0; i<data['depth']['buy'].length; i++){
+                    list+='<tr class="buy" onclick="autotrust(this,\'buy\',1)"><td>{$Think.lang.sTrade_index_buy}('+(i+1)+')</td><td>'+(data['depth']['buy'][i][0]).toFixed(market_round)+'</td><td>'+(data['depth']['buy'][i][1]).toFixed(market_round_num)+'</td><td>'+(data['depth']['buy'][i][0]*data['depth']['buy'][i][1]).toFixed(market_round_total)+'</td></tr>';
+                  }
+                }
+                $("#buylist").html(list);
+              }
+            }
+          });
+          clearInterval(getDepth_tlme);
+
+          var wait=second=5;
+          getDepth_tlme=setInterval(function(){
+            wait--;
+            if(wait<0){
+              clearInterval(getDepth_tlme);
+              getDepth();
+              wait=second;
+            }
+          },1000);
+      }
+
+      // 执行函数
+      $(function(){
+		getJsonTop();
+        getTradelog();
+        getDepth();
+        if(userid>0){
+          getEntrustAndUsercoin();
+        }
+      });
+
+    // 自动填价格
+    function autotrust(_this,type,cq){
+      if(type=='sell'){
+        $('#buy_price').val($(_this).children().eq(cq).html()).css({'color' : '#99A6BF','font_size' : '16px' });
+        if($("#my_rmb").html()>0){
+		  var buymax = $("#my_rmb").html()/($('#buy_price').val()*(1+(fee_buy/100)));
+		  var bmax = formatfloat(buymax,market_round_num,0);
+          $("#buy_max").html(bmax);
+        }
+        if($('#buy_num').val()){
+			var buyprice = $('#buy_price').val();
+			if(rmb=="btc"){
+				var buy_mum_btc = ($('#buy_num').val()*buyprice).toFixed(6)*1;
+				var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'btc','usd')).toFixed(4)*1;
+				var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'btc','rmb')).toFixed(4)*1;
+			}
+			if(rmb=="eth"){
+				var buy_mum_btc = ($('#buy_num').val()*huansuan(buyprice,'eth','btc')).toFixed(4)*1;
+				var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'eth','usd')).toFixed(4)*1;
+				var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'eth','rmb')).toFixed(4)*1;
+			}
+			$("#buy_mum_btc").html(buy_mum_btc);
+			$("#buy_mum_usd").html(buy_mum_usd);
+			$("#buy_mum_rmb").html(buy_mum_rmb);
+        }
+      }
+      if(type=='buy'){
+        $('#sell_price').val($(_this).children().eq(cq).html()).css({'color' : '#99A6BF','fontSize' : '16px' });
+        if($("#my_xnb").html()>0){
+		  var sellmax = formatfloat($("#my_xnb").html(),market_round_num-1,0);
+          $("#sell_max").html(sellmax);
+        }
+        if($('#sell_num').val()){
+			var sellprice = $('#sell_price').val();
+			if(rmb=="btc"){
+				var sell_mum_btc = ($('#sell_num').val()*sellprice).toFixed(6)*1;
+				var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'btc','usd')).toFixed(6)*1;
+				var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'btc','rmb')).toFixed(6)*1;
+			}
+			if(rmb=="eth"){
+				var sell_mum_btc = ($('#sell_num').val()*huansuan(sellprice,'eth','btc')).toFixed(4)*1;
+				var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'eth','usd')).toFixed(4)*1;
+				var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'eth','rmb')).toFixed(4)*1;
+			}
+			$("#sell_mum_btc").html(sell_mum_btc);
+			$("#sell_mum_usd").html(sell_mum_usd);
+			$("#sell_mum_rmb").html(sell_mum_rmb);
+        }
+      }
+    }
+
+	$("#buy_price").focus(function(){
+		$(this).val('');
+	});
+
+	$("#sell_price").focus(function(){
+		$(this).val('');
+	});
+
+	$("#buy_num").focus(function(){
+		$(this).val('');
+	});
+
+	$("#sell_num").focus(function(){
+		$(this).val('');
+	});
+
+    // 买卖价格与数量 绑定键盘与选择事件
+    $('#buy_price,#buy_num,#sell_price,#sell_num').css("ime-mode","disabled").bind('keyup change',function(){
+      var buyprice=parseFloat($('#buy_price').val());
+      var buynum=parseFloat($('#buy_num').val());
+      var sellprice=parseFloat($('#sell_price').val());
+      var sellnum=parseFloat($('#sell_num').val());
+      var buymum=buyprice*buynum;
+      var sellmum=sellprice*sellnum;
+      var myrmb=$("#my_rmb").html();
+      var myxnb=$("#my_xnb").html();
+      var buykenum=0;
+      var sellkenum=0;
+      if(myrmb>0){
+        buykenum=myrmb/(buyprice*(1+(fee_buy/100)));
+      }
+      if(myxnb>0){
+        sellkenum=myxnb;
+      }
+      if(buyprice!=null&&buyprice.toString().split(".")!=null&&buyprice.toString().split(".")[1]!=null){
+        if(buyprice.toString().split('.')[1].length>market_round){
+          $('#buy_price').val(buyprice.toFixed(market_round));
+        }
+      }
+      if(sellprice!=null&&sellprice.toString().split(".")!=null&&sellprice.toString().split(".")[1]!=null){
+        if(sellprice.toString().split('.')[1].length>market_round){
+          $('#sell_price').val(sellprice.toFixed(market_round));
+        }
+      }
+      if(buymum!=null&&buymum>0){
+		if(rmb=="btc"){
+			var buy_mum_btc = ($('#buy_num').val()*buyprice).toFixed(6)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'btc','usd')).toFixed(6)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'btc','rmb')).toFixed(6)*1;
+		}
+		if(rmb=="eth"){
+			var buy_mum_btc = ($('#buy_num').val()*huansuan(buyprice,'eth','btc')).toFixed(4)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'eth','usd')).toFixed(4)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#buy_mum_btc").html(buy_mum_btc);
+		$("#buy_mum_usd").html(buy_mum_usd);
+		$("#buy_mum_rmb").html(buy_mum_rmb);
+      }
+      if(sellmum!=null&&sellmum>0){
+		if(rmb=="btc"){
+			var sell_mum_btc = ($('#sell_num').val()*sellprice).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'btc','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'btc','rmb')).toFixed(4)*1;
+		}
+		if(rmb=="eth"){
+			var sell_mum_btc = ($('#sell_num').val()*huansuan(sellprice,'eth','btc')).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'eth','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#sell_mum_btc").html(sell_mum_btc);
+		$("#sell_mum_usd").html(sell_mum_usd);
+		$("#sell_mum_rmb").html(sell_mum_rmb);
+      }
+      if(buykenum!=null&&buykenum>0&&buykenum!='Infinity'){
+	    var bmax = formatfloat(buykenum,market_round_num,0);
+        $('#buy_max').html(bmax);
+      }
+      if(sellkenum!=null&&sellkenum>0&&sellkenum!='Infinity'){
+        $('#sell_max').html(formatfloat(sellkenum,market_round_num-1,0));
+      }
+    }).bind("paste",function(){
+      return false;
+    }).bind("blur",function(){
+      if(this.value.slice(-1)=="."){
+        this.value=this.value.slice(0,this.value.length-1);
+      }
+    }).bind("keypress",function(e){
+      var code=(e.keyCode ? e.keyCode : e.which); //兼容火狐 IE
+      if(this.value.indexOf(".")==-1){
+        return (code>=48&&code<=57)||(code==46);
+      }else{
+        return code>=48&&code<=57
+      }
+    });
+	function changenum(){
+	  // 获取百分数
+	  var b_nums = parseInt($('#title').html());
+	  // 最大可买
+	  var e = parseFloat($('#buy_max').html());
+	  // 买的数量
+	  if(isNaN(e)) e=0;
+	  $("#buy_num").val((e / 100 * b_nums).toFixed(market_round_num-1));
+	  // 总价
+	  if($('#buy_price').val()){
+		var buyprice = $('#buy_price').val();
+		if(rmb=="btc"){
+			var buy_mum_btc = ($('#buy_num').val()*buyprice).toFixed(4)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'btc','usd')).toFixed(4)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'btc','rmb')).toFixed(4)*1;
+		}
+		if(rmb=="eth"){
+			var buy_mum_btc = ($('#buy_num').val()*huansuan(buyprice,'eth','btc')).toFixed(4)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'eth','usd')).toFixed(4)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#buy_mum_btc").html(buy_mum_btc);
+		$("#buy_mum_usd").html(buy_mum_usd);
+		$("#buy_mum_rmb").html(buy_mum_rmb);
+	  }
+    }
+
+    // 卖出比例处理
+    function changenum2(){
+	  // 获取百分数
+	  var b_nums2 = parseInt($('#title2').html());
+	  // 最大可买
+	  var e2 = parseFloat($('#sell_max').html());
+	  // 买的数量
+	  if(isNaN(e2)) e2=0;
+	  $("#sell_num").val((e2 / 100 * b_nums2).toFixed(market_round_num-1));
+	  // 总价
+	  if($('#sell_price').val()){
+		var sellprice = $('#sell_price').val();
+		if(rmb=="btc"){
+			var sell_mum_btc = ($('#sell_num').val()*sellprice).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'btc','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'btc','rmb')).toFixed(4)*1;
+		}
+		if(rmb=="eth"){
+			var sell_mum_btc = ($('#sell_num').val()*huansuan(sellprice,'eth','btc')).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'eth','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#sell_mum_btc").html(sell_mum_btc);
+		$("#sell_mum_usd").html(sell_mum_usd);
+		$("#sell_mum_rmb").html(sell_mum_rmb);
+	  }
+   }
+
+	 function buyforbi(){
+		var b_nums = $('#buy_num').val();
+		if(b_nums.indexOf(".") != "-1"){
+			var barr = b_nums.split(".");
+			var xiaoshu = barr[1].length;
+			if(xiaoshu>market_round_num){
+				var org = barr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(barr[0]+"."+org);
+				$("#buy_num").val(xin);
+			}
+		}
+	 }
+	 function sellforbi(){
+		var s_nums = $("#sell_num").val();
+		if(s_nums.indexOf("." != "-1")){
+			var sarr = s_nums.split(".");
+			var xiaoshu = sarr[1].length;
+			if(xiaoshu>market_round_num){
+				var org = sarr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(sarr[0]+"."+org);
+				$("#sell_num").val(xin);
+			}
+		}
+	}
+
+	function buyforb(){
+		var b_nums = $('#buy_price').val();
+		if(b_nums.indexOf(".") != "-1"){
+			var barr = b_nums.split(".");
+			var xiaoshu = barr[1].length;
+			if(xiaoshu>market_round){
+				var org = barr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(barr[0]+"."+org);
+				$("#buy_price").val(xin);
+			}
+		}
+	 }
+	 function sellforb(){
+		var s_nums = $("#sell_price").val();
+		if(s_nums.indexOf("." != "-1")){
+			var sarr = s_nums.split(".");
+			var xiaoshu = sarr[1].length;
+			if(xiaoshu>market_round){
+				var org = sarr[1].substr(0,xiaoshu-1);
+				var xin = parseFloat(sarr[0]+"."+org);
+				$("#sell_price").val(xin);
+			}
+		}
+	}
+function buymaxcal(){
+	$('#buy_num').val($('#buy_max').html());
+	var buyprice=parseFloat($('#buy_price').val());
+	var buynum=parseFloat($('#buy_num').val());
+	var buymum=buyprice*buynum;
+	var myrmb=$("#my_rmb").html();
+	var buykenum=0;
+	if(myrmb>0){
+		buykenum=myrmb/(buyprice*(1+(fee_buy/100)));
+	}
+	if(buyprice!=null&&buyprice.toString().split(".")!=null&&buyprice.toString().split(".")[1]!=null){
+		if(buyprice.toString().split('.')[1].length>market_round){
+			$('#buy_price').val(buyprice.toFixed(market_round));
+		}
+	}
+	if(buymum!=null&&buymum>0){
+		if(rmb=="btc"){
+			var buy_mum_btc = ($('#buy_num').val()*buyprice).toFixed(4)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'btc','usd')).toFixed(4)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'btc','rmb')).toFixed(4)*1;
+		}
+		if(rmb=="eth"){
+			var buy_mum_btc = ($('#buy_num').val()*huansuan(buyprice,'eth','btc')).toFixed(4)*1;
+			var buy_mum_usd = ($('#buy_num').val()*huansuan(buyprice,'eth','usd')).toFixed(4)*1;
+			var buy_mum_rmb = ($('#buy_num').val()*huansuan(buyprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#buy_mum_btc").html(buy_mum_btc);
+		$("#buy_mum_usd").html(buy_mum_usd);
+		$("#buy_mum_rmb").html(buy_mum_rmb);
+	}
+	if(buykenum!=null&&buykenum>0&&buykenum!='Infinity'){
+		var bmax = formatfloat(buykenum,market_round_num,0);
+		$('#buy_max').html(bmax);
+	}
+	fanbar();
+}
+function sellmaxcal(){
+	$('#sell_num').val($('#sell_max').html());
+	var sellprice=parseFloat($('#sell_price').val());
+	var sellnum=parseFloat($('#sell_num').val());
+	var sellmum=sellprice*sellnum;
+	var myxnb=$("#my_xnb").html();
+	var sellkenum=0;
+	if(myxnb>0){
+		sellkenum=myxnb;
+	}
+	if(sellprice!=null&&sellprice.toString().split(".")!=null&&sellprice.toString().split(".")[1]!=null){
+		if(sellprice.toString().split('.')[1].length>market_round){
+			$('#sell_price').val(sellprice.toFixed(market_round));
+		}
+	}
+	if(sellmum!=null&&sellmum>0){
+		if(rmb=="btc"){
+			var sell_mum_btc = ($('#sell_num').val()*sellprice).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'btc','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'btc','rmb')).toFixed(4)*1;
+		}
+		if(rmb=="eth"){
+			var sell_mum_btc = ($('#sell_num').val()*huansuan(sellprice,'eth','btc')).toFixed(4)*1;
+			var sell_mum_usd = ($('#sell_num').val()*huansuan(sellprice,'eth','usd')).toFixed(4)*1;
+			var sell_mum_rmb = ($('#sell_num').val()*huansuan(sellprice,'eth','rmb')).toFixed(4)*1;
+		}
+		$("#sell_mum_btc").html(sell_mum_btc);
+		$("#sell_mum_usd").html(sell_mum_usd);
+		$("#sell_mum_rmb").html(sell_mum_rmb);
+	}
+	if(sellkenum!=null&&sellkenum>0&&sellkenum!='Infinity'){
+		$('#sell_max').html(formatfloat(sellkenum,market_round_num-1,0));
+	}
+	fanbar2();
+}
+function fanbar(){
+  var b_nums = parseFloat($('#buy_num').val());
+  // 最大可买
+  var e = parseFloat($('#buy_max').html());
+  // 买的数量
+  if(isNaN(e)) e=0;
+  if(isNaN(b_nums)) b_nums=0;
+  if(e!=0){
+    var x=(b_nums / e).toFixed(2);
+    if(x>1){
+      x=1;
+    }
+    $("#title").html((x * 100).toFixed(0)+'%');
+  }else{
+    $("#title").html(0);
+    var x=0;
+  }
+  if(b_nums==0){
+	$("#buy_mum_btc").html("0");
+	$("#buy_mum_usd").html("0");
+	$("#buy_mum_rmb").html("0");
+  }
+  this.btn=document.getElementById('btn');
+  this.bar=document.getElementById('bar');
+  this.title=document.getElementById('title');
+  this.numtitle='numtitle';
+  this.step=this.bar.getElementsByTagName("div")[0];
+  //this.init();
+  var f=this,g=document,b=window,m=Math;
+  var max=f.bar.offsetWidth;
+  var to=(max*x).toFixed(0);
+  this.step.style.width=Math.max(0,to)+'px';
+  if(x!=0){
+    $('#btn').css("left",to+'px');
+  }else{
+    $('#btn').css("left",'-2px');
+  }
+}
+function fanbar2(){
+  var b_nums = parseFloat($('#sell_num').val());
+  // 最大可买
+  var e = parseFloat($('#sell_max').html());
+  // 买的数量
+  if(isNaN(e)) e=0;
+  if(isNaN(b_nums)) b_nums=0;
+  if(e!=0){
+    var x=(b_nums / e).toFixed(2);
+    if(x>1){
+      x=1;
+    }
+    $("#title2").html((x * 100).toFixed(0)+'%');
+  }else{
+    $("#title2").html(0);
+    var x=0;
+  }
+  if(b_nums==0){
+	$("#sell_mum_btc").html("0");
+	$("#sell_mum_usd").html("0");
+	$("#sell_mum_rmb").html("0");
+  }
+  this.btn=document.getElementById('btn2');
+  this.bar=document.getElementById('bar2');
+  this.title=document.getElementById('title2');
+  this.numtitle='numtitle';
+  this.step=this.bar.getElementsByTagName("div")[0];
+  //this.init();
+  var f=this,g=document,b=window,m=Math;
+  var max=f.bar.offsetWidth;
+  var to=(max*x).toFixed(0);
+  this.step.style.width=Math.max(0,to)+'px';
+  if(x!=0){
+    $('#btn2').css("left",to+'px');
+  }else{
+    $('#btn2').css("left",'-2px');
+  }
+}
+$("#switchmarket").change(function(){
+	var h = $("#switchmarket").val();
+	window.location.href = h;
+});
+function cjjcoin(jjcoin){
+	var host = window.location.host;
+	window.location.href = "http://"+host+"/Trade/index/market/"+market+"/jjcoin/"+jjcoin;
+}
+function huansuan(target,fromcoin,tocoin){
+	if(fromcoin=='btc' && tocoin=='rmb'){
+		var btc_rmb = {$C['btc_rmb']};
+		var new_val = target*btc_rmb;
+		return new_val;
+	}else if(fromcoin=='btc' && tocoin=='usd'){
+		var btc_rmb = {$C['btc_rmb']};
+		var usd_rmb = {$C['usd_rmb']};
+		var new_val=target*btc_rmb/usd_rmb;
+		return new_val;
+	}else if(fromcoin=='eth' && tocoin=='rmb'){
+		var eth_rmb = {$C['eth_rmb']};
+		var new_val=target*eth_rmb;
+		return new_val;
+	}else if(fromcoin=='eth' && tocoin=='usd'){
+		var eth_rmb = {$C['eth_rmb']};
+		var usd_rmb = {$C['usd_rmb']};
+		new_val = target*eth_rmb/usd_rmb;
+		return new_val;
+	}
+}
+</script>
+<script>
+    $(function() {
+    $('.box .ul_list li').on('click', function() {
+        $(this).addClass('active').siblings('li').removeClass('active');
+        //获取当前li的索引
+        var n = $(this).index();
+        $('.div_box .div_list').eq(n).show().siblings('.div_list').hide();
+    });
+});
+</script>
+<include file="Public:footer_new"/>

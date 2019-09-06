@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script src="__PUBLIC__/Home/js/jquery.copy.js"></script>
+    <script src="__PUBLIC__/Home/js/qrcode.js"></script>
+	<style type="text/css">
+		#codeaa>div{left: 0px!important;top: 0px!important;right: 0px!important;bottom: 0px!important;margin:0 auto!important;background: #fff;}
+		.yqm{width:96%;font-size: 14px;padding:5px 2%;font-size: 14px;color:rgba(255,255,255,.5);background: rgba(0,0,0, .5);line-height: 20px;margin-top: 15px;}
+		.yqlj{width:96%;font-size: 14px;padding:5px 2%;font-size: 14px;color:rgba(255,255,255,.5);background: rgba(0,0,0, .5);line-height: 20px;margin-top: 15px;}
+	</style>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_tjyh}<!-- 推荐用户 -->
+        </div>
+        <div class="logbot">
+            <div id="qrcode-wallet" style="display:block;margin:0 auto;margin-top: 15px;" width="100">
+                <saon id="codeaa" style="display:block;margin:0 auto;"></saon>
+				<p id="qrcode-t" style="font-size:13px;text-align: center;margin-top:15px;color:rgba(255,255,255,.5);">{$Think.lang.g_tj_ewm}<!-- 您的推荐二维码 --></p>
+            </div>
+
+			<p style="font-size:16px;line-height:20px;color:#059ff5;margin-top: 15px;">{$Think.lang.Finance_tg2}<!-- 专属邀请码 --></p>
+			<p style="font-size:13px;line-height:20px;color:#059ff5;">{$Think.lang.g_tj_info}</p>
+			<div class="yqm">{$user['invit']}</div>
+
+			<p style="font-size:16px;line-height:20px;color:#059ff5;margin-top: 15px;">{$Think.lang.g_tj_link}</p>
+			<p style="font-size:13px;line-height:20px;color:#059ff5;">{$Think.lang.g_tj_link_info}</p>
+			<div class="yqlj">http://{$_SERVER['HTTP_HOST']}/Login/register.html?invit={$user['invit']}</div>
+        </div>
+    </div>
+	<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.qrcode.min.js"></script>
+	<script type="text/javascript" >
+	$('#codeaa').qrcode({
+		render: "table",
+		size:200,
+		text: "http://{$_SERVER['HTTP_HOST']}/Login/register.html?invit={$user['invit']}"
+	});
+	</script>
+	<include file="Public:footer" />
+</body>
+</html>

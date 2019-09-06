@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.g_tj_awad}<!-- 推荐奖励 -->
+        </div>
+        <div class="logbot" id="button">
+			<button type="button" class="layout" style="border:none;width: 100%;" onclick="bianhua()">{$Think.lang.g_shuaixuan}<!-- 筛选 --></button>
+        </div>
+        <div class="logbot" style="display:none" id="check">
+            <form action="" method="get">
+			  <!-- 开始时间： -->
+			  <input type="text" name="starttime" class="search-input form-control" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_kssj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;" value="{$starttime}" />
+
+			  <!-- -结束时间： -->
+			  <input type="text" name="endtime" class="search-input form-control" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_jssj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;" value="{$endtime}" />
+			  <button type="submit" class="layout" style="border:none;width: 100%;">{$Think.lang.sFinance_mycj_cx}</button>
+			  <button type="button" class="layout" style="border:none;width: 100%;background:rgba(255,255,255, .5)" onclick="bianhua1()">{$Think.lang.g_shouqi}</button>
+			</form>
+		</div>
+        <div class="chgbox">
+            <ul>
+            <volist name="list" id="vo">
+                <li>
+                    <div class="chglist_top">
+						<span>{$Think.lang.Finance_tjyh}：{$vo.invit}</span>
+						<span style="float:right;">{$vo.addtime|addtime}</span>
+                    </div>
+                    <table class="chglist_bot">
+                        <tr>
+                            <th>{$Think.lang.g_yj_bz}</th>
+                            <th>{$Think.lang.Deal_jine}</th>
+                            <th>{$Think.lang.Finance_jlje}</th>
+							<!--<th>奖励状态</th>-->
+                        </tr>
+                        <tr>
+                            <td>{$vo.buysell}{$vo.type}</td>
+                            <td>{$vo['mum']}</td>
+                            <td>{$vo['fee']}</td>
+							<!--<td style="text-align: center;">
+								<eq name="vo.status" value="0">未到账</eq>
+								<eq name="vo.status" value="1">已到账</eq>
+							</td>-->
+                        </tr>
+                    </table>
+                </li>
+            </volist>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+    </div>
+<include file="Public:footer" />
+<script>
+    function bianhua(){
+        $("#check").show();
+        $("#button").hide();
+    }
+    function bianhua1(){
+        $("#button").show();
+        $("#check").hide();
+    }
+</script>
+</body>
+</html>

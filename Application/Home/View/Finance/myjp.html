@@ -1,0 +1,70 @@
+<include file="Public:header_new"/>
+<style>
+	#investLog_content tr th{height:40px;background: #15151F;font-size:14px;color:#99a6bf;font-weight:normal;text-align: center;}
+    #investLog_content tr td{font-size: 12px;color:#99a6bf;text-align: left;padding: 10px 0;transition: all 0.3s;vertical-align: middle;border-bottom: 1px solid #15151F;}
+    #investLog_content tr .sell{color:#059ff5;}
+    #investLog_content tr .buy{color:#059ff5;}
+</style>
+<div class="usernewout">
+	<!-- <p class="titlenotice"><a style="color:#e75600;" href="/Article/detail/id/{$notice_info['id']}">公告：{$notice_info['title']|msubstr=0,100,'utf-8'}</a></p> -->
+	<div class="usncont">
+		<!--左侧菜单-->
+		<include file="User:left" />
+		<!--右侧内容-->
+		<style>
+  .active {background: #000;font-size: 14px;color: #059ff5;line-height: 39px;}
+  .tiaozhuan {display: block;width: 100px;height: 39px;font-size: 14px;color: #7b8a9d;line-height: 39px;text-align: center;float: left;}
+  </style>
+  <div class="aqsz">
+				<a href="{:U('Finance/mytj')}" class="tiaozhuan ">{$Think.lang.Finance_tjyh} </a>
+				<a href="{:U('Finance/mywd')}" class="tiaozhuan">{$Think.lang.Finance_wdtj} </a>
+				<a href="{:U('Finance/myjp')}" class="tiaozhuan active">{$Think.lang.g_tj_awad} </a>
+  </div>
+		<div class="usnc_right">
+			<h1 style='text-indent: 20px;border-bottom: 0;'>{$Think.lang.g_tj_awad}</h1>
+			<div class="cnyin_record" style="width:100%">
+				<div class="f_body">
+					<div class="f_body_main" style="display: block;">
+						<div class="f_tab_body">
+							<div>
+								<table class="f_table" id="investLog_content" style="width:990px;">
+									<thead>
+										<tr>
+											<th width="250" id="" style="text-align: left;text-indent: 40px;">{$Think.lang.g_tj_name} </th>
+											<th width="170" id="">{$Think.lang.g_yj_bz} </th>
+											<!--<th width="90" id="">推荐</th>-->
+											<th width="200" id="">{$Think.lang.Finance_cztime} </th>
+											<th width="120" id="" style="text-align: left;text-indent: 15px;">{$Think.lang.Finance_caozje} </th>
+											<th width="120" id="" style="text-align: left;text-indent: 25px;">{$Think.lang.Finance_jlje} </th>
+											<th width="90" id="">{$Think.lang.Finance_jlzt} </th>
+										</tr>
+									</thead>
+									<tbody>
+									<volist name="list" id="vo">
+										<tr>
+											<td style="text-indent: 25px;">{$vo.invit}</td>
+											<td style="text-align: center;">{$vo.buysell}{$vo.type}</td>
+											<!--<td style="text-align: center;">{$vo.name}</td>-->
+											<td style="text-align: center;">{$vo.addtime|addtime}</td>
+											<td style="text-indent: 25px;">{$vo['mum']}</td>
+											<td style="text-indent: 25px;">{$vo['fee']}</td>
+											<td style="text-align: center;"><eq name="vo.status" value="0"> <font class="sell">{$Think.lang.Finance_wdz}  </font></eq> <eq name="vo.status" value="1"> <font class="buy">{$Think.lang.Finance_ydz}  </font></eq></td>
+										</tr>
+									 </volist>
+									</tbody>
+								</table>
+								<div class="pages">{$page}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//菜单高亮
+	$('#finance_box').addClass('on');
+	$('#finance_mytj').addClass('on');
+</script>
+<include file="Public:footer_new"/>

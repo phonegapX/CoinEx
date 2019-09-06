@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+    <script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            {$Think.lang.Finance_cjcx}<!-- 成交查询 -->({$coin_info|convmarket})
+        </div>
+        <!-- <div class="logbot" id="button">
+			<button type="button" class="layout" style="border:none;width: 100%;" onclick="bianhua()">{$Think.lang.g_shuaixuan}</button>
+        </div> -->
+        <div class="logbot" style="display:none" id="check">
+            <form action="" method="get">
+			  <input type="hidden" name="market" value="{$coin_info}" />
+			  <!-- 开始时间： -->
+			  <input type="text" name="starttime" class="search-input form-control" value="{$info['starttime']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_kssj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;" />
+
+			  <!-- -结束时间： -->
+			  <input type="text" name="endtime" class="search-input form-control" value="{$info['endtime']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="{$Think.lang.sFinance_mycj_jssj}" style="width:100%;height: 40px;font-size: 14px;color:rgba(255,255,255, .4);background:rgba(0,0,0, .5);text-indent:10px;margin-top: 15px;" />
+			  <button type="submit" class="layout" style="border:none;width: 100%;">{$Think.lang.sFinance_mycj_cx}<!-- 查询 --></button>
+              <!-- 收起-->
+			  <!-- <button type="button" class="layout" style="border:none;width: 100%;background:rgba(255,255,255, .5)" onclick="bianhua1()">{$Think.lang.g_shouqi}</button> -->
+			</form>
+		</div>
+        <div class="chgbox">
+            <ul>
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            {$Think.lang.Finance_cjcxn}<!-- 暂无成交数据 -->
+                        </span>
+                    </div>
+                </li>
+            <else />
+                <volist name="list" id="vo">
+                    <li>
+                       <div class="weituo_top">
+                       {$vo.addtime|date='m-d H:i:s',###}
+                       <span class="state wait" style="float: right;">
+                       <eq name="vo['userid']" value="$vo['peerid']"> <font class="buy">{$Think.lang.sFinance_mycj_zmr}</font><font class="sell">{$Think.lang.sFinance_mycj_zm}</font> <else /> <if condition="($vo['userid'] eq $userid) AND ($vo['type'] eq 1)"> <font class="buy">{$Think.lang.sTrade_index_mr}</font> </if> <if condition="($vo['userid'] eq $userid) AND ($vo['type'] eq 2)"> <font class="buy">{$Think.lang.sTrade_index_mr}</font> </if> <if condition="($vo['peerid'] eq $userid) AND ($vo['type'] eq 1)"> <font class="sell">{$Think.lang.sTrade_index_mc}</font> </if> <if condition="($vo['peerid'] eq $userid) AND ($vo['type'] eq 2)"> <font class="sell">{$Think.lang.sTrade_index_mc}</font> </if> </eq>
+                       </span>
+                    </div>
+                        <table class="weituo_bot">
+                            <tr>
+                                <th>{$Think.lang.deal_pri}<!-- 成交价格 --></th>
+                                <th>{$Think.lang.deal_num}<!-- 成交数量 --></th>
+                                <th>{$Think.lang.Bazaar_zongje}<!-- 总金额 --></th>
+                                 <th>{$Think.lang.Finance_sxf}<!-- 手续费 --></th>
+                            </tr>
+                            <tr>
+                                <td>{$vo['price']}</td>
+                                <td>{$vo['num']|NumTofour}</td>
+                                <td>{$vo['mum']|NumTofour}</td>
+                                <td> <eq name="vo['userid']" value="$vo['peerid']">
+                                    {$vo['fee_sell']|NumTofour}
+                                    <else />
+                                    <if condition="($vo['userid'] eq $userid)"> {$vo['fee_buy']|NumTofour} <else /> {$vo['fee_sell']|NumTofour} </if>
+                                    </eq>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </empty>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+    </div>
+<include file="Public:footer" />
+<script type="text/javascript">
+	$(".pages").children("a").each(function(){
+		var ahref = $(this).attr('href');
+		var ahrefarr = ahref.split("/");
+		var ahlength = ahrefarr.length;
+		if(ahrefarr[ahlength-2]=="p"){
+			var jiewei = ahrefarr[ahlength-1].split(".");
+			var page = jiewei[0];
+		}
+		ahrefarr.splice(ahlength-2,2);
+		var newhref = "";
+		for(var i=0;i<ahrefarr.length;i++){
+			if(i==1){
+				newhref = newhref + "/" + ahrefarr[i];
+			}
+			if(i==2){
+				newhref = newhref + "/" + ahrefarr[i] + ".html?";
+			}
+			if(i>=3){
+				if(i%2==0){
+					newhref = newhref + "=" + ahrefarr[i];
+				}else{
+					newhref = newhref + "&" + ahrefarr[i];
+				}
+			}
+		}
+		newhref = newhref+"&p="+page;
+		$(this).attr("href",newhref);
+	});
+    function bianhua(){
+        $("#check").show();
+        $("#button").hide();
+    }
+    function bianhua1(){
+        $("#button").show();
+        $("#check").hide();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+
+<link rel="stylesheet" href="/Application/Home/View/Kefu/c/css/lrtk.css"/></head>
+
+<!-- 代码 开始 -->
+<div id="leftsead">
+	<ul>
+
+
+
+		<volist name=":C('contact_qq')" id="v">
+
+		<li>
+			<a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v}&amp;site=qq&amp;menu=yes" target="_blank">
+				<div class="hides" style="width:161px;display:none;" id="qq">
+					<div class="hides" id="p1">
+						<img src="/Application/Home/View/Kefu/c/images/ll04.png">
+					</div>
+					<div class="hides" id="p2"><span style="color:#FFF;font-size:13px">{$v}</span>
+					</div>
+				</div>
+				<img src="/Application/Home/View/Kefu/c/images/l04.png" width="47" height="49" class="shows"/> </a>
+		</li>
+
+		</volist>
+
+
+
+
+		<volist name=":C('contact_qqun')" id="v">
+		<li>
+			<a href="javascript:void(0)" target="_blank">
+				<div class="hides" style="width:161px;display:none;" id="qq">
+					<div class="hides" id="p1">
+						<img src="/Application/Home/View/Kefu/c/images/ll03.png">
+					</div>
+					<div class="hides" id="p4"><span style="color:#FFF;font-size:13px">{$v}</span>
+					</div>
+				</div>
+				<img src="/Application/Home/View/Kefu/c/images/l03.png" width="47" height="49" class="shows"/> </a>
+		</li>
+</volist>
+
+
+		<notempty name="C['contact_mobile']">
+		<li id="tel">
+			<a href="javascript:void(0)">
+				<div class="hides" style="width:161px;display:none;" id="tels">
+					<div class="hides" id="p1">
+						<img src="/Application/Home/View/Kefu/c/images/ll05.png">
+					</div>
+					<div class="hides" id="p3"><span style="color:#FFF;font-size:12px">{:C('contact_mobile')}</span>
+					</div>
+				</div>
+				<img src="/Application/Home/View/Kefu/c/images/l05.png" width="47" height="49" class="shows"/> </a>
+		</li>
+		</notempty>
+
+
+
+		<li id="btn">
+			<a id="top_btn">
+				<div class="hides" style="width:161px;display:none">
+					<img src="/Application/Home/View/Kefu/c/images/ll06.png" width="161" height="49"/>
+				</div>
+				<img src="/Application/Home/View/Kefu/c/images/l06.png" width="47" height="49" class="shows"/> </a>
+		</li>
+	</ul>
+</div>
+<script>
+	$(document).ready(function () {
+
+		$("#leftsead a").hover(function () {
+			if ($(this).prop("className") == "youhui") {
+				$(this).children("img.hides").show();
+			} else {
+				$(this).children("div.hides").show();
+				$(this).children("img.shows").hide();
+				$(this).children("div.hides").animate({marginRight: '0px'}, '0');
+			}
+		}, function () {
+			if ($(this).prop("className") == "youhui") {
+				$(this).children("img.hides").hide();
+			} else {
+				$(this).children("div.hides").animate({marginRight: '-163px'}, 0, function () {
+					$(this).hide();
+					$(this).next("img.shows").show();
+				});
+			}
+		});
+
+		$("#top_btn").click(function () {
+			if (scroll == "off") return;
+			$("html,body").animate({scrollTop: 0}, 600);
+		});
+		$("#leftsead a").mouseover(function(){
+			$(this).parent().parent().parent().css("z-index",100);
+		});
+		$("#leftsead a").mouseout(function(){
+			$(this).parent().parent().parent().css("z-index",0);
+		});
+	});
+</script>
+<!-- 代码 结束 -->

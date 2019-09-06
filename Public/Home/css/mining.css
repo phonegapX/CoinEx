@@ -1,0 +1,258 @@
+.po_re{position: relative;}
+.po_ab{position: absolute;}
+.mt_30{margin-top: 30px;}
+.mining_red{color: #ff3a3a;}
+.mining_green{color: #25cb7b;}
+.mining_orange{color: #ffe400;}
+.mining{color: #666;}
+.mining em{font-style: normal!important;}
+.mining_banner{width: 100%; height: 400px; overflow: hidden;}
+.mining_banner img{left:50%; margin-left: -960px;}
+.mining1,.mining2,.mining3{margin-top: 40px;}
+.fullSlide .bd {position: relative;z-index: 0;overflow: hidden;}
+.fullSlide .bd ul {width: 100% !important;}
+.fullSlide .bd ul li {width: 100% !important;height: 400px;overflow: hidden;text-align: center;background-repeat: no-repeat;background-position: center;position: relative;}
+.fullSlide .hd {width: 100%;position: absolute;z-index: 1; bottom: 0;left: 0;height: 30px;line-height: 30px;}
+.fullSlide .hd ul {text-align: center;}
+.fullSlide .hd ul li {cursor: pointer;display: inline-block;*display: inline;zoom: 1;width: 10px;height: 10px;border-radius:50%;margin: 1px 5px;overflow: hidden;background:rgba(255,255,255,0.5);line-height: 999px;  }
+.fullSlide .hd ul .on {background: #fff;cursor: inherit;}
+.mining_shop_l{width: 420px; height: 420px;}
+.mining_shop_l .fullSlide{width: 420px;height: 420px;}
+.mining_shop_l .fullSlide .bd ul li{height:420px; box-sizing: border-box;}
+.mining_shop_r{width: 520px;}
+.mining_shop_t{padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.3); margin-bottom: 20px; color:#fff;}
+.mining_shop_t h2{font-size: 24px; margin:5px 0px 12px; font-weight: 200;}
+.mining_shop_t p{font-size: 14px; width: 520px;}
+.mining_shop_con li{color: #fff; font-size: 14px; margin-bottom: 13px;}
+.mining_shop_con li span{display: inline-block; margin-right: 10px;}
+.mining_shop_con li p{display: inline-block;}
+.mining_shop_con li p.mining_shop_con_price em{font-size: 24px; font-style: normal!important; font-weight: 200;}
+.mining_shop_gmsl{line-height: 30px; height: 30px;}
+.mining_shop_num{display: inline-block; width: 124px; margin-right: 10px;}
+.mining_shop_gmsl em{font-style: normal!important; font-weight: 100;}
+.mining_shop_con li span.crowd_num{width: 30px; height: 30px; font-size: 20px; line-height: 26px; cursor: pointer; text-align: center; border: 1px solid #277eef; box-sizing: border-box; margin-right: 0px; color: #fff;}
+.mining_shop_con li span#subCrowdNum{color: #fff; border: 1px solid #277eef;font-size: 28px; line-height: 26px; }
+.mining_shop_con li i{margin-left: 10px; font-style: normal;}
+.mining_shop_num input{width: 64px; height: 30px; box-sizing: border-box; border: 1px solid #000; color: #fff; background: #000; float: left; text-align: center; border-top: 1px solid #277eef;border-bottom: 1px solid #277eef;}
+.mining_shop_btn{margin-top: 25px;}
+.shop_item_btn{ display: inline-block; width: 180px; height: 50px; line-height: 50px; text-align: center;border-radius: 3px; background:#277eef; color: #fff;font-size: 18px;}
+.shop_item_btn_red{ background:#ff3a3b; margin-right: 20px;}
+.shop_item_btn:hover{text-decoration: none;background:#2476de;}
+.shop_item_btn_red:hover{background: #f03737;}
+.mining_shop_my{margin-top: 15px; color: #646464;}
+.mining_shop_my span{display:inline-block;width:180px;margin-right: 20px; color: #fff;}
+.mining_shop_my em{font-style: normal!important;}
+.mining2{height: 260px;background: url("/Public/images/newcoin/min_service_bg.png") no-repeat center; padding:20px 48px; box-sizing: border-box;}
+.mining_service_l{ width: 660px;}
+.mining_service_l h2{font-size: 18px; color: #222; line-height: 56px;}
+.mining_service_l p{color: #222;font-size: 12px; line-height: 24px;}
+.mining_service_r{width: 233px;}
+.mining_service_r li{float: left; margin-right: 50px; margin-top: 15px; color: #222; font-size: 12px; text-align: center;}
+.mining3{height: 360px; background: url("/Public/images/newcoin/min_look.png") no-repeat center;}
+.mining_look{color: #fff; padding: 20px 48px;}
+.mining_look h2{ font-size:18px; line-height: 56px;}
+.mining_look p{font-size: 12px; line-height: 24px;}
+.mining_look_item{color: #ffe400;font-size: 12px; margin-top: 10px;}
+.mining_look_item em{display: inline-block; width: 61px;}
+.mining_look_item span{display: inline-block;}
+.mining4 h2{line-height: 68px; font-size: 18px; color: #222;}
+.mining4 p{margin-bottom: 20px; text-align: center;}
+
+/*列表页*/
+.mining_data_item{ width:250px; height: 140px;border-radius: 3px; float: left; margin-left: 15px;padding: 20px 30px 0px; box-sizing: border-box; letter-spacing: 1px;}
+.mining_data_item:first-child{margin-left: 0px;}
+.mining_data_red{border: 1px solid #fd3a3a; color:#fd3a3a;}
+.mining_data_blue{border: 1px solid #5bbbff;color: #5bbbff;}
+.mining_data_green{border: 1px solid #25cb7b; color: #25cb7b;}
+.mining_data_item div{margin-bottom: 10px;}
+.mining_data_item div p{font-size: 12px; color: #666;}
+.mining_data_item div span{font-size: 16px;margin-top: 1px;display: block;}
+.mining_data_item div em{font-size: 12px; font-style: normal!important; }
+.mining_list_con{border: 1px solid #f8f7f3;color: #666;}
+.mining_list_con .hbg td{background: #f8f7f3;}
+.mining_list_con td{padding-left: 0px;}
+.mining_logo{margin: 0px 5px; float: left;height: 60px;}
+.mining_list_name{float: left; margin-top: 8px; text-align: left;}
+.mining_list_name p{width: 80px; height: 20px; overflow: hidden; line-height: 20px;}
+.mining_list_time{padding: 10px!important; line-height: 20px;}
+.mining_list_con .line td{padding: 10px 0 10px 0px ;overflow: hidden;border-bottom: 1px solid #f8f7f3;}
+.mining_list_t{height: 40px; line-height: 40px; margin: 10px 0px 5px;}
+.mining_list_t li{ float: left; margin: 0px 10px; cursor: pointer; font-size: 16px;height: 40px; line-height: 40px;}
+.mining_list_t li.hover,.mining_list_t li:hover{color:#974e00; }
+.mining_list_t em{font-size: 12px; margin-left: 5px; font-style: normal!important;}
+.mining_list_t li a:hover{text-decoration: none; color:#974e00!important;}
+/*内容页*/
+.mining_show{margin-bottom: 20px;}
+.mining_show_r{width: 640px;}
+.mining_show_r h2{font-size: 18px; line-height: 38px; height: 38px; border-bottom: 1px solid #f5f5f5; margin-bottom: 13px;}
+.mining_show_r p{font-size: 12px; margin-top: 5px;}
+.mining_time p em{font-style: normal!important; cursor: pointer;}
+.mining_time span{display: inline-block; padding: 8px 10px; background: #fff; border-radius: 3px; border:1px solid #f5f5f5; font-size: 12px; width: 230px; line-height: 18px;left: 20px; top: 26px; box-shadow: 0px 0px 15px rgba(0,0,0,0.2);}
+.jian_top {display: inline-block;top: -13px;left: 11px;border-top: 6px solid transparent;border-right: 6px solid transparent;border-left: 6px solid transparent;  border-bottom: 6px solid rgba(0,0,0,0.1);width: 0;height: 0;vertical-align: middle;position: absolute;cursor: pointer;}
+.mining_name{ height: 40px; line-height: 40px; margin-top: 10px; font-size: 16px;}
+
+
+
+/*宣传页*/
+.wfull{width: 100%;}
+.w1200{width: 1200px; margin: 0px auto;}
+.minx_body,.minx_html{min-width: 1300px;font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif; font-weight: 100;}
+.minx_container{background: #000; }
+.minx_head{ background: url("/Public/images/newcoin/min_xc_bg.png") no-repeat top center; padding-bottom: 60px;}
+.minx_top_bar{height: 90px; box-sizing: border-box; padding:20px 0px; color: #fff;}
+.minx_top_bar_r a,.minx_top_ƒbar_r span{line-height: 50px; margin: 0px 10px; color: #fff;}
+.minx_xcy{font-size: 20px; color: #00143f; line-height: 40px; text-align: center; letter-spacing: 1px; font-weight: 200;}
+.minx_top_jj{font-size: 16px; color: #fff; text-align: center; margin-top: 675px; line-height: 30px; margin-bottom: 10px; letter-spacing: 2px;}
+.minx_time{margin: 30px  0px 30px 178px;}
+.minx_time span{display: inline-block; width: 160px; height: 110px; float: left;font-weight: 200; background: url("/Public/images/newcoin/min_xc_time_bg.png") no-repeat; color: #fff; font-size: 60px; line-height: 110px; text-align: center;}
+.minx_time em{float: left; margin: 0px 22px; color: #fff; line-height: 110px; font-size: 28px; font-weight:100; font-style: normal!important;}
+.minx_btn{margin: 35px  0px; text-align: center;}
+.minx_top{height: 53px; background: url("/Public/images/newcoin/min_xc_top.png") no-repeat center; text-align: center; padding-top: 13px; box-sizing: border-box;}
+.minx_quality_con{padding:40px 0px 50px;}
+.minx_quality_con li{ float: left; width: 400px; text-align: center;}
+.minx_quality_con li img{margin-left: 21px;}
+.minx_quality_con li span{display: block; font-size: 18px; color: #35a4e2; margin: 15px 0px; font-weight: 200;}
+.minx_quality_con li p{width: 200px; font-size: 12px; line-height: 22px; color: #fff; text-align: left; margin: 0px auto;}
+.minx_service_l{padding: 80px 0px;}
+.minx_service_r{padding: 106px 0px 0px 30px; width: 818px; color: #fff; font-size: 14px; line-height: 30px;}
+.minx_service_r li{margin-bottom: 10px;}
+.minx_dian_blue{display: inline-block; width:10px; height: 10px; border-radius: 50%; background: #0187e8; margin-right: 10px;}
+.minx_photo_con{ padding-top: 55px;}
+.minx_photo_con li{ margin: 0px 26px 26px 0px; float: left;width: 382px; height: 252px;overflow: hidden; box-sizing: border-box;border: 1px solid #fff;}
+.minx_photo_con li.last{margin-right: 0px;}
+.minx_photo_con li img{border-radius: 3px; transition: all .2s ease-in-out 0s;}
+.footer.minx_footer{border-top: 0px; height: 80px; background: #091022;}
+.footer.minx_footer .copyright{height: 60px; padding: 18px 0px 0px 0px;}
+.minx_photo_con li:hover img{width: 400px; height: 263px; margin-left: -10px; margin-top: -6px;}
+.minx_p_num{color: #ffe400; font-weight: 200; text-align: center; font-size: 26px; margin-top: 34px; letter-spacing: 2px;}
+.mining_no{height: 40px; line-height: 40px; text-align: center;}
+.minx_logo_wen{margin: 8px 30px;}
+.min_trade_pass{ width: 300px; margin: 0px auto;}
+.min_trade_pass_l{display: block;  font-size: 14px; margin:10px 10px 0px 0px; width: 100px; text-align: right;}
+.min_trade_item{height: 30px;line-height: 30px;}
+.min_trade_item span{margin:0px  10px; font-size: 12px; color: #222;}
+.min_trade_item em{font-style: normal!important; color: #ff3a3a;}
+.min_trade_item a{margin-left: 1px;}
+.min_trade_item a:hover{text-decoration: underline;}
+.min_trade_invite{margin: 0px 0px 5px;}
+.trade_add_invite{ margin: 0px auto;}
+.invite_num{font-style: normal!important; font-size: 14px; margin: 0px 3px;}
+.min_invite_all{max-height: 150px; width:270px; overflow: auto; overflow-x: hidden;}
+.min_invite_item:last-child{margin-bottom: 20px;}
+
+.min_yellow{ color: #ffe400!important;}
+.min_all{width: 1040px; border-radius: 3px; border: 1px solid #296fc8; border-bottom: 0px; margin: 60px auto 30px;}
+.min_all dl{ height: 50px; line-height: 50px; background:#296fc8; color: #000; font-weight: 200;}
+.min_all span{display: inline-block; float: left;font-size: 18px; box-sizing: border-box; text-align: center;}
+.min_all dd{color: #fff; height: 75px;line-height:75px;border-bottom: 1px solid #296fc8;}
+.min_all dd span{border-left: 1px solid #296fc8;}
+.min_all dd span em{font-style: normal!important; margin-left: 5px; font-weight: 200; font-size: 14px;}
+.w345{width: 345px;}
+.w155{width: 155px;}
+.w230{width: 230px;}
+.min_all dd span.min_all_shop{padding:10px 0px 0px 80px; border-left: 0px;}
+.min_all1_con{ line-height: 24px; font-size: 18px; margin: 5px 0px 0px 20px;}
+
+/*邀请*/
+.minx_invite_all{margin: 50px auto;}
+.minx_invite1{ background:#081424; padding: 60px 80px;  box-sizing: border-box; font-size: 16px; width: 1040px; margin: 0px auto 20px;}
+.minx_invite1_tc{ margin-left: 40px;}
+.minx_invite1_tc p{ margin: 30px 0px 15px; font-weight: 200;}
+.minx_invite_link{ border: 1px solid #37b6ff;border-radius: 3px; width: 690px; height: 40px; line-height: 40px; padding-left: 10px; box-sizing: border-box;}
+.minx_invite_link span{color: #37b6ff;}
+.minx_invite_link em{font-style: normal!important;color: #fff; font-weight: 200;}
+.minx_invite_link  a{display: inline-block; float: right; width: 110px; height: 38px; line-height: 38px;text-align: center;font-size: 18px; color: #0a274d; background:#37b6ff; font-weight: 200;}
+.minx_invite_link  a:hover{text-decoration: none;}
+.minx_invite_link  a:hover{text-decoration: none;}
+.minx_invite1_con{margin-top: 40px;}
+.minx_invite1_con em{display:block;background: url("/Public/images/newcoin/min_xc_invite_icon.png") no-repeat center; background-size:273px auto;}
+.minx_invite1_con li{background: #024468; width: 180px; height: 100px; border-radius: 3px; float: left; text-align: center; color: #fff; padding-top: 15px; box-sizing: border-box; font-size: 18px; font-weight: 200;}
+.minx_invite1_con li em{width: 40px; height: 40px; margin: 0px auto 8px;}
+.minx_invite1_con li em.icon_invite1{background-position: 0px 0px;}
+.minx_invite1_con li em.icon_invite2{background-position: -75px 0px;}
+.minx_invite1_con li em.icon_invite3{background-position: -150px 0px;}
+.minx_invite1_con li em.icon_invite4{background-position: -225px 0px;}
+.minx_invite1_con em.icon_invite_jian{ float: left; width: 30px; height: 13px; background-position: 0px -54px; margin: 43px 11px;}
+.minx_invite2{padding:54px 60px;  margin: 0px auto;}
+.minx_invite2_t{width: 920px; height:148px;  background: url("/Public/images/newcoin/min_xc_invite_con.png") no-repeat; background-size:920px auto;}
+.minx_invite2_con{margin-top: 40px;}
+.minx_invite2_con li{font-size: 18px; line-height: 34px; width: 760px; margin: 0px auto;}
+.min_invite_login{ width: 200px; height: 40px; font-weight: 200; line-height: 40px; text-align: center; font-size: 18px; color: #0a274d; display: block; margin: 35px auto 0px; background: #37b6ff; border-radius: 3px;}
+.min_invite_login:hover{text-decoration: none;}
+.minx_invite2_item{float: left; width: 180px; padding-top: 50px; text-align: center; font-size: 16px; color: #fff; font-weight: 200;}
+.minx_invite2_item span{font-size: 18px; margin-bottom: 5px; display: block;}
+.minx_invite2_item.first{margin-right: 66px;}
+.minx_invite2_item.last{margin-left: 66px;}
+.minx_invite2_item.w136{font-size:22px; padding-top: 80px;}
+.w136{width: 136px!important;}
+.w156{width: 156px!important;}
+.method_con{width: 120px; height: 120px; background: #fff; border-radius: 3px; padding: 10px; box-sizing: border-box;}
+
+.ui-dialog{
+    width: 550px;height: auto;display: none;
+    position: absolute;z-index: 9000;
+    top: 50%;left: 50%;
+    border-radius: 3px;
+    border: 1px solid #D5D5D5;background: #fff;
+}
+.ui-dialog a{text-decoration: none;}
+
+.ui-dialog-title{
+    height: 48px;line-height: 48px; padding:0px 20px;color: #535353;font-size: 16px;
+    border-bottom: 1px dotted #d5d5d5;
+    background-color: #fff!important;
+    user-select:none;
+}
+.ui-dialog-closebutton{
+    width: 16px;height: 16px;display: block;
+    position: absolute;top: 12px;right: 20px;
+    background: url(/Public/images/newcoin/close_def.png) no-repeat;cursor: pointer;
+    -webkit-transition: .3s ease 0;
+}
+.ui-dialog-closebutton:hover{-webkit-transform: rotate(90deg);background:url(/Public/images/newcoin/close_hov.png);}
+.ui-dialog-content{
+    padding: 10px 20px;
+    color: #333;
+}
+.ui-dialog-content h2{
+    color: #669900;
+    text-align: center;
+    font-size: 24px;
+}
+.ui-mask{width: 100%;height:100%;transition:opacity .3s ease-in-out;  background: #000;filter:alpha(opacity = 40);opacity:0.4;-webkit-animation-duration:0.5s;-moz-animation-duration:0.5s;animation-duration:0.5s;-webkit-animation-name:nodeInserted;-moz-animation-name:nodeInserted;animation-name:nodeInserted;display:none;position:absolute;top:0px;height:0px;z-index:2000; }
+.ui-mask.out{opacity: 0;}
+.ui-dialog-content ul li{padding: 0 0 15px 0;}
+.dialog-table-rz{ margin: 5px auto 0 auto;}
+.dialog-table-rz tr td{padding:0 0 10px 0;}
+.dialog-table-rz tr td li{height: 24px; line-height: 24px;}
+.pay_back{display: block;margin: 0 0 0 80px;padding: 0 39px;}
+.border-border{border: 1px solid #d5d5d5; }
+.pay_manage .btn{ font-size: 12px;}
+.pay-red{color:#cc0000;}
+.pay-green{color:#669900;}
+.pay-orange{color:#ff7a19;}
+.tips ol li{list-style-type:decimal;}
+.tips ol{padding: 0px 0px 0px 30px;}
+.ceshi {background: url(/Public/images/newcoin/ceshiban.jpg) no-repeat 90px 9px;}
+.ganggan_detail{border:1px solid #d8d8d8;width:756px;margin:10px 0 0 0;padding: 10px 10px;border-bottom:none; border-right:1px solid #d8d8d8;color:#cc0000;}
+.ganggan_detail p{ line-height: 32px;}
+.btn-size {
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px;
+}
+.qzbk li{color:#888; font-size:12px;}
+/* 寮瑰嚭妗� 閽卞寘*/
+.ui-dialog2 {  border-radius: 5px;  width: 450px;  height: 270px;  display: none;  position: absolute;  z-index: 9000;  top: 50%;  left: 50%;  border: 1px solid #D5D5D5;  background: #fff;  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .25);  box-shadow: 0 5px 15px rgba(0, 0, 0, .25);  }
+.pay_back2{  transition: all 0.2s ease-in-out 0s;  display: block;  margin: 15px auto;  padding: 0 10px;  width: 100px;  text-align: center;  background: white;  border:1px solid #aa5800;  color: #aa5800;  }
+.pay_back2:hover{  background: #aa5800;  border:1px solid #aa5800;  color: white;}
+.dialog-message-content p{margin: 10px auto;}
+
+.quick_login .before table{margin:35px 25px;}
+.quick_login {color:#974e00;font-size:12px;}
+.quick_login .before .text{height:16px;padding-top:11px;padding-bottom:11px; padding-left:32px;width: 201px;background:#fff;border:none;font-size:14px;color:#999999;float:left;display:inline;border:#fff solid 1px;}
+.quick_login .before td{padding-bottom:15px;}
+.quick_login .before .submit{width:250px;height:40px;background:#aa5800;border:none;border:#a15300 solid 1px;color:#fff;font-size:18px;text-shadow:#8c3e00 2px 2px 2px;cursor:pointer;}
+.quick_login .after{color:#333333;}
+

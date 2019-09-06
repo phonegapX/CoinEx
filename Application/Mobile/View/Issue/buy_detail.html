@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.cookies.2.2.0.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            认购详情
+        </div>
+        <div class="logbot">
+            <style type="text/css">
+                .logipt{margin-top: 1px !important;color:white !important;}
+                .gtctable{width: 100%;margin:0 auto;border-collapse: collapse;margin-top:15px;}
+                .gtctable tr td{border:1px solid rgba(255,255,255, .3);font-size:16px;color: #fff;padding:8px 5px;}
+                .gtctable tr td img{vertical-align: middle;}
+            </style>
+            <table class="gtctable">
+                <tr>
+                    <td valign="middle">
+                        <img src="/upload/coin/{$list['img']}" alt="" style="width: 22px; margin-right: 5px;"/> 
+                        {$list['name']}({$list['ctitle']})
+                    </td>
+                </tr>
+            </table>
+            <form>
+                <input type="hidden" value="{$id}" id="ids">
+                <!-- <input type="text" readonly class="logipt" id="name"> -->
+                <input type="text" readonly class="logipt" id="price" style="margin-top: 5px !important;">
+                <input type="text" readonly class="logipt" id="nums">
+                <input type="text" readonly class="logipt" id="deal">
+                <input type="text" readonly class="logipt" id="limit">
+                <input type="text" readonly class="logipt" id="min">
+                <input type="text" readonly class="logipt" id="max">
+                <input type="text" readonly class="logipt" id="time">
+                <input type="text" readonly class="logipt" id="coinname">
+                <input type="text" readonly class="logipt" id="ci">
+                <input type="text" readonly class="logipt" id="jian">
+                <input type="text" readonly class="logipt" id="jindu">
+
+                <input type="text" style="color: #E8AE55 !important;margin-top: 10px !important;" readonly class="logipt" id="rmb">
+                <input type="text" style="color: #E8AE55 !important;" readonly class="logipt" id="shouyi">
+
+                <input type="text" style="margin-top: 10px !important;" class="logipt" id="num" placeholder="请输入交易数量">
+
+                <input style="margin-top: 10px !important;" type="password" class="logipt" id="paypassword" placeholder="请输入交易密码">
+
+                <input type="button" class="logbut" id="sub" value="立即认购" onclick="Update()">
+                <input type="checkbox" name="check_s[]" id="check_s" value="yes">
+                <label for="check_s" style="font-size: 14px;color: red;">勾选此款，优先选择扣除收益账户</label>
+                <p class="morelist">
+                    <a href="{:U('Issue/buy_detail_article',array('id'=>$id))}">点击查看详细介绍</a>
+                </p>
+            </form>
+        </div>
+        <include file="Public:footer" />
+    </div>
+<script>
+
+    var id = $('#ids').val();
+
+    $.post("{:U('Issue/ajax_buy_detail')}", {id: id}, function (data) {
+        if (data) {
+            $('#name').val('认购名称：' + data.name);
+            $('#price').val('发行价格：' + (data.price*1));
+            
+            $('#nums').val('发行数量：' + data.num);
+            $('#deal').val('已认购：' + data.deal);
+            $('#limit').val('限购：' + data.limit);
+            $('#min').val('单次最低：' + data.min);
+            $('#max').val('单次最高：' + data.max);
+            $('#time').val('开启时间：' + data.time);
+            $('#coinname').val('认购币种：' + data.coinname);
+            $('#ci').val('解冻次数：' + data.ci);
+            $('#jian').val('解冻间隔：' + data.jian + '小时');
+            $('#jindu').val('认购进度：' + data.bili + '%');
+
+            $('#rmb').val('人民币余额：￥' + data.becc);
+            $('#shouyi').val('收益余额：￥' + data.shouyi_num);
+
+        } else {
+            layer.msg(data.info, {icon: 2});
+        }
+    }, "json");
+
+    function Update() {
+
+        var num = $('#num').val();
+        var paypassword = $('#paypassword').val();
+        if($('#check_s').is(':checked')){
+            var check_s = 'yes';
+        }else{
+            var check_s = 'no';
+        }
+
+        if (num == "" || num == null) {
+            layer.tips('请输入认购数量', '#num', {tips: 3});
+            return false;
+        }
+        if (paypassword == "" || paypassword == null) {
+            layer.tips('请输入交易密码', '#paypassword', {tips: 3});
+            return false;
+        }
+        $.post("{:U('Issue/upbuy')}", {id: id, num: num, paypassword: paypassword, check_s: check_s}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Issue/log')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<include file="Public:header_new" />
+<style>
+.title{font-size: 22px;text-align:center;color:#99A6BF;margin-bottom: 30px;}
+.usncont .usnc_right .rech_box{width:480px;}
+.usernewout .usncont .usnc_right{width:480px;margin:0 auto;float: none!important;}
+.rechmid .rechipt_box label{width:140px;margin-left: 10px;color:#99A6BF;font-size: 16px;}
+.rechmid .rechipt_box .iptbox .rechipt{width:263px;height:38px;border:1px solid #21202D;}
+.rechmid .rechipt_box .iptbox .rechipt::-webkit-input-placeholder{color:#99A6BF;}
+.rechmid .rechipt_box .iptbox .rechipt:-moz-placeholder{color:#99A6BF;}
+.rechmid .rechipt_box .iptbox .rechipt::-moz-placeholder{color:#99A6BF;}
+.rechmid .rechipt_box .iptbox .rechipt:-ms-input-placeholder{color:#99A6BF;}
+.usernewout .usncont .usnc_right .rech_bd .rechmid .rechipt_box .rechipt.halfipt{width:125px;}
+.usnc_right .nameauth{width: 480px;}
+.rechmid .rechipt_box .iptbox{width:275px;}
+.usernewout .usncont .usnc_right .rech_bd .rechmid .rechipt_box .yzmbut{width:118px;}
+.dv_submit input{width: 415px;color:#ebebeb;font-size: 20px;}
+.usnc_right .nameauth{margin: 23px auto 0;}
+.rechmid .rechipt_box{width:480px;margin-bottom: 20px;}
+.rechmid{padding-bottom: 0;}
+</style>
+<div class="usernewout">
+<h1 class="title">{$Think.lang.Login_backpwd}</h1>
+	<div class="usncont">
+		<div class="usnc_right">
+		<div class="nameauth">
+		<!-- <h1>找回交易密码</h1> -->
+		<div class="rech_top" style="width: 600px;">
+			<div class="rech_box">
+				<div class="rech_bd safe_rech_bd">
+					<ul>
+						<li>
+							<div class="rechmid" style="width: 600px;">
+			<div class="rechipt_box">
+				<label>{$Think.lang.g_dz_yx}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="text" placeholder="" class="rechipt"  id="email" name="email" onblur="fpwemail();" />
+				</div>
+			</div>
+			<div class="rechipt_box">
+				<label>{$Think.lang.Finance_yzm}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="text" placeholder="" class="rechipt halfipt"  id="verify" name="code" onblur="fppwdverify();"  maxlength="4"/>
+					<img id="codeImg" src="{:U('Verify/code')}" width="145" height="42" onclick="this.src=this.src+'?t='+Math.random()" style="width:118px;height: 40px;float: right;" title="{$Think.lang.sLogin_findpwd_hyz}">
+				</div>
+			</div>
+			<div class="rechipt_box">
+				<label>{$Think.lang.g_yx_verify}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="text" placeholder="" class="rechipt halfipt" id="email_verify" name="code" onblur="emailcode();" maxlength="6"/>
+					<input type="button" class="yzmbut" value="{$Think.lang.g_yx_rec_verify}"  onclick="EmCode()" id="regBtn" />
+				</div>
+			</div>
+			<div id="usemibao" style="display:none;">
+			<div class="rechipt_box">
+				<label>{$Think.lang.User_mibaowt}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<select id="mibao_question" class="rechipt">
+						<option value="">{$Think.lang.User_xzmbwt}</option>
+						<option value="{$Think.lang.User_father}">{$Think.lang.User_father}</option>
+						<option value="{$Think.lang.User_mather}">{$Think.lang.User_mather}</option>
+						<option value="{$Think.lang.User_love}">{$Think.lang.User_love}</option>
+						<option value="{$Think.lang.User_birthday}">{$Think.lang.User_birthday}</option>
+						<option value="{$Think.lang.User_fatherday}">{$Think.lang.User_fatherday}</option>
+						<option value="{$Think.lang.User_matherday}">{$Think.lang.User_matherday}</option>
+						<option value="{$Think.lang.User_loveday}">{$Think.lang.User_loveday}</option>
+					</select>
+				</div>
+				<div id="mibao_question-msg" class="form_explain" data-explain="{$Think.lang.User_xzmbwt}<em></em>" style="display: none;">
+					{$Think.lang.User_xzmbwt}<em></em>
+				</div>
+			</div>
+			<div class="rechipt_box">
+				<label>{$Think.lang.User_wtda}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="text" id="mibao_answer" class="rechipt"  placeholder=""  />
+				</div>
+				<div id="mibao_answer-msg" class="form_explain" data-explain="{$Think.lang.Login_srwtda}<em></em>" style="display: none;">
+					{$Think.lang.Login_srwtda}<em></em>
+				</div>
+			</div>
+			</div>
+			<div class="rechipt_box">
+				<label>{$Think.lang.g_pwd_new}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="password" placeholder="{$Think.lang.User_sixbyte}" class="rechipt" id="password" name="password" onkeyup="chknewpwd();" maxlength="16"/>
+				</div>
+			</div>
+			<div class="rechipt_box">
+				<label>{$Think.lang.Login_enterloginpwd}{$Think.lang.sTrade_index_cnmh}</label>
+				<div class="iptbox">
+					<input type="password" placeholder="{$Think.lang.User_sixbyte}" class="rechipt" id="repassword" name="password" onkeyup="rechknewpwd();" maxlength="16"/>
+				</div>
+			</div>
+			<input type="hidden" id="isusemibao" value="0" />
+			<div class="dv_submit" style="width:450px;text-align: left;">
+					<input type="button" value="{$Think.lang.User_enterxgmm}"  name="index_submit" id="Submin" onclick="Update();" style="margin-left: 50px;width:375px;">
+			</div>
+							</div>
+						<li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+	function fpwemail(){
+		var email = $('#email').val();
+		if(email==""||email==null){
+			layer.tips('{$Think.lang.g_yx_put}','#email',{tips:3});
+			return false;
+		}
+		$.post("{:U('Login/chkusepaymibao')}",{email:email},function(data){
+			if(!data.status){
+				layer.tips(data.info,'#email',{tips:3});
+			}else{
+				if(data.usemibao && data.usemibao>0){
+					$("#isusemibao").val(1);
+					$("#usemibao").show();
+				}
+			}
+		},'json');
+	}
+	function emailcode(){
+		var emailcode = $("#emailcode").val();
+		if(emailcode==""||emailcode==null){
+			layer.tips('{$Think.lang.g_yx_put_verfy}','#emailcode',{tips:3});
+			return false;
+		}
+	}
+	function EmCode(){
+		var email = $("#email").val();
+        if (email == "" || email == null) {
+            layer.tips('{$Think.lang.g_yx_put}', '#email', {tips: 3});
+            return false;
+        }
+		var verify = $('#verify').val();
+		if(verify==""||verify==null){
+			layer.tips('{$Think.lang.g_put_tcode}', '#verify', {tips: 3});
+			return false;
+		}
+		layer.load(0, {shade: [0.5,'#8F8F8F']});
+        $.post("{:U('Verify/findpaypwdemail')}", {
+            email: email,verify: verify
+        }, function (data) {
+			layer.closeAll();
+            if (data.status == 1) {
+                //刷新验证码
+                $('#regBtn').attr("disabled", "disabled");
+                layer.msg(data.info, {icon: 1});
+                var obj = $('#regBtn');
+                var wait = 60;
+                var interval = setInterval(function () {
+                    obj.css('backgroundColor', '#135f91');
+                    obj.val(wait + '{$Think.lang.sFinance_myzc_mzcfs}');
+                    wait--;
+                    if (wait < 0) {
+                    	$('#regBtn').removeAttr("disabled");
+                        clearInterval(interval);
+                        obj.val('{$Think.lang.sFinance_myzc_hqyzm}');
+                        obj.css('backgroundColor', '#135f91');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                //刷新验证码
+                layer.msg(data.info, {icon: 2});
+                $('#regBtn').removeAttr("disabled");
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+	}
+    function Update(){
+		var isusemibao = $("#isusemibao").val();
+        var verify=$("#verify").val();
+        var password=$("#password").val();
+        var repassword=$("#repassword").val();
+        var mibao_question=$("#mibao_question").val();
+        var mibao_answer=$("#mibao_answer").val();
+		var email=$("#email").val();
+		var emailcode=$("#email_verify").val();
+		if ((email == "" || email == null)) {
+            layer.tips('{$Think.lang.g_yx_put}', '#email', {tips: 3});
+            return false;
+        }
+		if((emailcode==""||emailcode==null)){
+			layer.tips('{$Think.lang.sFinance_myzc_qsryxyzm}','#email_verify',{tips:3});
+			return false;
+		}
+        if(verify==""||verify==null){
+            layer.tips('{$Think.lang.User_txyzm}','#verify',{tips:3});
+            return false;
+        }
+        if(isusemibao>0 && (mibao_question==""||mibao_question==null)){
+            layer.tips('{$Think.lang.choose_code_que}','#mibao_question',{tips:3});
+            return false;
+        }
+        if(isusemibao>0 && (mibao_answer==""||mibao_answer==null)){
+            layer.tips('{$Think.lang.input_que_ans}','#mibao_answer',{tips:3});
+            return false;
+        }
+        if(password==""||password==null){
+            layer.tips('{$Think.lang.User_srnewjypw}','#password',{tips:3});
+            return false;
+        }
+        if(repassword==""||repassword==null){
+            layer.tips('{$Think.lang.User_srenterjymm}','#repassword',{tips:3});
+            return false;
+        }
+        if(password!=repassword){
+            layer.tips('{$Think.lang.User_lcmmbyz}','#repassword',{tips:3});
+            return false;
+        }
+        $.post("{:U('Login/findpaypwd')}",{isusemibao:isusemibao,verify:verify,password:password,repassword:repassword,mibao_question:mibao_question,mibao_answer:mibao_answer,email:email,emailcode:emailcode},function(data){
+            if(data.status==1){
+                layer.msg(data.info,{icon:1});
+                window.setTimeout("window.location='/'",1000);
+            }else{
+                layer.msg(data.info,{icon:2});
+            }
+        },"json");
+    }
+	function fppwdverify(){
+		var verify = $('#verify').val();
+		if(verify==""||verify==null){
+			layer.tips('{$Think.lang.User_txyzm}','#verify',{tips:3});
+			return false;
+		}
+	}
+	function inputcode(){
+		var mobilecode = $("#mobile_verify").val();
+		if(mobilecode==""||mobilecode==null){
+			layer.tips('{$Think.lang.Finance_dxyzm2}','#mobile_verify',{tips:3});
+			return false;
+		}
+	}
+	function emailcode(){
+		var emailcode = $("#email_verify").val();
+		if(emailcode==""||emailcode==null){
+			layer.tips('{$Think.lang.g_yx_put_verfy}','#emailcode',{tips:3});
+			return false;
+		}
+	}
+	$("#mibao_answer").blur(function(){
+		if($(this).val()==''||$(this).val()==null){
+			layer.tips('{$Think.lang.input_que_ans}','#mibao_answer',{tips:3});
+			return false;
+		}
+	});
+	$("#mibao_answer").focus(function(){
+		var mibaoquestion = $("#mibao_question").val();
+		if(mibaoquestion == null || mibaoquestion==""){
+			layer.tips('{$Think.lang.User_xzmbwt2}','#mibao_question',{tips:3});
+		}
+	});
+	function chknewpwd(){
+		var password = $("#password").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(password)) {
+			layer.tips('{$Think.lang.sCommon_mmgs}','#password',{tips:3});
+			var result = password.substring(0,password.length-1);
+			$("#password").val(result);
+		}
+	}
+	function rechknewpwd(){
+		var repassword = $("#repassword").val();
+		var patten =/^[a-zA-Z0-9]+$/;
+		var match = new RegExp(patten);
+		if (!match.test(repassword)) {
+			layer.tips('{$Think.lang.sCommon_mmgs}','#repassword',{tips:3});
+			var result = repassword.substring(0,repassword.length-1);
+			$("#repassword").val(result);
+		}
+	}
+	$("#mobile_fpw").click(function(){
+		$(this).attr("class","selbut on");
+		$("#mobile_div").show();
+		$("#myz_div").show();
+		$("#email_fpw").attr("class","selbut");
+		$("#email_div").hide();
+		$("#eyz_div").hide();
+	});
+	$("#email_fpw").click(function(){
+		$(this).attr("class","selbut on");
+		$("#mobile_div").hide();
+		$("#myz_div").hide();
+		$("#mobile_fpw").attr("class","selbut");
+		$("#email_div").show();
+		$("#eyz_div").show();
+	});
+    //顶部菜单高亮
+    $('#menu_top_index').addClass('current');
+</script>
+<include file="Public:footer_new"/>

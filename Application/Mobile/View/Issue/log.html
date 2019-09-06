@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <script type="text/javascript" src="__PUBLIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jquery.cookies.2.2.0.js"></script>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            认购记录
+        </div>
+
+        <div class="chgbox">
+            <ul>
+            <volist name="list" id="vo">
+                <li>
+                    <div class="chglist_top">
+                        {$vo.addtime|date='Y-m-d H:i:s',###}
+                        <span class="state wait">
+                            {$vo['name']}
+                        </span>
+                    </div>
+                    <table class="chglist_bot">
+                        <tr>
+                            <th>解冻次数</th>
+                            <th>剩余冻结</th>
+                            <th>状态</th>
+                            <th rowspan="2" width="10%">
+                                <a href="{:U('Issue/log_detail',array('id'=>$vo['id']))}">
+                                    <img src="__PUBLIC__/Mobile/images/rightarrow.png">
+                                </a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>{$vo['unlock']}/{$vo['ci']}</td>
+                            <td>{$vo['shen'] * 1}</td>
+                            <td>
+                                <eq name="vo.status" value="1">
+                                    已完成
+                                <else/>
+                                    解冻中
+                                </eq>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </volist>
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <include file="Public:footer" />
+    </div>
+</body>
+</html>

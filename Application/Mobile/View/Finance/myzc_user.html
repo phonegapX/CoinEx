@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+    <title>{:C('web_title')}</title>
+</head>
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="javascript:history.go(-1)"></a></span>
+            会员互转/{$coin_info.title}({$coin_info.name|strtoupper=###})
+        </div>
+
+
+        <div class="selbox">
+            <select name="jf_type" id="jf_type" style="width: 99%;">
+             <option value="jf_zc" <eq name="Think.get.jf_type" value="jf_zc">selected</eq>>积分互转记录/转出
+             </option>
+             <option value="jf_zr" <eq name="Think.get.jf_type" value="jf_zr">selected</eq>>积分互转记录/转入
+             </option>
+           </select>
+        </div>
+
+        <div class="chgbox">
+            <ul>
+
+
+            <empty name="list">
+                <li>
+                    <div class="chglist_top" style="text-align: center;">
+                        <span class="state wait" style="float: none;color:#B7B6B6">
+                            暂无数据
+                        </span>
+                    </div>
+                </li>
+
+            <else />
+                <volist name="list" id="vo">
+                    <eq name="Think.get.jf_type" value="jf_zr">
+                        <li>
+                            <!-- <div class="chglist_top">
+                                {$vo.addtime|addtime}
+                                <span class="state wait">
+                                    <eq name="vo.status" value="1">
+                                        转入成功
+                                        <else/>
+                                        正在处理
+                                    </eq>
+                                </span>
+                            </div> -->
+                            <table class="qbtable">
+                                <tr>
+                                    <td class="bankid">
+                                        {$vo.addtime|addtime}
+                                        <span class="state wait">
+                                            <eq name="vo.status" value="1">
+                                                转入成功
+                                                <else/>
+                                                正在处理
+                                            </eq>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 10px;">转入积分：{$vo.coinname}</td>
+                                </tr>
+                                <tr>
+                                    <td>转入数量：{$vo['num']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 10px;">转出用户名：{$vo.username}</td>
+                                </tr>
+                                <!-- <tr>
+                                    <th width="">转入积分</th>
+                                    <th width="">转入数量</th>
+                                    <th width="">转出用户名</th>
+                                </tr>
+                                <tr>
+                                    <td>{$vo.coinname}</td>
+                                    <td>{$vo['num']}</td>
+                                    <td>{$vo.username}</td>
+                                </tr> -->
+                            </table>
+                        </li>
+                    <else/>
+                        <li>
+                            <!-- <div class="chglist_top">
+                                {$vo.addtime|addtime}
+                                <span class="state wait">
+                                    <eq name="vo.status" value="1">
+                                        转出成功
+                                        <else/>
+                                        正在处理
+                                    </eq>
+                                </span>
+                            </div> -->
+                            <table class="qbtable">
+                                <tr>
+                                    <td class="bankid">
+                                        {$vo.addtime|addtime}
+                                        <span class="state wait">
+                                            <eq name="vo.status" value="1">
+                                                转出成功
+                                                <else/>
+                                                正在处理
+                                            </eq>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 10px;">
+                                        转出积分：{$vo.coinname|strtoupper}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        转出数量：{$vo['num']|NumToStr}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 10px;">
+                                        转入用户名：{$vo.username}
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <th width="">转出积分</th>
+                                    <th width="">转出数量</th>
+                                    <th width="">转入用户名</th>
+                                </tr>
+                                <tr>
+                                    <td>{$vo.coinname|strtoupper}</td>
+                                    <td>{$vo['num']|NumToStr}</td>
+                                    <td>{$vo.username}</td>
+                                </tr> -->
+                            </table>
+                        </li>
+                    </eq>
+                </volist>
+            </empty>
+
+            </ul>
+            <div class="pages">{$page}</div>
+        </div>
+        <button type="button" class="addbankbut" value="" onclick="Update()"  id="btn" style="border:1px solid rgba(255,255,255, .2);color:rgba(255,255,255, .5);background: transparent;outline: none;">
+            <img src="__PUBLIC__/Mobile/images/addbank.png">立即转出{$coin_info.title}</button>
+    </div>
+<include file="Public:footer" />
+<script>
+
+
+    $("#jf_type").change(function(){
+        var jf_type=$("#jf_type option:selected").val();
+        var market='{$coin_info.name}';
+        window.location='/Finance/myzc_user/jf_type/'+jf_type+'/coin/'+market+'.html';
+    });
+
+
+    function Update() {
+        window.location = '/Finance/myuseradd/coin/{$coin_info.name}';
+    }
+</script>
+</body>
+</html>

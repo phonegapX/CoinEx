@@ -1,0 +1,211 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">委托管理</span>
+		</div>
+		<div class="cf">
+			<div class="fl">
+				<button class="btn btn-warning" onClick="location.href='{:U('Trade/index')}'">初始化搜索</button>
+				<button class="btn btn-success" url="" target-form="ids" id="submit" type="submit">导出选中</button>
+				<form action="{:U('Trade/tradeExcel')}" method="post" style="display:inline-block;">
+					<input type="hidden" name="id" value="{$tradeid}" />
+					<input type="submit" class="btn btn-success" value="导出全部" />
+				</form>
+			</div>
+
+			<div class="search-form fr cf" style="padding-top: 43px;float: none !important;">
+				<div class="sleft">
+					<form name="formSearch" id="formSearch" method="get" name="form1">
+
+
+						<select style="width: 120px; float: left; margin-right: 10px;" name="bs_type" class="form-control">
+							<option value=""
+							<empty name="Think.get.bs_type">selected</empty>
+							>全部类型</option>
+							<option value="1"
+							<eq name="Think.get.bs_type" value="1">selected</eq>
+							>买入</option>
+							<option value="2"
+							<eq name="Think.get.bs_type" value="2">selected</eq>
+							>卖出</option>
+						</select>
+
+
+						<!-- 时间筛选 -->
+                        <script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="starttime" value="{:I('get.starttime')}" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                        <input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="endtime" value="{:I('get.endtime')}" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+
+
+						<select style="width: 160px; float: left; margin-right: 10px;" name="market" class="form-control">
+							<option value=""
+							<empty name="Think.get.market">selected</empty>
+							>交易市场</option>
+							<volist name="C['market']" id="vo">
+								<option value="{$vo['name']}"
+								<eq name="vo['name']" value="$Think.get.market">selected</eq>
+								>{$vo['title']}</option>
+							</volist>
+						</select>
+						<select style="width: 110px; float: left; margin-right: 10px;" name="status" class="form-control">
+							<option value=""
+							<empty name="Think.get.status">selected</empty>
+							>全部状态</option>
+							<option value="1"
+							<eq name="Think.get.status" value="1">selected</eq>
+							>交易中</option>
+							<option value="2"
+							<eq name="Think.get.status" value="2">selected</eq>
+							>已完成</option>
+						</select>
+						<select style=" width: 100px; float: left; margin-right: 10px;" name="field" class="form-control">
+							<option value="username"
+							<eq name="Think.get.field" value="username">selected</eq>
+							>用户名</option>
+						</select>
+						<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+					</form>
+					<script>
+						//搜索功能
+						$(function () {
+							$('#search').click(function () {
+								$('#formSearch').submit();
+							});
+						});
+						//回车搜索
+						$(".search-input").keyup(function (e) {
+							if (e.keyCode === 13) {
+								$("#search").click();
+								return false;
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<div class="data-table table-striped">
+		<form id="form" action="{:U('Trade/tradeExcel')}" method="post" class="form-horizontal">
+			<table class="">
+				<thead>
+				<tr>
+					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+					<th class="">ID</th>
+					<th class="">用户名</th>
+					<th class="">市场</th>
+					<th class="">单价</th>
+					<th class="">数量</th>
+					<th class="">已成交</th>
+					<th class="">总额</th>
+					<th class="">手续费</th>
+					<th class="">类型</th>
+					<th class="">时间</th>
+					<th class="">状态</th>
+					<th class="">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<tr>
+							<td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}"/></td>
+							<td>{$vo.id}</td>
+							<td>{$vo['username']}</td>
+							<td>{$vo['market']}</td>
+							<td>{$vo['price']|Num}</td>
+							<td>{$vo['num']|Num}</td>
+							<td>{$vo['deal']|Num}</td>
+							<td>{$vo['mum']|Num}</td>
+							<td>{$vo['fee']|Num}</td>
+							<td>
+								<eq name="vo.type" value="1">
+									买入
+									<else/>
+									卖出
+								</eq>
+							</td>
+							<td>{$vo.addtime|addtime}</td>
+							<td>
+								<eq name="vo.status" value="0">交易中</eq>
+                                <eq name="vo.status" value="1">已成交</eq>
+                                <eq name="vo.status" value="2">已撤销</eq>
+							</td>
+							<td>
+								<eq name="vo.status" value="0">
+									<a href="{:U('Trade/chexiao?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">撤销 </a>
+								</eq>
+							</td>
+						</tr>
+					</volist>
+
+						<tr>
+							<td colspan="12">
+								合计统计&nbsp;&nbsp;&nbsp;
+								数量：{$datas['num_zong']}&nbsp;&nbsp;
+								已成交：{$datas['num_cj_zong']}&nbsp;&nbsp;
+								总额：{$datas['money_zong']}&nbsp;&nbsp;
+								手续费合计：{$datas['fee']}
+							</td>
+						</tr>
+
+
+
+					<else/>
+					<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+				</notempty>
+				</tbody>
+			</table>
+		</form>
+			<div class="page">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+	$(".page > div").children("a").each(function(){
+		var ahref = $(this).attr('href');
+		var ahrefarr = ahref.split("/");
+		var ahlength = ahrefarr.length;
+		if(ahrefarr[ahlength-2]=="p"){
+			var jiewei = ahrefarr[ahlength-1].split(".");
+			var page = jiewei[0];
+		}
+		ahrefarr.splice(ahlength-2,2);
+		var newhref = "";
+		for(var i=0;i<ahrefarr.length;i++){
+			if(i>0 && i<3){
+				newhref = newhref + "/" + ahrefarr[i];
+			}
+			if(i==3){
+				newhref = newhref + "/" + ahrefarr[i] + ".html?";
+			}
+			if(i>=4){
+				if(i%2==0){
+					newhref = newhref + "&" + ahrefarr[i];
+				}else{
+					newhref = newhref + "=" + ahrefarr[i];
+				}
+			}
+		}
+		newhref = newhref+"&p="+page;
+		$(this).attr("href",newhref);
+	});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('Trade/index')}");
+	</script>
+</block>

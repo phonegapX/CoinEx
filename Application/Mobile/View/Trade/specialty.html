@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <include file="Public:header2" />
+	<title>{:C('web_title')}</title>
+</head>
+
+<body class="blackbg">
+    <div id="container" class="logbg">
+        <div class="log_title">
+            <span class="back"><a href="{:U('Trade/trade_coin_list')}"></a></span>
+            {$coin_info['title']}K线图
+        </div>
+    	<div style="height: 600px;">
+            <script type="text/javascript" src="//static2.sosobtc.com/sb.js"></script>
+            <script type="text/javascript">
+              new SOSOBTC.widget({
+                "symbol": "HJC:HUIZ",
+                "default_theme": "dark",
+                "disable_theme_change": true,
+                "container": "kline_container"
+              })
+            </script>
+        </div>
+    	<include file="Public:footer" />
+    </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<include file="Public:header"/>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">虚拟币转入</span>
+		</div>
+		<div class="cf">
+
+			<div class="fl">
+				<button class="btn btn-warning" onClick="location.href='{:U('Finance/myzr')}'">初始化搜索</button>
+			</div>
+
+			<div class="search-form fr cf" style="padding-top: 43px;float: none !important;">
+				<div class="sleft">
+					<form name="formSearch" id="formSearch" method="get" name="form1">
+
+
+						<select style="width: 110px; float: left; margin-right: 10px;" name="time_type" class="form-control">
+							<option value="addtime"
+							<eq name="Think.get.time_type" value="addtime">selected</eq>
+							>转入时间</option>
+						</select>
+
+						<!-- 时间筛选 -->
+						<script type="text/javascript" src="/Public/layer/laydate/laydate.js"></script>
+
+						<input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="starttime" value="{:I('get.starttime')}" placeholder="开始日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						<input type="text" class="form-control" style=" width: 170px; float: left; margin-right: 10px;" name="endtime" value="{:I('get.endtime')}" placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+
+
+						<!-- 转入数值范围 -->
+						<input type="text" name="num_start" class="search-input form-control" value="{$Think.get.num_start}" placeholder="转入数量起" style="width: 100px; float: left; margin-right: 2px;">
+						<b style="float: left; margin-right: 2px;">-</b>
+						<input type="text" name="num_stop" class="search-input form-control" value="{$Think.get.num_stop}" placeholder="转入数量至" style="width: 100px; float: left; margin-right: 10px;">
+
+
+						<select style="width: 120px; float: left; margin-right: 10px;" name="coinname" class="form-control">
+							<option value=""
+							<empty name="Think.get.coinname">selected</empty>
+							>交易币种</option>
+							<volist name="C['coin']" id="vo">
+								<option value="{$vo['name']}"
+								<eq name="vo['name']" value="$Think.get.coinname">selected</eq>
+								>{$vo['title']}</option>
+							</volist>
+						</select>
+						<select style=" width: 100px; float: left; margin-right: 10px;" name="field" class="form-control">
+							<option value="username"
+							<eq name="Think.get.field" value="username">selected</eq>
+							>用户名</option>
+							<option value="zcaddr"
+							<eq name="Think.get.field" value="zcaddr">selected</eq>
+							>转出地址</option>
+						</select>
+						<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+					</form>
+					<script>
+						//搜索功能
+						$(function () {
+							$('#search').click(function () {
+								$('#formSearch').submit();
+							});
+						});
+						//回车搜索
+						$(".search-input").keyup(function (e) {
+							if (e.keyCode === 13) {
+								$("#search").click();
+								return false;
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<div class="data-table table-striped">
+			<table class="">
+				<thead>
+				<tr>
+					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+					<th class="">ID</th>
+					<th class="">用户名</th>
+					<th class="">币种</th>
+					<th width="">转入时间</th>
+					<th width="">转出地址</th>
+					<th width="">转入数量</th>
+					<th width="">实际到账</th>
+					<th width="">手续费</th>
+					<th width="">状态</th>
+					<th width="">交易ID</th>
+				</tr>
+				</thead>
+				<tbody>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<tr>
+							<td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}"/></td>
+							<td>{$vo.id}</td>
+							<td>{$vo['usernamea']}</td>
+							<td>{$vo.coinname}</td>
+							<td>{$vo.addtime|addtime}</td>
+							<td>{$vo.username}</td>
+							<td>{$vo['num']*1}</td>
+							<td>{$vo['mum']*1}</td>
+							<td>{$vo['fee']*1}</td>
+							<td>
+								<eq name="vo.status" value="1"> 转入成功
+									<else/>
+								                                等待处理
+								</eq>
+							</td>
+							<td><a href="javascript:;" onclick="showid('{$vo['txid']}');">点击查看</a></td>
+						</tr>
+					</volist>
+					<else/>
+					<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+				</notempty>
+				</tbody>
+			</table>
+			<div class="page">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function showid(id){
+	layer.open({
+		type:1,
+		skin:'layui-layer-rim', //加上边框
+		area:['800px','100px'], //宽高
+		title:'交易ID', //不显示标题
+		closeBtn: 0,
+		shadeClose: true,
+		content:id
+	});
+}
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('Finance/myzr')}");
+	</script>
+</block>

@@ -1,0 +1,102 @@
+<include file="Public:header_new" />
+<style type="text/css">
+.paysel{width:360px;height:40px;border:1px solid #d6dbdd;outline:none;font-size:14px;color:#999;text-indent:10px;}
+</style>
+<div class="outlogbox">
+    <div class="logbox">
+		<div class="regtop">
+			<ul>
+				<li>
+					<span class="topnumb">1</span>
+					<p>{$Think.lang.Login_register}</p>
+				</li>
+				<li>
+					<span class="topnumb">2</span>
+					<p>{$Think.lang.g_set_tradepwd} </p>
+				</li>
+				<li class="on">
+					<span class="topnumb">3</span>
+					<p>{$Think.lang.g_shimingrz} </p>
+				</li>
+				<li>
+					<span class="topnumb"><img src="__PUBLIC__/Home/news/images/check.png"></span>
+					<p>{$Think.lang.Login_regsucc} </p>
+				</li>
+			</ul>
+		</div>
+		<div class="inbox">
+			<div class="boxrow">
+				<label>{$Think.lang.Login_relname}</label>
+				<div class="rightbox">
+					<input type="text" id="regtruename" value="" class="iptbox" placeholder=""/>
+				</div>
+				<div id="regtruename-msg" class="form_explain" style="display: none" data-explain="{$Think.lang.Login_relname1} <em></em>" >{$Think.lang.Login_relname1} <em></em></div>
+			</div>
+			<div class="boxrow">
+				<label>{$Think.lang.Login_zjtype} </label>
+				<div class="rightbox">
+					<select id="regzhengjian" class="paysel">
+						<option value="sfz">{$Think.lang.g_sfz}</option>
+						<option value="gsfz">{$Think.lang.g_qz}</option>
+						<option value="hz">{$Think.lang.g_hz}</option>
+						<option value="qt">{$Think.lang.g_qt} </option>
+					</select>
+				</div>
+				<div id="regzhengjian-msg" class="form_explain" style="display: none" data-explain="{$Think.lang.Login_relname2} <em></em>" >{$Think.lang.Login_relname2} <em></em></div>
+			</div>
+			<div class="boxrow">
+				<label>{$Think.lang.Login_zjhaoma} </label>
+				<div class="rightbox">
+					<input type="text" id="regidcard" value="" class="iptbox" placeholder=""/>
+					<p style="color: #e75600;line-height: 18px;margin-top: 3px;">{$Think.lang.Login_relname3} </p>
+				</div>
+				<div id="regidcard-msg" class="form_explain" style="display: none" data-explain="{$Think.lang.Login_relname1} <em></em>" >{$Think.lang.Login_relname5} <em></em></div>
+			</div>
+			<div class="boxrow">
+				<div class="rightbox nolabel">
+					<input type="button" class="iptbut" value="{$Think.lang.Login_next} " onclick="Update();"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#regidcard").focus(function(){
+		var regzhengjian = $("#regzhengjian").val();
+		if(!regzhengjian){
+			layer.tips('{$Think.lang.g_inpput_zj_type} ','#regzhengjian',{tips:3});
+		}
+	});
+
+	function Update(){
+		var truename=$("#regtruename").val();
+		var zhengjian = $("#regzhengjian").val();
+		var idcard=$("#regidcard").val();
+		
+		if(!truename){
+			layer.tips('{$Think.lang.Login_srzsxm} ','#regtruename',{tips:3});
+			return false;
+		}
+		if(!zhengjian){
+			layer.tips('{$Think.lang.g_inpput_zj_type} ','#regzhengjian',{tips:3});
+			return false;
+		}
+		if(!idcard){
+			layer.tips('{$Think.lang.Login_srzjhm} ','#regidcard',{tips:3});
+			return false;
+		}
+
+		$.post("{:U('Login/upregister3')}",{truename:truename,zhengjian:zhengjian,idcard:idcard},function(data){
+			if(data.status){
+				layer.msg(data.info,{icon:1});
+				window.location='/Login/register4';
+			}else{
+				layer.msg(data.info,{icon:2});
+				if(data.url){
+					window.location=data.url;
+				}
+			}
+		},"json");
+	}
+</script>
+<include file="Public:footer_new" />

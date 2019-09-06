@@ -1,0 +1,138 @@
+<include file="Public:header"/>
+<style type="text/css">
+.table-head{width:100%;clear:both;}
+.table-body{width:100%;clear:both;}
+.table-head div,.table-body div{float:left;padding-left:5px;padding-right:5px;line-height:30px;}
+.w20{width:20px;}
+.w50{width:50px;}
+.w70{width:70px;}
+.w100{width:100px;}
+.w150{width:150px;}
+.w200{width:200px;}
+.data-table{margin-top:30px;}
+.table-body.grey{background:#ccc;}
+.table-body.white{background:#eee;}
+</style>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div>
+			<div class="cf">
+				<div class="search-form cf">
+					<div class="sleft">
+						<form name="formSearch" id="formSearch" method="get" name="form1">
+							<select style=" width: 160px; float: left; margin-right: 10px;" name="field" class="form-control">
+								<option value="username"
+								<eq name="Think.get.field" value="username">selected</eq>
+								>用户名</option>
+							</select>
+							<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
+							<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
+						</form>
+						<script>
+							//搜索功能
+							$(function(){
+								$('#search').click(function(){
+									$('#formSearch').submit();
+								});
+							});
+							//回车搜索
+							$(".search-input").keyup(function(e){
+								if(e.keyCode===13){
+									$("#search").click();
+									return false;
+								}
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="data-table">
+			<div class="table-head">
+				<div class="w70">ID</div>
+				<div class="w50">上级</div>
+				<div class="w200">用户名</div>
+				<div class="w150">真实姓名</div>
+				<div class="w150">联系电话</div>
+				<div class="w200">邮箱地址</div>
+				<div class="w100">注册时间</div>
+			</div>
+			<notempty name="userlist">
+				<volist name="userlist" id="vo">
+					<div class="table-body" id="{$vo.id}" style="margin-left:0;" data="0">
+						<div class="w20">
+						<if condition="$vo['below'] gt 0">
+							<a href="javascript:void(0);" class="extend-plus" data="{$vo.id}">+</a>
+						<else />
+							-
+						</if>
+						</div>
+						<div class="w50">{$vo.id}</div>
+						<div class="w50">无</div>
+						<div class="w200">{$vo['username']}</div>
+						<div class="w150">{$vo.truename}</div>
+						<div class="w150">{$vo.mobile}</div>
+						<div class="w200">{$vo.email}</div>
+						<div class="w200">{$vo.addtime|addtime}</div>
+					</div>
+				</volist>
+				<else/>
+				<div class="text-center">Oh! 暂时还没有内容!</div>
+			</notempty>
+			<div class="page" style="clear:both;margin-top:30px;">
+				<div>{$page}</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<include file="Public:footer"/>
+
+<script type="text/javascript">
+$("body").on("click",".extend-plus",function(){
+	var userid = $(this).attr("data");
+	var margin = $("#"+userid).attr("data");
+	var mleft = parseInt(margin)+30;
+	$.ajax({
+		url:'/Admin/User/invittree/?userid='+userid,
+		type:'GET',
+		dataType:"json",
+		success:function(data){
+			if(data){
+				var str = "";
+				for(var i=0;i<data.length;i++){
+					if(i%2==0){
+						str += "<div class='table-body grey' id='"+data[i].id+"' style='margin-left:"+mleft+"px;' data='"+mleft+"'><div class='w20'>";
+					}else{
+						str += "<div class='table-body white' id='"+data[i].id+"' style='margin-left:"+mleft+"px;' data='"+mleft+"'><div class='w20'>";
+					}
+					
+					if(data[i].below>0){
+						str += "<a href='javascript:void(0);' class='extend-plus' data='"+data[i].id+"'>+</a>";
+					}else{
+						str += "-";
+					}
+					str +="</div><div class='w50'>"+data[i].id+"</div><div class='w50'>"+userid+"</div><div class='w200'>"+data[i].username+"</div><div class='w150'>"+data[i].truename+"</div><div class='w150'>"+data[i].mobile+"</div><div class='w200'>"+data[i].email+"</div><div class='w200'>"+data[i].addtime+"</div></div>";
+				}
+				$("#"+userid).after(str);
+			}
+		},
+		error:function(){
+			alert('没有下线了');
+		}
+	});
+	$(this).attr("class","extend-minus");
+	$(this).html("-");
+});
+</script>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('User/invittree')}");
+	</script>
+</block>
